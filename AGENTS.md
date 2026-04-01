@@ -11,4 +11,18 @@
 - Review from a study perspective, not a product delivery perspective.
 - Use the closest workspace-level AGENTS.md to adjust review depth for junior vs senior members.
 - Always leave an overall PR comment in markdown.
-- Format the overall PR comment with `### 전체요약` and `### 추가 학습/복습`; write `### 전체요약` as prose, and under `### 추가 학습/복습` use `* 키워드 : 간단설명` with a short reason for why each topic is recommended.
+- The overall PR comment is separate from inline/file-specific review comments. Do not paste one finding as the entire overall comment.
+- Do not use default review-summary headings such as `### 💡 Codex Review` as a substitute for the required overall PR comment format.
+- Format the overall PR comment with exactly these headings: `### 전체요약` and `### 추가 학습/복습`.
+- Write `### 전체요약` as 2-4 sentences of prose that summarize the PR as a whole, including the most important must-fix issues and the overall learning direction.
+- Under `### 추가 학습/복습`, always use bullets in the form `* 키워드 : 간단설명` and include a short reason each topic is worth reviewing.
+- Even if there is only one major finding, still write the overall PR comment in the required format instead of repeating the inline comment verbatim.
+- Preferred overall PR comment template:
+  ```md
+  ### 전체요약
+  이번 PR은 ...
+
+  ### 추가 학습/복습
+  * 키워드 : 간단설명
+  * 키워드 : 간단설명
+  ```
