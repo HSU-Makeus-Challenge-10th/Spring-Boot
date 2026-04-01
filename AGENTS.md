@@ -13,8 +13,7 @@
 - Always leave an overall PR comment in markdown.
 - The overall PR comment is separate from inline/file-specific review comments. Do not paste one finding as the entire overall comment.
 - Do not use the auto-generated review wrapper such as `### 💡 Codex Review` as a substitute for the required overall PR comment format.
-- The required overall PR comment must be posted as a separate PR conversation comment, not only as the top-level review body inside the auto-review wrapper.
-- After inline findings are posted, add one additional general PR comment that contains only the required overall format.
+- After inline findings are posted, add one additional general PR conversation comment that contains only the required overall format.
 - Format the separate overall PR comment with exactly these headings: `### 전체요약` and `### 추가 학습/복습`.
 - Write `### 전체요약` as 2-4 sentences of prose that summarize the PR as a whole, including the most important must-fix issues and the overall learning direction.
 - Under `### 추가 학습/복습`, always use bullets in the form `* 키워드 : 간단설명` and include a short reason each topic is worth reviewing.

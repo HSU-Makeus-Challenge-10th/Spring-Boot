@@ -9,6 +9,3 @@
 - Prefer educational explanations over strict judgment.
 - Avoid pushing advanced topics such as deep performance tuning, sophisticated architectural patterns, distributed systems concerns, or expert-level persistence optimization unless the code clearly demonstrates those topics already.
 - Optimize for building correct habits first.
-- Follow the repository-level overall PR comment format unless a workspace-specific format is explicitly defined.
-- For this workspace, treat the overall PR comment as mandatory and separate from inline comments. If you leave file-level findings, also add a distinct overall PR conversation comment that follows the repository format exactly.
-- When there is a compile error, broken package/class naming, or basic Spring structure issue, mention it in `### 전체요약` as a learning-blocking issue, not only in an inline comment.
