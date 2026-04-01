@@ -9,4 +9,3 @@
 - Advanced feedback is encouraged when it improves Spring and backend design understanding, but keep the review educational rather than production-ops focused.
 - Deprioritize topics such as infrastructure security audits, Redis strategy, large-scale caching, extreme query tuning, and cloud-scale architecture unless directly relevant to the studied code.
 - Assume the author can handle conceptually deeper feedback; explain trade-offs, not just fixes.
-- Follow the repository-level overall PR comment format unless a workspace-specific format is explicitly defined.

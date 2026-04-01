@@ -1,8 +1,0 @@
-.gradle/
-.gradle-user-home/
-.gradle-tmp/
-build/
-out/
-bin/
-.idea/
-*.iml
