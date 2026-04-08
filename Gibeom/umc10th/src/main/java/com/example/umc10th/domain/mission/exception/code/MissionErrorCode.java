@@ -1,4 +1,4 @@
-package PACKAGE_NAME;
+package com.example.umc10th.domain.mission;
 
 public enum MissionErrorCode {
 }

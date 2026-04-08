@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.user.entity.mapping;
+package com.example.umc10th.domain.member.entity.mapping;
 
-public class UserFood {
+public class MemberFood {
 }

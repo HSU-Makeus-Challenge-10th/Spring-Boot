@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.user.controller;
+package com.example.umc10th.domain.member.controller;
 
-public class UserController {
+public class MemberController {
 }

@@ -1,12 +1,12 @@
 spring:
   application:
-    name: "???? ?" # "umc10th"
+    name: "umc10th" # "umc10th"
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver # MySQL JDBC ???? ??? ??
-    url: ${DB_URL:jdbc:mysql://localhost:3306/umc10th?serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false} # jdbc:mysql://localhost:3306/{???????}
-    username: ${DB_USER:root} # MySQL ?? ??
-    password: ${DB_PW:patrashu370!} # MySQL ????
+    url: ${DB_URL} # jdbc:mysql://localhost:3306/{???????}
+    username: ${DB_USER} # MySQL ?? ??
+    password: ${DB_PW} # MySQL ????
 
   jpa:
     database: mysql # ??? ?????? ?? ?? (MySQL)

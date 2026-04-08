@@ -1,5 +1,5 @@
-package com.example.umc10th.domain.user.service;
+package com.example.umc10th.domain.member.service;
 
-public class UserService {
+public class MemberService {
 
 }

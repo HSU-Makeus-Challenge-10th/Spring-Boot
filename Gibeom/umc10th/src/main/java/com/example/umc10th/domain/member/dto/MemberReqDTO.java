@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.user.dto;
+package com.example.umc10th.domain.member.dto;
 
-public class UserReqDTO {
+public class MemberReqDTO {
 }

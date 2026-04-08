@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.user.enums;
+package com.example.umc10th.domain.member.enums;
 
 public enum MissionStatus {
 }
