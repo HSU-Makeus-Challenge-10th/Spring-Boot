@@ -16,6 +16,6 @@ public enum ReviewSuccessCode implements BaseResponseCode {
     );
 
     private final HttpStatus status;
-    private final String message;
     private final String code;
+    private final String message;
 }
