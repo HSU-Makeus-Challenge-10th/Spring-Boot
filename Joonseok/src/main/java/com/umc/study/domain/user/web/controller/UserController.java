@@ -18,7 +18,7 @@ public class UserController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<?>> signIn(
-            @Valid Object request
+            @Valid @RequestBody Object request
     ) {
         // call Service method
 
@@ -29,7 +29,7 @@ public class UserController {
 
     @PostMapping("/my/pref")
     public ResponseEntity<ApiResponse<?>> createMyPrefFood(
-            @Valid Object request
+            @Valid @RequestBody Object request
     ) {
         // call Service method
 
@@ -77,7 +77,7 @@ public class UserController {
 
     @PostMapping("/auth/phone")
     public ResponseEntity<ApiResponse<?>> authPhoneNum(
-            @Valid Object request
+            @Valid @RequestBody Object request
     ) {
         // 서비스 메소드 호출
 
