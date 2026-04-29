@@ -2,20 +2,41 @@ package com.umc.study.domain.user.web.controller;
 
 import com.umc.study.domain.user.exception.code.UserSuccessCode;
 import com.umc.study.global.apiPayload.ApiResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     // private final Userservice userService;
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<ApiResponse<?>> signIn(
+            @Valid Object request
+    ) {
+        // call Service method
+
+        return ResponseEntity
+                .status(UserSuccessCode.USER_SIGN_IN_CREATED.getStatus())
+                .body(ApiResponse.onComplete(UserSuccessCode.USER_SIGN_IN_CREATED, null));
+    }
+
+    @PostMapping("/my/pref")
+    public ResponseEntity<ApiResponse<?>> createMyPrefFood(
+            @Valid Object request
+    ) {
+        // call Service method
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.USER_PREF_FOOD_CREATED, null));
+    }
 
     @GetMapping("/home")
     public ResponseEntity<ApiResponse<?>> getMain(
@@ -32,5 +53,78 @@ public class UserController {
                         UserSuccessCode.HOME_OK,
                         null
                 ));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<ApiResponse<?>> getMyPage(
+            // JWT Security Holder에서 추출
+    ) {
+        // 서비스 메소드 호출
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_PAGE_OK, null));
+    }
+
+    @PatchMapping("/my")
+    public ResponseEntity<ApiResponse<?>> updateMyPage(
+            // JWT Security Holder에서 추출
+    ) {
+        // 서비스 메소드 호출
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_PAGE_OK, null));
+    }
+
+    @PostMapping("/auth/phone")
+    public ResponseEntity<ApiResponse<?>> authPhoneNum(
+            @Valid Object request
+    ) {
+        // 서비스 메소드 호출
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.AUTH_PHONE_NUM_OK, null));
+    }
+
+    @GetMapping("/my/alert")
+    public ResponseEntity<ApiResponse<?>> getMyAlert(
+            // JWT Security Context Holder
+    ) {
+        // call Service method
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_ALERT_OK, null));
+    }
+    @GetMapping("/user/alert")
+    public ResponseEntity<ApiResponse<?>> getMyAlertSetting(
+            // JWT Security Context Holder
+    ) {
+        // call Service method
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_ALERT_SETTING_OK, null));
+    }
+    @PatchMapping("/user/alert")
+    public ResponseEntity<ApiResponse<?>> updateMyAlertSetting(
+            // extract by JWT in Security Context Holder
+    ) {
+        // call Service method
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_ALERT_SETTING_UPDATE_OK, null));
+    }
+
+    @DeleteMapping("/my")
+    public ResponseEntity<ApiResponse<?>> deleteAccount(
+            // extract by JWT in Security Context Holder
+    ) {
+        // call Service method
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_ACCOUNT_DELETE_OK, null));
     }
 }
