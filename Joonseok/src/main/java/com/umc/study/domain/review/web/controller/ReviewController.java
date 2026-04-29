@@ -1,6 +1,6 @@
 package com.umc.study.domain.review.web.controller;
 
-import com.umc.study.domain.review.enums.ReviewSuccessCode;
+import com.umc.study.domain.review.exception.code.ReviewSuccessCode;
 import com.umc.study.domain.review.service.ReviewService;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;

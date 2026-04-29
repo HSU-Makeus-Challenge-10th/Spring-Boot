@@ -1,6 +1,6 @@
 package com.umc.study.domain.mission.web.controller;
 
-import com.umc.study.domain.mission.enums.code.MissionSuccessCode;
+import com.umc.study.domain.mission.exception.code.MissionSuccessCode;
 import com.umc.study.domain.mission.service.MissionService;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
