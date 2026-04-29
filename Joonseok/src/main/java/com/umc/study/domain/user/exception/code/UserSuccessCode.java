@@ -23,7 +23,7 @@ public enum UserSuccessCode implements BaseResponseCode {
             "USER200_1",
             "홈 화면 조회에 성공했습니다."),
     MY_PAGE_OK(HttpStatus.OK,
-            "USER_2002",
+            "USER200_2",
             "마이 페이지 조회에 성공했습니다."),
     AUTH_PHONE_NUM_OK(HttpStatus.OK,
             "USER200_3",
