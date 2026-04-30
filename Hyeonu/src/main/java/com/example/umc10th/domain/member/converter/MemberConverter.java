@@ -10,7 +10,7 @@ public class MemberConverter {
                 .gender(member.getGender())
                 .birth(member.getBirth())
                 .address(member.getAddress())
-                .detail_address(member.getDetailAddress())
+                .detailAddress(member.getDetailAddress())
                 .phoneNumber(member.getPhoneNumber())
                 .email(member.getEmail())
                 .point(member.getPoint())
