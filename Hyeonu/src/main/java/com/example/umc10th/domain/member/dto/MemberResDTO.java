@@ -11,7 +11,7 @@ public class MemberResDTO {
             String name,
             Enum gender,
             LocalDate birth,
-            String address,
+            Enum address,
             String detailAddress,
             String phoneNumber,
             String email,
