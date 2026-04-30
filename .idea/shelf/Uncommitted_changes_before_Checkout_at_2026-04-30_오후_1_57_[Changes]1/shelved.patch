@@ -1,0 +1,206 @@
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.umc10th.domain.member.service;\r\n\r\npublic class MemberService {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java
+--- a/Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java	(date 1777524542470)
+@@ -1,4 +1,30 @@
+ package com.example.umc10th.domain.member.service;
+ 
++import com.example.umc10th.domain.member.code.MemberErrorCode;
++import com.example.umc10th.domain.member.dto.MemberReqDTO;
++import com.example.umc10th.domain.member.dto.MemberResDTO;
++import com.example.umc10th.domain.member.entity.Member;
++import com.example.umc10th.domain.member.exception.MemberException;
++import com.example.umc10th.domain.member.repository.MemberRepository;
++
+ public class MemberService {
++
++    private final MemberRepository memberRepository;
++
++    public MemberService(MemberRepository memberRepository) {
++        this.memberRepository = memberRepository;
++    }
++
++    public MemberResDTO.GetInfo getInfo(
++            MemberReqDTO.GetInfo dto
++    ) {
++        // DTO에서 유저 ID를 추출
++        Long memebrId = dto.id();
++        // DB에서 해당 유저 ID로 데이터 조회
++        Member member = memberRepository.findById(memberId)
++                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
++    }
++
++    public Object getInfo(MemberReqDTO.GetInfo dto) {
++    }
+ }
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.umc10th.domain.member.converter;\r\n\r\npublic class MemberConverter {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java
+--- a/Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java	(date 1777523938149)
+@@ -1,4 +1,20 @@
+ package com.example.umc10th.domain.member.converter;
+ 
++import com.example.umc10th.domain.member.dto.MemberResDTO;
++import com.example.umc10th.domain.member.entity.Member;
++
+ public class MemberConverter {
+-}
++
++    // 마이페이지 정보 조회를 위한 DTO 변환
++    public static MemberResDTO.GetInfo toGetInfo(Member member) {
++
++        // 빌더 패턴을 사용하여 엔티티의 데이터를 DTO에 매핑합니다.
++        return MemberResDTO.GetInfo.builder()
++                .email(member.getEmail())
++                .name(member.getName())
++                .point(member.getPoint())
++                .phoneNumber(member.getPhoneNumber())
++                .profileUrl(member.getProfileUrl())
++                .build();
++    }
++}
+\ No newline at end of file
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.umc10th.domain.member.controller;\r\n\r\nimport com.example.umc10th.domain.member.dto.MemberReqDTO;\r\nimport com.example.umc10th.domain.member.dto.MemberResDTO;\r\nimport com.example.umc10th.global.apiPayload.ApiResponse;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@RestController\r\n@RequestMapping(\"/api\")\r\npublic class MemberController {\r\n\r\n    // 마이페이지\r\n    @PostMapping(\"/v1/users/me\")\r\n    public ApiResponse<MemberResDTO.GetInfo> getInfo(@RequestBody MemberReqDTO.GetInfo dto) {\r\n\r\n\r\n        MemberResDTO.GetInfo result = MemberResDTO.GetInfo.builder()\r\n                .name(\"철수\")\r\n                .profileUrl(\"https://example.com/profile.jpg\")\r\n                .email(\"patrick@hansung.ac.kr\")\r\n                .phoneNumber(\"010-1234-5678\")\r\n                .point(22500)\r\n                .build();\r\n\r\n        return ApiResponse.onSuccess(result);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java
+--- a/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java	(date 1777524675505)
+@@ -1,27 +1,27 @@
+ package com.example.umc10th.domain.member.controller;
+ 
++import com.example.umc10th.domain.member.code.MemberSuccessCode;
+ import com.example.umc10th.domain.member.dto.MemberReqDTO;
+ import com.example.umc10th.domain.member.dto.MemberResDTO;
++import com.example.umc10th.domain.member.service.MemberService;
+ import com.example.umc10th.global.apiPayload.ApiResponse;
++import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
++import lombok.RequiredArgsConstructor;
+ import org.springframework.web.bind.annotation.*;
+ 
+ @RestController
++@RequiredArgsConstructor
+ @RequestMapping("/api")
+ public class MemberController {
+ 
++    private final MemberService memberService;
++
+     // 마이페이지
+     @PostMapping("/v1/users/me")
+-    public ApiResponse<MemberResDTO.GetInfo> getInfo(@RequestBody MemberReqDTO.GetInfo dto) {
+-
+-
+-        MemberResDTO.GetInfo result = MemberResDTO.GetInfo.builder()
+-                .name("철수")
+-                .profileUrl("https://example.com/profile.jpg")
+-                .email("patrick@hansung.ac.kr")
+-                .phoneNumber("010-1234-5678")
+-                .point(22500)
+-                .build();
+-
+-        return ApiResponse.onSuccess(result);
++    public ApiResponse<MemberResDTO.GetInfo> getInfo(
++            @RequestBody MemberReqDTO.GetInfo dto
++    ){
++        BaseSuccessCode code = MemberSuccessCode.OK;
++        return ApiResponse.onSuccess(code, memberService.getInfo(dto));
+     }
+ }
+\ No newline at end of file
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.umc10th.domain.member.repository;\r\n\r\npublic class MemberRepository {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java
+--- a/Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java	(date 1777524765052)
+@@ -1,4 +1,9 @@
+ package com.example.umc10th.domain.member.repository;
+ 
+-public class MemberRepository {
+-}
++import com.example.umc10th.domain.member.entity.Member;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++// JpaRepository<엔티티 타입, ID 타입>을 상속받아야 findById를 사용할 수 있어요!
++public interface MemberRepository extends JpaRepository<Member, Long> {
++
++}
+\ No newline at end of file
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.umc10th.domain.member.dto;\r\n\r\npublic class MemberReqDTO {\r\n\r\n    public record GetInfo(\r\n            Long id\r\n    ) {}\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java
+--- a/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java	(date 1777386765775)
+@@ -5,4 +5,4 @@
+     public record GetInfo(
+             Long id
+     ) {}
+-}
+\ No newline at end of file
++}
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberErrorCode.java
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberErrorCode.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberErrorCode.java
+new file mode 100644
+--- /dev/null	(date 1777523463270)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberErrorCode.java	(date 1777523463270)
+@@ -0,0 +1,4 @@
++package com.example.umc10th.domain.member.code;
++
++public enum MemberErrorCode {
++}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"47b99c41-ba65-4995-9ceb-49d8301de53b\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$/Jinyong\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"umc10th\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"umc10th\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Enum\" />\r\n        <option value=\"Exception\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;kjhh2605&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/HSU-Makeus-Challenge-10th/Spring-Boot.git&quot;,\r\n    &quot;accountId&quot;: &quot;fcd0d66d-3517-4e5c-8ca2-d8f1db187712&quot;\r\n  }\r\n}</component>\r\n  <component name=\"KubernetesApiPersistence\">{}</component>\r\n  <component name=\"KubernetesApiProvider\">{\r\n  &quot;isMigrated&quot;: true\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 5\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"3BlWnZUQzLyZVmvUI6nxbXmJuK8\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"flattenModules\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Gradle.Build Jinyong.executor\": \"Run\",\r\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager\": \"true\",\r\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"Spring Boot.Umc10thApplication.executor\": \"Run\",\r\n    \"git-widget-placeholder\": \"Jinyong-week5\",\r\n    \"kotlin-language-version-configured\": \"true\",\r\n    \"last_opened_file_path\": \"C:/umc10th_SpringBoot\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"project.structure.last.edited\": \"Modules\",\r\n    \"project.structure.proportion\": \"0.0\",\r\n    \"project.structure.side.proportion\": \"0.0\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\umc10th_SpringBoot\\Jinyong\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"Umc10thApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"umc10th.main\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.example.umc10th.Umc10thApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7\" />\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"47b99c41-ba65-4995-9ceb-49d8301de53b\" name=\"Changes\" comment=\"\" />\r\n      <created>1775064304989</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1775064304989</updated>\r\n      <workItem from=\"1775064306218\" duration=\"373000\" />\r\n      <workItem from=\"1777300548360\" duration=\"748000\" />\r\n      <workItem from=\"1777301699105\" duration=\"2151000\" />\r\n      <workItem from=\"1777339802570\" duration=\"677000\" />\r\n      <workItem from=\"1777345800400\" duration=\"1482000\" />\r\n      <workItem from=\"1777359716337\" duration=\"9863000\" />\r\n      <workItem from=\"1777380182999\" duration=\"5398000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/.idea/workspace.xml	(date 1777386904627)
+@@ -5,10 +5,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="47b99c41-ba65-4995-9ceb-49d8301de53b" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -140,7 +137,7 @@
+       <workItem from="1777339802570" duration="677000" />
+       <workItem from="1777345800400" duration="1482000" />
+       <workItem from="1777359716337" duration="9863000" />
+-      <workItem from="1777380182999" duration="5398000" />
++      <workItem from="1777380182999" duration="6509000" />
+     </task>
+     <servers />
+   </component>
