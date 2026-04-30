@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.entity;
 
+import com.example.umc10th.domain.BaseEntity;
 import com.example.umc10th.domain.member.enums.Address;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.MemberStatus;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="member")
-public class Member extends BaseEnTity{
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
