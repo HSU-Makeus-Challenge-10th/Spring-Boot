@@ -1,4 +1,5 @@
 package com.example.umc10th.domain.member.entity;
 
-public class MemeberPhoneInfo {
+public enum Gender {
+    MALE, FEMALE, NONE
 }

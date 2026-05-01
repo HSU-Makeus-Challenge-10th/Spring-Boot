@@ -13,8 +13,9 @@ public class MemberConverter {
                 .email(member.getEmail())
                 .name(member.getName())
                 .point(member.getPoint())
-                .phoneNumber(member.getPhoneNumber())
-                .profileUrl(member.getProfileUrl())
+                .nickname(member.getNickname())
+                .gender(member.getGender().name())
+                .phoneNumber(null)
                 .build();
     }
 }

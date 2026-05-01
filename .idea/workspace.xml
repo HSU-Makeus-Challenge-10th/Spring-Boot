@@ -5,164 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47b99c41-ba65-4995-9ceb-49d8301de53b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/UMC10th-week4.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/HELP.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/keyword-summary/ch05.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/Umc10thWeek4Application.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/controller/AskController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/converter/AskConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/dto/AskReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/dto/AskResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/entity/Ask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/entity/AskImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/entity/mapping/AskReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/enums/AskType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/exception/AskException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/exception/code/AskErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/exception/code/AskSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/repository/AskRepostiory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/ask/service/AskService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/controller/MemberController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/converter/MemberConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/dto/MemberReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/dto/MemberResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/entity/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/entity/Notice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/entity/Term.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/entity/mapping/MemberFoodPreference.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/entity/mapping/MemberNoticeSetting.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/entity/mapping/MemberTerm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/enums/Gender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/exception/MemberException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/exception/code/MemberErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/exception/code/MemberSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/repository/MemberRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/member/service/MemberService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/controller/MissionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/converter/MissionConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/dto/MissionReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/dto/MissionResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/entity/Mission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/entity/Region.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/entity/Store.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/entity/mapping/UserMission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/enums/MissionStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/exception/MissionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/exception/code/MissionErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/exception/code/MissionSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/repository/MissionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/mission/service/MissionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/controller/ReviewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/converter/ReviewConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/dto/ReviewReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/dto/ReviewResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/entity/Review.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/entity/ReviewImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/entity/mapping/ReviewReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/exception/ReviewException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/exception/code/ReviewErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/exception/code/ReviewSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/repository/ReviewRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/domain/review/service/ReviewService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/code/BaseErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/code/BaseSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/code/GeneralErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/code/GeneralSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/exception/ProjectException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/apiPayload/handler/GeneralExceptionAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/main/java/com/example/umc10thweek4/global/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chanyeol/src/test/java/com/example/umc10thweek4/Umc10thWeek4ApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/keyword_summary/ch05.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/Umc10thApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/dto/MemberReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/FoodCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Member.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Region.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Term.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/mapping/FoodMember.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/mapping/MemberTerm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/mapping/RegionMember.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/Gender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/SocialType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/Term.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/exception/MemberException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/exception/code/MemberErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/exception/code/MemberSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/service/MemberService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/controller/MissionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/converter/MissionConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/dto/MissionReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/dto/MissionResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/BusinessTime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/Mission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/President.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/Store.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/StoreImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/mapping/MemberMission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/enums/Address.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/exception/MissionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/exception/code/MissionErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/exception/code/MissionSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/repository/MissionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/service/MissionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/controller/QnaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/converter/QnaConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/dto/QnaReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/dto/QnaResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/entity/Qna.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/entity/QnaImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/exception/QnaException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/exception/code/QnaErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/exception/code/QnaSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/repository/QnaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/service/QnaService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/controller/ReviewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/converter/ReviewConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/dto/ReviewReqDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/dto/ReviewResDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/Review.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/ReviewImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/ReviewPresident.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/exception/ReviewException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/exception/code/ReviewErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/exception/code/ReviewSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/repository/ReviewRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/service/ReviewService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/code/BaseErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/code/BaseSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/code/GeneralErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/code/GeneralSuccessCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/exception/ProjectException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/apiPayload/handler/GeneralExceptionAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/global/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sangwan/src/test/java/com/example/umc10th/Umc10thApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seohui/AGENTS.md" beforeDir="false" afterPath="$PROJECT_DIR$/Suhhee/AGENTS.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/food/Food.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/food/mapping/MemberFood.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/Term.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/entity/MemberStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/global/apiPayload/code/MemberSuccessCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/Umc10thApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/Umc10thApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/dto/MemberResDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/MemeberPhoneInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/MemberPhoneInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/Terms.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/Gender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/mapping/MemberTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/entity/mapping/MemberTerm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/exception/MemberException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/exception/MemberException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/exception/code/MemberErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/exception/code/MemberErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/exception/code/MemberSuccessCode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/repository/MemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/member/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/global/apiPayload/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/global/apiPayload/ApiResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,6 +101,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.Build Jinyong.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.Jinyong 빌드.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -246,7 +113,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.Umc10thApplication.executor": "Run",
-    "git-widget-placeholder": "Merging Jinyong",
+    "git-widget-placeholder": "Jinyong",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/umc10th_SpringBoot",
     "node.js.detected.package.eslint": "true",
@@ -257,6 +124,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.language.and.region",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -296,7 +164,9 @@
       <workItem from="1777345800400" duration="1482000" />
       <workItem from="1777359716337" duration="9863000" />
       <workItem from="1777380182999" duration="6509000" />
-      <workItem from="1777521942873" duration="5226000" />
+      <workItem from="1777521942873" duration="6916000" />
+      <workItem from="1777528939548" duration="4486000" />
+      <workItem from="1777543445349" duration="13881000" />
     </task>
     <servers />
   </component>
@@ -313,5 +183,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
