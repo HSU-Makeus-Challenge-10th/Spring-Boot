@@ -10,12 +10,12 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "member") // ERD 테이블명 반영
+@Table(name = "member")
 public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // MySQL 환경에서는 SEQUENCE보다 IDENTITY를 권장합니다.
-    private Long id; // ERD 기준 PK
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
@@ -38,5 +38,4 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate birth;
-
 }

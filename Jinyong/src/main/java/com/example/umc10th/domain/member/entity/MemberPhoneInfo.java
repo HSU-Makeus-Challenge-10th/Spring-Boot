@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "member_phone_info") // ERD 테이블명 반영
+@Table(name = "member_phone_info")
 public class MemberPhoneInfo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // ERD 기준 PK
+    private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId; // ERD의 user_id FK
+    private Long userId;
 
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
