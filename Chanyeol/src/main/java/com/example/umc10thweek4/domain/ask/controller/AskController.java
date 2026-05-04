@@ -5,6 +5,7 @@ import com.example.umc10thweek4.domain.ask.dto.AskResDTO;
 import com.example.umc10thweek4.domain.ask.exception.code.AskSuccessCode;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
 import com.example.umc10thweek4.global.apiPayload.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class AskController {
 
     @PostMapping("/v1/asks")
-    public ApiResponse<AskResDTO> createAsk(@RequestBody AskReqDTO dto) {
+    public ApiResponse<AskResDTO> createAsk(@RequestBody @Valid AskReqDTO.Create request) {
         BaseSuccessCode code = AskSuccessCode.OK;
         return ApiResponse.onSuccess(code, null);
     }

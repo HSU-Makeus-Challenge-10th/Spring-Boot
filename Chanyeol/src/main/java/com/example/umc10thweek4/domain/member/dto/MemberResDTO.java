@@ -19,7 +19,6 @@ public class MemberResDTO {
         ) {}
     }
 
-    @Builder
     public record SignUp(
             Long userId,
             String nickname

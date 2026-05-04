@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum MissionSuccessCode implements BaseSuccessCode {
 
     OK(HttpStatus.OK,
-            "ASK200_1",
+            "MISSION200_1",
             "성공적으로 문의를 조회했습니다."),
     ;
 

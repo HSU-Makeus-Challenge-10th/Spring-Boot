@@ -6,14 +6,13 @@ import java.util.List;
 
 public class AskReqDTO {
 
-    @NotBlank
-    private String askTitle;
+    public record Create(
+            @NotBlank String askTitle,
 
-    @NotBlank
-    private String askDetail;
+            @NotBlank String askDetail,
 
-    @NotBlank
-    private String askType;
+            @NotBlank String askType,
 
-    private List<String> imageUrls;
+            List<String> imageUrls
+    ) {}
 }

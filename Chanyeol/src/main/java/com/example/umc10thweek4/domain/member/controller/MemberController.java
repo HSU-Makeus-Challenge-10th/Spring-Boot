@@ -5,6 +5,7 @@ import com.example.umc10thweek4.domain.member.dto.MemberResDTO;
 import com.example.umc10thweek4.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
 import com.example.umc10thweek4.global.apiPayload.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     @PostMapping("/v1/users")
-    public ApiResponse<MemberResDTO> signUp(@RequestBody MemberReqDTO dto) {
+    public ApiResponse<MemberResDTO> signUp(@RequestBody @Valid MemberReqDTO.SignUp request) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, null);
     }
