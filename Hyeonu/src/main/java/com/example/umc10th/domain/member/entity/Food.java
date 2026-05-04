@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.entity;
 
+import com.example.umc10th.domain.member.enums.FoodName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
