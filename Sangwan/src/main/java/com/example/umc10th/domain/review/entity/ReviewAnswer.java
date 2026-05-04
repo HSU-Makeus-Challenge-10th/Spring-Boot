@@ -1,27 +1,30 @@
 package com.example.umc10th.domain.review.entity;
 
+import com.example.umc10th.domain.member.entity.Owner;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "review_image")
+@Table(name = "review_answer")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class ReviewImage extends BaseEntity {
+public class ReviewAnswer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
 
-    @Column(nullable = false)
-    private String imageKey;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Owner owner;
 
-    private Integer sequence;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
 }

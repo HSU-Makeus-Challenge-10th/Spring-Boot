@@ -1,34 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="47b99c41-ba65-4995-9ceb-49d8301de53b" name="Changes" comment="" />
+    <list default="true" id="47b99c41-ba65-4995-9ceb-49d8301de53b" name="Changes" comment="feat: 키워드 정리 추가">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/Umc10thApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/Umc10thApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/converter/MemberConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/FoodCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Region.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/Term.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/mapping/FoodMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/mapping/MemberTerm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/entity/mapping/RegionMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/Gender.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/Gender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/SocialType.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/SocialType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/enums/Term.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/member/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/controller/MissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/controller/MissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/BusinessTime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/Mission.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/Mission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/President.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/Store.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/StoreImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/mapping/MemberMission.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/entity/mapping/MemberMission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/repository/MissionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/repository/MissionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/service/MissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/mission/service/MissionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/entity/Qna.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/qna/entity/QnaImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/ReviewImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/ReviewImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/entity/ReviewPresident.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sangwan/src/main/java/com/example/umc10th/domain/review/repository/ReviewRepository.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/Sangwan">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="umc10th" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "kjhh2605"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;kjhh2605&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/HSU-Makeus-Challenge-10th/Spring-Boot.git",
-    "accountId": "717cc359-5dee-4173-aa4d-8611891954d7"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/HSU-Makeus-Challenge-10th/Spring-Boot.git&quot;,
+    &quot;accountId&quot;: &quot;b595bc0a-fe4e-4027-8784-620db28feaf1&quot;
   }
-}]]></component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="3BlWnZUQzLyZVmvUI6nxbXmJuK8" />
   <component name="ProjectViewState">
     <option name="flattenModules" value="true" />
@@ -36,23 +92,65 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.Sangwan 빌드.executor": "Run",
+    "Gradle.소스 다운로드.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "Spring Boot.Umc10thApplication.executor": "Run",
+    "git-widget-placeholder": "sangwan-week06",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/SangwanYu/Documents/GitHub/umc-hsu-10th/Spring-Boot/Spring-Boot",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.general",
+    "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Umc10thApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="umc10th.main" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.umc10th.Umc10thApplication" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="true" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="Sangwan/.env" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
       </set>
     </attachedChunks>
   </component>
@@ -64,10 +162,43 @@
       <option name="presentableId" value="Default" />
       <updated>1775064304989</updated>
       <workItem from="1775064306218" duration="373000" />
+      <workItem from="1777337558928" duration="13393000" />
+      <workItem from="1777369105433" duration="1252000" />
+      <workItem from="1777370398215" duration="3188000" />
+      <workItem from="1777881691906" duration="10068000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: API 응답 통일 및 에러 핸들러 작성">
+      <option name="closed" value="true" />
+      <created>1777372315387</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1777372315387</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: 키워드 정리 추가">
+      <option name="closed" value="true" />
+      <created>1777372706048</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1777372706048</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: API 응답 통일 및 에러 핸들러 작성" />
+    <MESSAGE value="feat: 키워드 정리 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 키워드 정리 추가" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

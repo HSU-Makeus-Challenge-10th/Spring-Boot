@@ -1,46 +1,106 @@
 package com.example.umc10th.domain.member.entity;
 
+import com.example.umc10th.domain.member.entity.mapping.MemberAgreement;
+import com.example.umc10th.domain.member.entity.mapping.MemberFoodCategory;
+import com.example.umc10th.domain.member.entity.mapping.RegionProgress;
 import com.example.umc10th.domain.member.enums.Gender;
+import com.example.umc10th.domain.member.enums.MemberStatus;
+import com.example.umc10th.domain.member.enums.Role;
+import com.example.umc10th.domain.member.enums.SocialType;
+import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
+import com.example.umc10th.domain.notification.entity.MemberNotification;
+import com.example.umc10th.domain.notification.entity.NotificationSetting;
+import com.example.umc10th.domain.point.entity.PointHistory;
+import com.example.umc10th.domain.point.entity.PointWithdrawal;
+import com.example.umc10th.domain.qna.entity.Inquire;
+import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "member") // 테이블명: member
+@Table(name = "user")
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Member {
+@AllArgsConstructor
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long memberId; // bigint -> Long
+    private Long id;
+
+    @Column(nullable = false)
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
-    private Gender gender; // varchar2(ENUM) -> Enum Class
+    private SocialType socialType;
 
-    @Column(name = "birthday", nullable = false)
-    private LocalDate birthday; // date -> LocalDate
+    private String socialId;
 
-    @Column(name = "address", nullable = false)
-    private String address; // varchar2 -> String
+    @Column(nullable = false, length = 50)
+    private String name;
 
-    @Column(name = "name", nullable = false)
-    private String name; // varchar2 -> String
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
-    @Column(name = "profileUrl", nullable = false)
-    private String profileUrl; // varchar2 -> String
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberStatus status;
 
-    @Column(name = "email", nullable = false)
-    private String email; // varchar2 -> String
+    @Column(nullable = false)
+    private Integer step;
 
-    @Column(name = "phone", nullable = false)
-    private String phone; // varchar2 -> String
+    @Column(nullable = false)
+    private Integer totalPoint;
 
-    @Column(name = "point", nullable = false)
-    private Integer point; // bigint -> Long
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Column(nullable = false)
+    private LocalDate birth;
+
+    private String baseAddress;
+    private String detailAddress;
+    private String phoneNumber;
+    private Boolean isVerified;
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Owner owner;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberMission> memberMissions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberAgreement> memberAgreements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberFoodCategory> memberFoodCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<RegionProgress> regionProgresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<PointHistory> pointHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<PointWithdrawal> pointWithdrawals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Inquire> inquires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberNotification> memberNotifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<NotificationSetting> notificationSettings = new ArrayList<>();
 }

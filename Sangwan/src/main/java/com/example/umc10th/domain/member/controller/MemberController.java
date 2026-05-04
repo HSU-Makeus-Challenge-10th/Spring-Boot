@@ -22,26 +22,27 @@ public class MemberController {
     public ApiResponse<MemberResDTO.SignupRes> signup(
             @Valid @RequestBody MemberReqDTO.SignupReq request
     ) {
-        BaseSuccessCode code = MemberSuccessCode.SIGNUP;
-        return ApiResponse.onSuccess(code, memberService.signup(request));
+        return ApiResponse.onSuccess(MemberSuccessCode.SIGNUP, memberService.signup(request));
     }
 
-    // 홈화면
+    // 홈화면 조회
     @GetMapping("/me/home")
-    public ApiResponse<MemberResDTO.HomeRes> getHome() {
-        BaseSuccessCode code = MemberSuccessCode.HOME;
-        return ApiResponse.onSuccess(code, memberService.getHome());
+    public ApiResponse<MemberResDTO.HomeRes> getHome(
+            @RequestParam Long memberId  // TODO: 인증 구현 후 SecurityContext로 대체
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.HOME, memberService.getHome(memberId));
     }
 
     // 미션 목록 조회 (진행중 / 진행완료)
     @GetMapping("/me/missions")
     public ApiResponse<MemberResDTO.MissionListRes> getMissions(
+            @RequestParam Long memberId,  // TODO: 인증 구현 후 SecurityContext로 대체
             @RequestParam String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        BaseSuccessCode code = MemberSuccessCode.MISSION_LIST;
-        return ApiResponse.onSuccess(code, memberService.getMissions(status, page, size));
+        return ApiResponse.onSuccess(MemberSuccessCode.MISSION_LIST,
+                memberService.getMissions(memberId, status, page, size));
     }
 
     // 미션 성공 누르기
@@ -49,13 +50,15 @@ public class MemberController {
     public ApiResponse<MemberResDTO.MissionSuccessRes> requestMissionSuccess(
             @PathVariable Long missionId
     ) {
-        BaseSuccessCode code = MemberSuccessCode.MISSION_SUCCESS_REQUEST;
-        return ApiResponse.onSuccess(code, memberService.requestMissionSuccess(missionId));
+        return ApiResponse.onSuccess(MemberSuccessCode.MISSION_SUCCESS_REQUEST,
+                memberService.requestMissionSuccess(missionId));
     }
+
     // 내 정보 가져오기
     @PostMapping("/me")
-    public ApiResponse<MemberResDTO.MyInfoRes> getMyInfo(@RequestBody MemberReqDTO.MyInfoReq myInfoReq) {
-        BaseSuccessCode code = MemberSuccessCode.MYINFO;
-        return ApiResponse.onSuccess(code, memberService.requestMyInfo(myInfoReq));
+    public ApiResponse<MemberResDTO.MyInfoRes> getMyInfo(
+            @Valid @RequestBody MemberReqDTO.MyInfoReq myInfoReq
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.MYINFO, memberService.requestMyInfo(myInfoReq));
     }
 }
