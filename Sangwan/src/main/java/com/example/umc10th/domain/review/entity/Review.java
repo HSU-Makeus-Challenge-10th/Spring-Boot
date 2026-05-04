@@ -35,8 +35,17 @@ public class Review extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ReviewImage> reviewImages = new ArrayList<>();
+
+    public void addReviewImage(String imageKey, int sequence) {
+        reviewImages.add(ReviewImage.builder()
+                .review(this)
+                .imageKey(imageKey)
+                .sequence(sequence)
+                .build());
+    }
 
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private ReviewAnswer reviewAnswer;

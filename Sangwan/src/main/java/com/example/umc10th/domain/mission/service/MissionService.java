@@ -13,10 +13,8 @@ import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.review.entity.Review;
-import com.example.umc10th.domain.review.entity.ReviewImage;
 import com.example.umc10th.domain.review.exception.ReviewException;
 import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
-import com.example.umc10th.domain.review.repository.ReviewImageRepository;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +32,6 @@ public class MissionService {
     private final MissionRepository missionRepository;
     private final MemberMissionRepository memberMissionRepository;
     private final ReviewRepository reviewRepository;
-    private final ReviewImageRepository reviewImageRepository;
 
     public MissionResDTO.CreateReviewRes createReview(Long memberId, Long missionId,
                                                        MissionReqDTO.CreateReviewReq request,
@@ -47,29 +44,27 @@ public class MissionService {
 
         MemberMission memberMission = memberMissionRepository
                 .findByMemberIdAndMissionId(memberId, missionId)
-                .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.MEMBER_MISSION_NOT_FOUND));
 
         if (reviewRepository.existsByMemberMission(memberMission)) {
             throw new ReviewException(ReviewErrorCode.REVIEW_ALREADY_EXISTS);
         }
 
-        Review review = reviewRepository.save(Review.builder()
+        Review review = Review.builder()
                 .memberMission(memberMission)
                 .member(member)
                 .rating(request.rating().doubleValue())
                 .content(request.content())
-                .build());
+                .build();
 
         if (reviewImages != null && !reviewImages.isEmpty()) {
             int limit = Math.min(reviewImages.size(), 3);
             for (int i = 0; i < limit; i++) {
-                reviewImageRepository.save(ReviewImage.builder()
-                        .review(review)
-                        .imageKey(reviewImages.get(i).getOriginalFilename())
-                        .sequence(i + 1)
-                        .build());
+                review.addReviewImage(reviewImages.get(i).getOriginalFilename(), i + 1);
             }
         }
+
+        reviewRepository.save(review);
 
         return MissionResDTO.CreateReviewRes.builder()
                 .reviewId(review.getId())
