@@ -36,7 +36,7 @@ public class Member extends BaseEntity {
 
     @Column(name="address", nullable=false)
     @Enumerated(EnumType.STRING)
-    private Enum address;
+    private Address address;
 
     @Column(name="detail_address", nullable=false)
     private String detailAddress;
