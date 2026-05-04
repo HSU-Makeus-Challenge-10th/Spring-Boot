@@ -81,7 +81,7 @@ public class MemberService {
                 .build();
     }
 
-    public MemberResDTO.MissionListRes getMissions(Long memberId, String status, int page, int size) {
+    public MemberResDTO.MissionListRes getMissions(Long memberId, String status, Long cursor, int size) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
@@ -91,9 +91,10 @@ public class MemberService {
             default -> throw new MissionException(MissionErrorCode.INVALID_MISSION_STATUS);
         };
 
-        // size+1 개 조회해서 hasNext 판단
-        List<MemberMission> fetched = memberMissionRepository.findByMemberIdAndStatusPaged(
-                memberId, missionStatus, PageRequest.of(page, size + 1));
+        long effectiveCursor = cursor != null ? cursor : Long.MAX_VALUE;
+
+        List<MemberMission> fetched = memberMissionRepository.findByMemberIdAndStatusWithCursor(
+                memberId, missionStatus, effectiveCursor, PageRequest.of(0, size + 1));
 
         boolean hasNext = fetched.size() > size;
         List<MemberMission> missions = hasNext ? fetched.subList(0, size) : fetched;
@@ -117,7 +118,7 @@ public class MemberService {
                 .listSize(missionItems.size())
                 .hasNext(hasNext)
                 .nextCursor(nextCursor)
-                .isFirst(page == 0)
+                .isFirst(cursor == null)
                 .isLast(!hasNext)
                 .build();
     }

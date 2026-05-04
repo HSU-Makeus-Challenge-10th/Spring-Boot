@@ -17,10 +17,12 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             "JOIN FETCH m.store s " +
             "WHERE mm.member.id = :memberId " +
             "AND mm.status = :status " +
+            "AND mm.id < :cursor " +
             "ORDER BY mm.id DESC")
-    List<MemberMission> findByMemberIdAndStatusPaged(@Param("memberId") Long memberId,
-                                                      @Param("status") UserMissionStatus status,
-                                                      Pageable pageable);
+    List<MemberMission> findByMemberIdAndStatusWithCursor(@Param("memberId") Long memberId,
+                                                           @Param("status") UserMissionStatus status,
+                                                           @Param("cursor") Long cursor,
+                                                           Pageable pageable);
 
     Optional<MemberMission> findByMemberIdAndMissionId(Long memberId, Long missionId);
 }

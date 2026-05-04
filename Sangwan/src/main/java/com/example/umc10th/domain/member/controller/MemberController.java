@@ -38,11 +38,11 @@ public class MemberController {
     public ApiResponse<MemberResDTO.MissionListRes> getMissions(
             @RequestParam Long memberId,  // TODO: 인증 구현 후 SecurityContext로 대체
             @RequestParam String status,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) Long cursor,
             @RequestParam(defaultValue = "10") int size
     ) {
         return ApiResponse.onSuccess(MemberSuccessCode.MISSION_LIST,
-                memberService.getMissions(memberId, status, page, size));
+                memberService.getMissions(memberId, status, cursor, size));
     }
 
     // 미션 성공 누르기
