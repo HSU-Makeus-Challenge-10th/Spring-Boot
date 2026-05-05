@@ -6,8 +6,6 @@ import com.umc.study.domain.mission.web.dto.GetAcceptMissionRes;
 import com.umc.study.domain.mission.web.dto.GetComplMissionRes;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

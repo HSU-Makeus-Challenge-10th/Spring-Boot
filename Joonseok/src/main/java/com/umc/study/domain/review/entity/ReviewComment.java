@@ -18,6 +18,10 @@ public class ReviewComment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
+
     private String content;
 
 }

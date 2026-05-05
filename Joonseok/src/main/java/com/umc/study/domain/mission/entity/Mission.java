@@ -1,7 +1,6 @@
 package com.umc.study.domain.mission.entity;
 
 import com.umc.study.domain.user.entity.User;
-import com.umc.study.domain.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

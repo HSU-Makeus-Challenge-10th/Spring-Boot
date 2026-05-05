@@ -42,7 +42,7 @@ public class MissionService {
                     if (!m.getUser().isOwner()) {
                         throw new IllegalArgumentException("해당 ID는 가게 주인이 아닙니다.");
                     }
-                    Restaurant restaurant = restaurantRepository.findByUserId(userId)
+                    Restaurant restaurant = restaurantRepository.findByUserId(m.getUser().getId())
                             .orElseThrow(UserNotFoundException::new);
                     return new GetComplMissionRes.CompletedMission(
                             m.getId(),
@@ -59,7 +59,7 @@ public class MissionService {
     }
 
     private boolean isHasNext(int page, Page<Mission> found) {
-        boolean hasNext = page != found.getTotalPages();
+        boolean hasNext = page < found.getTotalPages();
         return hasNext;
     }
 
@@ -81,7 +81,7 @@ public class MissionService {
                     if (!m.getUser().isOwner()) {
                         throw new IllegalArgumentException("해당 ID는 가게 주인이 아닙니다.");
                     }
-                    Restaurant restaurant = restaurantRepository.findByUserId(userId)
+                    Restaurant restaurant = restaurantRepository.findByUserId(m.getUser().getId())
                             .orElseThrow(UserNotFoundException::new);
                     return new GetAcceptMissionRes.InProgressMission(
                             m.getId(),

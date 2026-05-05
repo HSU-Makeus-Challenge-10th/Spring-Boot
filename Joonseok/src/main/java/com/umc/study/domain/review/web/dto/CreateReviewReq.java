@@ -23,7 +23,7 @@ public class CreateReviewReq {
 
     public CreateReviewReq(Long restaurantId, int score, String content) {
         this.restaurantId = restaurantId;
-        this.score = (double) (score/2);
+        this.score = (double) score/2;
         this.content = content;
     }
 }
