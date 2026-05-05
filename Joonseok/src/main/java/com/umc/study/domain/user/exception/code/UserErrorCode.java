@@ -1,4 +1,15 @@
 package com.umc.study.domain.user.exception.code;
 
-public enum UserErrorCode {
+import com.umc.study.global.apiPayload.code.BaseResponseCode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public enum UserErrorCode implements BaseResponseCode {
+    USER_NOT_FOUND("USER_NOT_FOUND_404", 404, "해당 멤버를 찾는데 실패했습니다.");
+
+    private final String code;
+    private final int status;
+    private final String message;
 }
