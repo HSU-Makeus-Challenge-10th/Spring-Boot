@@ -37,4 +37,8 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private Integer pointDeposit;
+
+    public boolean isOwner() {
+        return this.role == Role.OWNER;
+    }
 }
