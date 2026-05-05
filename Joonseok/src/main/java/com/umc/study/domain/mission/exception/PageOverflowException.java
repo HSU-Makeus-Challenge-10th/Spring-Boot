@@ -1,7 +1,10 @@
 package com.umc.study.domain.mission.exception;
 
-public class MissionException extends RuntimeException {
-    public MissionException(String message) {
-        super(message);
+import com.umc.study.domain.mission.exception.code.MissionErrorCode;
+import com.umc.study.global.apiPayload.exception.BaseException;
+
+public class PageOverflowException extends BaseException {
+    public PageOverflowException() {
+        super(MissionErrorCode.PAGE_OVERFLOW);
     }
 }
