@@ -1,4 +1,27 @@
 package com.example.umc10th.domain.mission.entity;
 
-public class Mission {
+import com.example.umc10th.domain.BaseEntity;
+import com.example.umc10th.domain.store.entity.Store;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class Mission extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name="rewardPoint",nullable = false)
+    private Integer rewardPoint;
+
+    @Column(name="name",nullable = false)
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 }
