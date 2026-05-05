@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private static final Long TEMP_MEMBER_ID = 1L;
 
     @PostMapping("/me")
     @Operation(summary = "유저 정보 조회")
@@ -30,5 +31,12 @@ public class MemberController {
     public ApiResponse<MemberResDTO.PointInfo> getPoints(
             @RequestHeader(value = "Authorization", required = false) String token) {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, memberService.getPoints(token));
+    }
+
+    @DeleteMapping("")
+    @Operation(summary = "계정 탈퇴")
+    public ApiResponse<Void> deleteAccount() {
+        memberService.deleteAccount(TEMP_MEMBER_ID);
+        return ApiResponse.onSuccess(MemberSuccessCode.DELETED, null);
     }
 }

@@ -44,6 +44,16 @@ public class StoreService {
         return StoreConverter.toStoreInfo(store, avgRating, reviewCount, imgUrl);
     }
 
+    public StoreResDTO.StoreList getStores(Long townId, Long foodTypeId, Long cursor, int limit) {
+        List<Store> stores = storeRepository.findByTownAndFoodTypeCursor(
+                townId,
+                foodTypeId,
+                cursor,
+                PageRequest.of(0, limit)
+        );
+        return StoreConverter.toStoreList(stores, limit);
+    }
+
     public MissionResDTO.StoreMissionPageResult getStoreMissions(Long storeId, Long cursor, int limit) {
         storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));

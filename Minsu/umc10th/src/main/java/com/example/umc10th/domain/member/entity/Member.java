@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "profile_url")
@@ -69,4 +69,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<MemberTerm> memberTerms = new ArrayList<>();
+
+    public void withdraw() {
+        softDelete();
+    }
 }

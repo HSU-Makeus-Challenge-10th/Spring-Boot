@@ -75,19 +75,24 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+        saveImages(review, images);
+
+        return ReviewConverter.toReviewInfo(review);
+    }
+
+    @Transactional
+    public ReviewResDTO.ReviewInfo updateReview(Long reviewId, ReviewReqDTO.Update dto, List<MultipartFile> images) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
+
+        if (dto != null) {
+            review.update(dto.rating(), dto.body());
+        }
 
         if (images != null && !images.isEmpty()) {
-            List<ReviewImage> reviewImages = new ArrayList<>();
-            for (MultipartFile file : images) {
-                String imgUrl = saveFile(file);
-                ReviewImage reviewImage = ReviewImage.builder()
-                        .review(review)
-                        .imgUrl(imgUrl)
-                        .build();
-                reviewImages.add(reviewImage);
-                review.getImages().add(reviewImage);
-            }
-            reviewImageRepository.saveAll(reviewImages);
+            reviewImageRepository.deleteByReviewId(reviewId);
+            review.getImages().clear();
+            saveImages(review, images);
         }
 
         return ReviewConverter.toReviewInfo(review);
@@ -130,5 +135,23 @@ public class ReviewService {
         } catch (IOException e) {
             return "/uploads/placeholder.jpg";
         }
+    }
+
+    private void saveImages(Review review, List<MultipartFile> images) {
+        if (images == null || images.isEmpty()) {
+            return;
+        }
+
+        List<ReviewImage> reviewImages = new ArrayList<>();
+        for (MultipartFile file : images) {
+            String imgUrl = saveFile(file);
+            ReviewImage reviewImage = ReviewImage.builder()
+                    .review(review)
+                    .imgUrl(imgUrl)
+                    .build();
+            reviewImages.add(reviewImage);
+            review.getImages().add(reviewImage);
+        }
+        reviewImageRepository.saveAll(reviewImages);
     }
 }

@@ -38,6 +38,15 @@ public class ReviewController {
         return ApiResponse.onSuccess(ReviewSuccessCode.DELETED, null);
     }
 
+    @PatchMapping(value = "/reviews/{reviewId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "리뷰 수정 (multipart/form-data)")
+    public ApiResponse<ReviewResDTO.ReviewInfo> updateReview(
+            @PathVariable Long reviewId,
+            @RequestPart(value = "request", required = false) ReviewReqDTO.Update request,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images) {
+        return ApiResponse.onSuccess(ReviewSuccessCode.OK, reviewService.updateReview(reviewId, request, images));
+    }
+
     @PostMapping(value = "/stores/{storeId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "가게 리뷰 작성 (multipart/form-data)")
     public ApiResponse<ReviewResDTO.ReviewInfo> createReview(

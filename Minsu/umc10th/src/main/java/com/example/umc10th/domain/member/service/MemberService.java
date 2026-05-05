@@ -51,7 +51,7 @@ public class MemberService {
 
     @Transactional
     public MemberResDTO.SignUpInfo signUp(MemberReqDTO.SignUp dto) {
-        if (memberRepository.existsByEmail(dto.email())) {
+        if (memberRepository.existsActiveByEmail(dto.email())) {
             throw new MemberException(MemberErrorCode.MEMBER_ALREADY_EXISTS);
         }
 
@@ -94,5 +94,12 @@ public class MemberService {
         }
 
         return MemberConverter.toSignUpInfo(member);
+    }
+
+    @Transactional
+    public void deleteAccount(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        member.withdraw();
     }
 }
