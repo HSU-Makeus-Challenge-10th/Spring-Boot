@@ -1,6 +1,7 @@
 package com.umc.study.domain.review.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.umc.study.domain.mission.entity.Restaurant;
 import com.umc.study.domain.user.entity.User;
 import com.umc.study.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -25,6 +26,10 @@ public class Review extends BaseEntity {
     private Double score;
 
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @OneToMany(mappedBy = "review")
     @JsonManagedReference
