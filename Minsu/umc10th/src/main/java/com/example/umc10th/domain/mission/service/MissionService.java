@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -91,7 +90,7 @@ public class MissionService {
             throw new MissionException(MissionErrorCode.INVALID_APPROVER_CODE);
         }
 
-        am.complete();
+        am.complete(); // Dirty Checking: 트랜잭션 종료 시 변경된 state/completedAt이 UPDATE 된다.
         return MissionConverter.toActivatedMissionInfo(am);
     }
 

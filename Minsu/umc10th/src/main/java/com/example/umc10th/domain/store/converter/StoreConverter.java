@@ -6,7 +6,7 @@ import com.example.umc10th.domain.store.entity.Store;
 
 public class StoreConverter {
 
-    public static StoreResDTO.StoreInfo toStoreInfo(Store store, Double avgRating, Long reviewCount) {
+    public static StoreResDTO.StoreInfo toStoreInfo(Store store, Double avgRating, Long reviewCount, String imgUrl) {
         return StoreResDTO.StoreInfo.builder()
                 .storeId(String.valueOf(store.getId()))
                 .name(store.getName())
@@ -15,7 +15,7 @@ public class StoreConverter {
                 .avgRating(avgRating != null ? Math.round(avgRating * 10.0) / 10.0 : 0.0)
                 .reviewCount(reviewCount != null ? reviewCount : 0L)
                 .isOpen(store.getIsOpen())
-                .imgUrl(store.getImgUrl())
+                .imgUrl(imgUrl != null ? imgUrl : store.getImgUrl())
                 .lat(store.getLat())
                 .lng(store.getLng())
                 .build();
