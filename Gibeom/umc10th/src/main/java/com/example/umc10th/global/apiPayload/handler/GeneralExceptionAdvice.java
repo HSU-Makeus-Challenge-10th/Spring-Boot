@@ -1,7 +1,6 @@
 package com.example.umc10th.global.apiPayload.handler;
 
 import com.example.umc10th.global.apiPayload.ApiResponse;
-import com.example.umc10th.global.apiPayload.Exception.MemberException;
 import com.example.umc10th.global.apiPayload.Exception.ProjectException;
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
