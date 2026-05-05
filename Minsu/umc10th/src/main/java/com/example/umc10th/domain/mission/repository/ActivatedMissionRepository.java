@@ -13,9 +13,6 @@ public interface ActivatedMissionRepository extends JpaRepository<ActivatedMissi
 
     boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
 
-    @Query("SELECT am FROM ActivatedMission am WHERE am.member.id = :memberId AND am.state = :state AND am.id > :cursor ORDER BY am.id ASC")
-    List<ActivatedMission> findByMemberIdAndStateCursor(@Param("memberId") Long memberId, @Param("state") MissionState state, @Param("cursor") Long cursor, Pageable pageable);
-
     @Query("""
             SELECT am FROM ActivatedMission am
             JOIN FETCH am.mission m

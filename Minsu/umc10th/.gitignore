@@ -39,6 +39,7 @@ out/
 ### 보안 ###
 .env
 application.yml
+!src/test/resources/application.yml
 
 ### mac ###
 .DS_Store

@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class MissionService {
     private final MemberRepository memberRepository;
 
     private static final Long TEMP_MEMBER_ID = 1L;
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     public MissionResDTO.MissionPageResult getCompletedMissions(Long cursor, int limit) {
         List<ActivatedMission> list = activatedMissionRepository
@@ -67,7 +69,7 @@ public class MissionService {
             throw new MissionException(MissionErrorCode.MISSION_ALREADY_STARTED);
         }
 
-        String approverCode = String.valueOf((int) (Math.random() * 900000) + 100000);
+        String approverCode = generateApproverCode();
 
         ActivatedMission am = ActivatedMission.builder()
                 .member(member)
@@ -100,5 +102,9 @@ public class MissionService {
         return MissionResDTO.ApproverCodeInfo.builder()
                 .approverCode(am.getApproverCode())
                 .build();
+    }
+
+    private String generateApproverCode() {
+        return String.format("%06d", SECURE_RANDOM.nextInt(1_000_000));
     }
 }

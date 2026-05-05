@@ -13,9 +13,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.member.id = :memberId AND r.id > :cursor ORDER BY r.id ASC")
     List<Review> findByMemberIdCursor(@Param("memberId") Long memberId, @Param("cursor") Long cursor, Pageable pageable);
 
-    @Query("SELECT r FROM Review r WHERE r.store.id = :storeId AND r.id > :cursor ORDER BY r.id ASC")
-    List<Review> findByStoreIdCursor(@Param("storeId") Long storeId, @Param("cursor") Long cursor, Pageable pageable);
-
     @Query("""
             SELECT DISTINCT r FROM Review r
             JOIN FETCH r.member
