@@ -26,7 +26,7 @@ public class Review extends BaseEntity {
 
     private String content;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "review")
+    @OneToMany(mappedBy = "review")
     @JsonManagedReference
     private List<ReviewComment> comments;
 }
