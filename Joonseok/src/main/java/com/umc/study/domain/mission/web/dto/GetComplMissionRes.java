@@ -2,9 +2,10 @@ package com.umc.study.domain.mission.web.dto;
 
 import java.util.List;
 
-public record GetMissionRes(
-        List<CompletedMission> completed,
-        List<InProgressMission> inProgress
+public record GetComplMissionRes(
+        Integer curPage,
+        Boolean hasNext,
+        List<GetComplMissionRes.CompletedMission> completed
 ) {
 
     public record CompletedMission(
@@ -15,11 +16,4 @@ public record GetMissionRes(
             Integer priceLowerLimit
     ) {}
 
-    public record InProgressMission(
-            Long missionLogId,
-            Integer mileage,
-            Long restaurantId,
-            String restaurantName,
-            Integer priceLowerLimit
-    ) {}
 }
