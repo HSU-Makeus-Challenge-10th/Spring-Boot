@@ -1,6 +1,8 @@
 package com.umc.study.domain.user.web.controller;
 
 import com.umc.study.domain.user.exception.code.UserSuccessCode;
+import com.umc.study.domain.user.service.UserService;
+import com.umc.study.domain.user.web.dto.GetMyPageRes;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    // private final Userservice userService;
+     private final UserService userService;
 
     @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<?>> signIn(
@@ -55,14 +57,17 @@ public class UserController {
                 ));
     }
 
-    @GetMapping("/my")
+    @GetMapping("/my/{userId}")
     public ResponseEntity<ApiResponse<?>> getMyPage(
             // JWT Security Holder에서 추출
+            @PathVariable Long userId
     ) {
         // 서비스 메소드 호출
+        GetMyPageRes response = userService.getMyPage(userId);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ApiResponse.onComplete(UserSuccessCode.MY_PAGE_OK, null));
+                .body(ApiResponse.onComplete(UserSuccessCode.MY_PAGE_OK, response));
     }
 
     @PatchMapping("/my")
