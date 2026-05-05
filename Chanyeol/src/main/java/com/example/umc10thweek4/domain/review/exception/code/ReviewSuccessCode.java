@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum ReviewSuccessCode implements BaseSuccessCode {
 
     OK(HttpStatus.OK,
-            "ASK200_1",
+            "REVIEW200_1",
             "성공적으로 문의를 조회했습니다."),
     ;
 

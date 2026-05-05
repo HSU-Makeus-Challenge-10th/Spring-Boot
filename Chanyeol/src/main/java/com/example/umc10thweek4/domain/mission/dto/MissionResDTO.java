@@ -1,5 +1,7 @@
 package com.example.umc10thweek4.domain.mission.dto;
 
+import com.example.umc10thweek4.domain.mission.enums.MissionStatus;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,13 +35,13 @@ public class MissionResDTO {
                 String title,
                 String store,
                 Integer recognizeAmount,
-                String status,
+                MissionStatus status,
                 Integer missionReward
         ) {}
     }
 
     public record Complete(
-            String status,
+            MissionStatus status,
             String title,
             String text,
             Integer missionReward,
