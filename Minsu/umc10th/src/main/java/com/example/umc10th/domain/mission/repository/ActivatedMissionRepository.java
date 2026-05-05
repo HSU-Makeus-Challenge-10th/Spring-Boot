@@ -16,6 +16,22 @@ public interface ActivatedMissionRepository extends JpaRepository<ActivatedMissi
     @Query("SELECT am FROM ActivatedMission am WHERE am.member.id = :memberId AND am.state = :state AND am.id > :cursor ORDER BY am.id ASC")
     List<ActivatedMission> findByMemberIdAndStateCursor(@Param("memberId") Long memberId, @Param("state") MissionState state, @Param("cursor") Long cursor, Pageable pageable);
 
+    @Query("""
+            SELECT am FROM ActivatedMission am
+            JOIN FETCH am.mission m
+            JOIN FETCH m.store
+            WHERE am.member.id = :memberId
+              AND am.state = :state
+              AND am.id > :cursor
+            ORDER BY am.id ASC
+            """)
+    List<ActivatedMission> findByMemberIdAndStateWithDetailsCursor(
+            @Param("memberId") Long memberId,
+            @Param("state") MissionState state,
+            @Param("cursor") Long cursor,
+            Pageable pageable
+    );
+
     @Query("SELECT COUNT(am) FROM ActivatedMission am WHERE am.mission.store.town.id = :townId AND am.state = 'ONGOING'")
     Long countOngoingByTownId(@Param("townId") Long townId);
 }

@@ -36,22 +36,22 @@ public class MissionService {
 
     public MissionResDTO.MissionPageResult getCompletedMissions(Long cursor, int limit) {
         List<ActivatedMission> list = activatedMissionRepository
-                .findByMemberIdAndStateCursor(TEMP_MEMBER_ID, MissionState.COMPLETED, cursor, PageRequest.of(0, limit));
+                .findByMemberIdAndStateWithDetailsCursor(TEMP_MEMBER_ID, MissionState.COMPLETED, cursor, PageRequest.of(0, limit));
         return MissionConverter.toMissionPageResult(list, limit);
     }
 
     public MissionResDTO.MissionPageResult getOngoingMissions(Long cursor, int limit) {
         List<ActivatedMission> list = activatedMissionRepository
-                .findByMemberIdAndStateCursor(TEMP_MEMBER_ID, MissionState.ONGOING, cursor, PageRequest.of(0, limit));
+                .findByMemberIdAndStateWithDetailsCursor(TEMP_MEMBER_ID, MissionState.ONGOING, cursor, PageRequest.of(0, limit));
         return MissionConverter.toMissionPageResult(list, limit);
     }
 
     public MissionResDTO.AvailableMissionPageResult getAvailableMissions(Long townId, Long cursor, int limit) {
         List<Mission> list;
         if (townId != null) {
-            list = missionRepository.findAvailableByTownCursor(townId, cursor, PageRequest.of(0, limit));
+            list = missionRepository.findAvailableByTownCursorWithStore(townId, cursor, PageRequest.of(0, limit));
         } else {
-            list = missionRepository.findAvailableCursor(cursor, PageRequest.of(0, limit));
+            list = missionRepository.findAvailableCursorWithStore(cursor, PageRequest.of(0, limit));
         }
         return MissionConverter.toAvailableMissionPageResult(list, limit);
     }

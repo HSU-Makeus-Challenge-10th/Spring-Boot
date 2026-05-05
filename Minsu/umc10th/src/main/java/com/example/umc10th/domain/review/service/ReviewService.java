@@ -29,7 +29,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -94,8 +96,18 @@ public class ReviewService {
     public ReviewResDTO.StoreReviewPageResult getStoreReviews(Long storeId, Long cursor, int limit) {
         storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
-        List<Review> list = reviewRepository.findByStoreIdCursor(storeId, cursor, PageRequest.of(0, limit));
-        return ReviewConverter.toStoreReviewPageResult(list, limit);
+        List<Review> list = reviewRepository.findByStoreIdWithDetailsCursor(storeId, cursor, PageRequest.of(0, limit));
+        List<Long> reviewIds = list.stream()
+                .map(Review::getId)
+                .toList();
+        Map<Long, List<String>> imageUrlsByReviewId = reviewIds.isEmpty()
+                ? Map.of()
+                : reviewImageRepository.findAllByReviewIdIn(reviewIds).stream()
+                .collect(Collectors.groupingBy(
+                        reviewImage -> reviewImage.getReview().getId(),
+                        Collectors.mapping(ReviewImage::getImgUrl, Collectors.toList())
+                ));
+        return ReviewConverter.toStoreReviewPageResult(list, imageUrlsByReviewId, limit);
     }
 
     public ReviewResDTO.ReviewImagePageResult getStoreReviewImages(Long storeId, Long cursor, int limit) {
