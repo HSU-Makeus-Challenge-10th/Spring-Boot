@@ -1,5 +1,6 @@
 package com.umc.study.domain.mission.entity;
 
+import com.umc.study.domain.mission.enums.RestaurantType;
 import com.umc.study.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,8 @@ public class Restaurant {
 
     private String streetAddress;
     private String detailedAddress;
+
+    private RestaurantType type;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
