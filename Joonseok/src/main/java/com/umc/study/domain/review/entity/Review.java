@@ -22,7 +22,7 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Integer score;
+    private Double score;
 
     private String content;
 
