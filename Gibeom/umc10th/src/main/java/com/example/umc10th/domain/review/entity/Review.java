@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.review.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.MemberMission;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,10 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_mission_id", unique = true)
+    private MemberMission memberMission;
 
     @Column(name = "score", precision = 3, scale = 2, nullable = false)
     private int score;

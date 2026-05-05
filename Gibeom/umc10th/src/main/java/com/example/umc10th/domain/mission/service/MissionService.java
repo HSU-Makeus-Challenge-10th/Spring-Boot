@@ -13,6 +13,8 @@ import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.domain.review.exception.ReviewException;
+import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,11 @@ public class MissionService {
             throw new MissionException(MissionErrorCode.NOT_COMPLETED);
         }
 
-        Review review = ReviewConverter.toReview(dto, member);
+        if (memberMission.getReview() != null) {
+            throw new ReviewException(ReviewErrorCode.ALREADY_REVIEWED);
+        }
+
+        Review review = ReviewConverter.toReview(dto, member, memberMission);
         Review savedReview = reviewRepository.save(review);
         return ReviewConverter.toWriteReviewResult(savedReview);
     }

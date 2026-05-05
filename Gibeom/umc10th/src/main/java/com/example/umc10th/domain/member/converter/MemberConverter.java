@@ -28,7 +28,7 @@ public class MemberConverter {
 
         return MemberResDTO.HomeResultDto.builder()
                 .point(member.getUserPoint())
-                .region(null)
+                .region(member.getRegion() != null ? member.getRegion().getRegionName() : null)
                 .missions(missionDtos)
                 .hasNext(memberMissions.hasNext())
                 .build();

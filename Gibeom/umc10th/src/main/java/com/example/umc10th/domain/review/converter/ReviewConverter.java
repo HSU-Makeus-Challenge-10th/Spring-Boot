@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.review.converter;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.MemberMission;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
@@ -10,9 +11,10 @@ import java.util.stream.Collectors;
 
 public class ReviewConverter {
 
-    public static Review toReview(ReviewReqDTO.WriteReviewDto dto, Member member) {
+    public static Review toReview(ReviewReqDTO.WriteReviewDto dto, Member member, MemberMission memberMission) {
         return Review.builder()
                 .member(member)
+                .memberMission(memberMission)
                 .score(dto.score())
                 .title(dto.title())
                 .content(dto.content())

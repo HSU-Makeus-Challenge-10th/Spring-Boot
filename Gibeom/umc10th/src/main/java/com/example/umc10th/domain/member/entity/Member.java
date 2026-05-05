@@ -2,6 +2,7 @@ package com.example.umc10th.domain.member.entity;
 
 import com.example.umc10th.domain.member.entity.mapping.MemberFood;
 import com.example.umc10th.domain.member.enums.Gender;
+import com.example.umc10th.domain.store.entity.Region;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,10 @@ public class Member extends BaseEntity{
 
     @Column(name = "email")
     private String email;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberFood> memberFoodList = new ArrayList<>();

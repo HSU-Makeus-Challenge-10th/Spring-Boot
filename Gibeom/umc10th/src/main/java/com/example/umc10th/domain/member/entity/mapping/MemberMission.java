@@ -3,6 +3,7 @@ package com.example.umc10th.domain.member.entity.mapping;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.enums.MissionStatus;
 import com.example.umc10th.domain.mission.entity.Mission;
+import com.example.umc10th.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,5 +40,8 @@ public class MemberMission {
 
     @Column(name = "deadline")
     private Integer deadline;
+
+    @OneToOne(mappedBy = "memberMission")
+    private Review review;
 
 }
