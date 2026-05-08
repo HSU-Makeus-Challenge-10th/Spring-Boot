@@ -3,7 +3,7 @@ package com.umc.study.domain.review.web.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -14,10 +14,10 @@ public class ReviewDetail {
 
     private final String username;
 
-    private final LocalDate createdAt;
+    private final LocalDateTime createdAt;
 
-    private final String score;
+    private final Double score;
 
-    private final String Content;
+    private final String content;
 
 }
