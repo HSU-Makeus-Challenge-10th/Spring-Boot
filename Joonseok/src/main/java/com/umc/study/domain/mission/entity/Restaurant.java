@@ -1,4 +1,30 @@
 package com.umc.study.domain.mission.entity;
 
+import com.umc.study.domain.mission.enums.RestaurantType;
+import com.umc.study.domain.user.entity.User;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private Double longitude;
+    private Double latitude;
+
+    private String streetAddress;
+    private String detailedAddress;
+
+    private RestaurantType type;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -1,4 +1,6 @@
 package com.umc.study.domain.user.enums;
 
-public class Term {
+public enum Role {
+    OWNER,
+    GUEST
 }
