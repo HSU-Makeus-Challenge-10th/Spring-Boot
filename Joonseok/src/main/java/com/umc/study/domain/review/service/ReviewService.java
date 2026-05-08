@@ -46,4 +46,11 @@ public class ReviewService {
 
         return null;
     }
+
+    // find all my review by cursor paging
+    public CursorRes<ReviewDetail, Long> getAllMyReviews() {
+        // 1. query
+
+        // return
+    }
 }
