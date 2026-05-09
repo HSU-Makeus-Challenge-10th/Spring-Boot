@@ -11,7 +11,7 @@ public enum MissionSuccessCode implements BaseSuccessCode {
 
     OK(HttpStatus.OK,
             "MISSION200_1",
-            "미션 조회에 성공했습니다."),
+            "성공적으러 미션을 조회했습니다."),
 
     CHALLENGE_SUCCESS(HttpStatus.CREATED,
             "MISSION201_1",
@@ -20,6 +20,9 @@ public enum MissionSuccessCode implements BaseSuccessCode {
             "MISSION200_2",
                 "미션 상태가 성공적으로 변경되었습니다."
             ),
+    CREATED(HttpStatus.CREATED,
+            "MISSION200_3",
+            "성공적으로 미션을 생성했습니다.")
     ;
 
     private final HttpStatus status;

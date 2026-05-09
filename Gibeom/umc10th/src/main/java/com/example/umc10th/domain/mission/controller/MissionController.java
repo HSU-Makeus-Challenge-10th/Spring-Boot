@@ -1,14 +1,20 @@
 package com.example.umc10th.domain.mission.controller;
 
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
+import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +32,38 @@ public class MissionController {
             @RequestBody ReviewReqDTO.WriteReviewDto dto) {
         BaseSuccessCode code = ReviewSuccessCode.WRITE_SUCCESS;
         return ApiResponse.onSuccess(code, missionService.writeReview(memberId, missionId, dto));
+    }
+    //가게 미션 생성
+    @PostMapping("v1/stores/{storeId}/missions")
+    public ApiResponse<Void>  createMission(
+            @PathVariable Long storeId,
+            @RequestBody @Valid MissionReqDTO.CreateMission dto
+    ){
+        MissionSuccessCode code = MissionSuccessCode.CREATED;
+        return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));
+    }
+
+    //가게 미션들 조회
+    @GetMapping("v1/store/{storeId}/missions")
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMissions(
+            @PathVariable Long storeId,
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
+    ){
+        BaseSuccessCode code = MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code, missionService.getMissions(storeId, pageSize, pageNumber, sort));
+    }
+
+    //내가 진행중인 미션 조회하기
+    @GetMapping("v1/members/{memberId}/missions")
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMemberMissions(
+            @RequestBody Long memberId,
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
+    ){
+        BaseSuccessCode code = MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code, missionService.getMemberMissions(memberId, pageSize, pageNumber, sort));
     }
 }

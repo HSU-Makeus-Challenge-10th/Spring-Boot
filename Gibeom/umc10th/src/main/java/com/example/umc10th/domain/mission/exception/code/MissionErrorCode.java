@@ -11,7 +11,7 @@ public enum MissionErrorCode implements BaseErrorCode {
 
     NOT_FOUND(HttpStatus.NOT_FOUND,
             "MISSION404_1",
-            "해당 미션을 찾을 수 없습니다."),
+            "해당 가게를 찾을 수 없습니다."),
 
     ALREADY_CHALLENGED(HttpStatus.CONFLICT,
             "MISSION409_1",
