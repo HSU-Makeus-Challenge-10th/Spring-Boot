@@ -59,11 +59,7 @@ public class ReviewService {
         }
 
         //다음 커서 계산 (마지막 요소의 id)
-//        nextCursor = reviewList.getContent().getLast().getId() + " : " + reviewList.getContent().getLast.getId();
-        List<Review> content = reviewList.getContent();
-        nextCursor = content.isEmpty() ? null
-                : "id:" + content.get(content.size() - 1).getId();
-
+        nextCursor = reviewList.getContent().getLast().getId() + ":" + reviewList.getContent().getLast().getId();
         // 응답 DTO로 포장하기
         return ReviewConverter.toPagination(
                 reviewList.map(ReviewConverter::toGetReview).toList(),
@@ -105,9 +101,7 @@ public class ReviewService {
             reviewList = reviewRepository.findReviewsByMember_IdOrderByScoreDescIdDesc(memberId, pageRequest);
         }
         //다음 커서 계산
-        List<Review> content = reviewList.getContent();
-        nextCursor = content.isEmpty() ? null
-                : content.get(content.size() - 1).getScore() + ":" + content.get(content.size() - 1).getScore();
+        nextCursor = reviewList.getContent().getLast().getId() + ":" + reviewList.getContent().getLast().getId();
         //응답 DTO로 포장하기
         return ReviewConverter.toPagination(
                 reviewList.map(ReviewConverter::toGetReview).toList(),
