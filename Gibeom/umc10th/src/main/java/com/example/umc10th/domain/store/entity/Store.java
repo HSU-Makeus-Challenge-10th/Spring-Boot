@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.store.entity;
 
+import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.store.entity.mapping.StoreMission;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,12 +16,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "Store")
+@Table(name = "store")
 public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storeId;
+    private Long id;
 
     @Column(name = "storeName", nullable = false)
     private String storeName;
@@ -29,7 +30,7 @@ public class Store {
     private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id", nullable = false)
+    @JoinColumn(name = "region_id")
     private Region region;
 
     @Builder.Default
@@ -38,5 +39,8 @@ public class Store {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<StoreImg>  storeImgs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store")
+    private List<Mission> missions = new ArrayList<>();
 
 }
