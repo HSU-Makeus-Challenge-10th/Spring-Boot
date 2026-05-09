@@ -39,7 +39,7 @@ public class MemberConverter {
                 .missionId(memberMission.getMission().getId())
                 .storeName(null)
                 .storeCategory(null)
-                .rewardPoint(memberMission.getMission().getRewardPoint())
+                .rewardPoint(memberMission.getMission().getPoint())
                 .deadline(null)
                 .status(memberMission.getStatus().name())
                 .build();

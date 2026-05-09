@@ -16,6 +16,8 @@ import com.example.umc10th.domain.mission.entity.Mission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,9 +43,25 @@ public class MemberService {
                 .findActiveMissions(memberId, MissionStatus.ACTIVE, PageRequest.of(page,10));
         return MemberConverter.toHomeResult(member, activeMissions);
     }
+    // Mission  조회
+    public List<MissionResDTO.MissionDto> getMissionsByStatus(
+            Long memberId,
+            MissionStatus status,
+            Integer pageSize,
+            Integer pageNum,
+            String sort
+    ) {
+        Sort sortInfo;
+        if (sort != null){
+            sortInfo = Sort.by(sort);
+        } else {
+            sortInfo = Sort.by("id").descending();
+        }
 
-    public List<MissionResDTO.MissionDto> getMissionsByStatus(Long memberId, MissionStatus status) {
-        List<MemberMission> memberMissions = memberMissionRepository
+        PageRequest pageRequest
+                = PageRequest.of(pageNum, pageSize, sortInfo);
+
+        List <MemberMission> memberMissions = memberMissionRepository
                 .findAllByMember_IdAndStatus(memberId, status);
         List<Mission> missions = memberMissions.stream()
                 .map(MemberMission::getMission)
