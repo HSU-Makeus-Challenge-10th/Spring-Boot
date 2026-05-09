@@ -7,6 +7,8 @@ import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Request;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +20,16 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    //유저의 모든 리뷰 가져오기
+    //유저의 모든 리뷰 가져오기 (Cursor)
     @GetMapping("/v1/members/{memberId}/reviews")
-    public ApiResponse<List<ReviewResDTO.reviewDTO>> getReviews(
-            @PathVariable Long memberId) {
+    public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.getReview>> getMemberReviews(
+            @PathVariable Long memberId,
+            @RequestParam Integer pageSize,
+            @RequestParam String cursor,
+            @RequestParam String query
+    ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        return ApiResponse.onSuccess(code, reviewService.getReviewList(memberId));
+        return ApiResponse.onSuccess(code, reviewService.getMemberReviewsOrderById(memberId,pageSize, cursor, query));
     }
 
 }

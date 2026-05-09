@@ -41,4 +41,31 @@ public class ReviewConverter {
                 .map(ReviewConverter::toReviewDTO)
                 .collect(Collectors.toList());
     }
+
+    //
+    public static ReviewResDTO.getReview toGetReview(
+            Review review
+    ) {
+        return ReviewResDTO.getReview.builder()
+                .reviewId(review.getId())
+                .title(review.getTitle())
+                .content(review.getContent())
+                .build();
+    }
+
+    //페이지네이션 틀 생성
+    public static <T> ReviewResDTO.Pagination<T> toPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+
+    ) {
+        return ReviewResDTO.Pagination.<T>builder()
+                .data(data)
+                .pageSize(pageSize)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .build();
+    }
 }

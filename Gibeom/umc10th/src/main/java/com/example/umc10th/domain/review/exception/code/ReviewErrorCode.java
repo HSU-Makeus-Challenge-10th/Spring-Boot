@@ -17,7 +17,12 @@ public enum ReviewErrorCode implements BaseErrorCode {
     ALREADY_REVIEWED(HttpStatus.CONFLICT,
             "REVIEW409_1",
             "이미 리뷰를 작성한 미션입니다."
-    ),;
+    ),
+    QUERY_NOT_VALID(
+            HttpStatus.BAD_REQUEST,
+            "REVIEW400_1",
+            "잘못된 요청 파라미터입니다."
+    );
     private final HttpStatus status;
     private final String code;
     private final String message;
