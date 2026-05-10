@@ -58,7 +58,7 @@ public class MissionController {
     //내가 진행중인 미션 조회하기
     @GetMapping("v1/members/{memberId}/missions")
     public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMemberMissions(
-            @RequestBody Long memberId,
+            @PathVariable Long memberId,
             @RequestParam Integer pageSize,
             @RequestParam Integer pageNumber,
             @RequestParam(required = false) String sort

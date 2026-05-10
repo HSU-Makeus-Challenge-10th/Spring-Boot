@@ -57,7 +57,7 @@ public class MemberService {
         } else {
             sortInfo = Sort.by("id").descending();
         }
-
+        // PageRequest 클래스를 사용해 Pageable 객체를 인스턴스화
         PageRequest pageRequest
                 = PageRequest.of(pageNum, pageSize, sortInfo);
 

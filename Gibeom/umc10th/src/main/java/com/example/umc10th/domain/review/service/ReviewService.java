@@ -41,7 +41,6 @@ public class ReviewService {
             String[] cursorSplit = cursor.split(":");
             switch (query.toLowerCase()) {
                 case "id":
-                    Long prevCursor = Long.parseLong(cursorSplit[0]); //이거 워크북 코드에 왜 있는지?
                     idCursor = Long.parseLong(cursorSplit[1]);
                     // 멤버의 리뷰들 조회 & where 절에 커서값 기입
                     reviewList = reviewRepository.findReviewsByMember_IdAndIdLessThanOrderByIdDesc(
