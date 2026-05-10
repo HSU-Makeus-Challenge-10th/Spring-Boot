@@ -1,6 +1,9 @@
 package com.example.umc10th.domain.mission.service;
 
+import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
@@ -20,27 +23,25 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MissionService {
-    private final MissionRepository missionRepository;
     private final MemberMissionRepository memberMissionRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional
-    public MissionResDTO.MissionChallengeResult challengeMission(Long missionId, MissionReqDTO.ChallengeDTO request) {
-        Member member = memberRepository.findById(request.memberId()).orElseThrow();
-        Mission mission = missionRepository.findById(missionId).orElseThrow();
+    public MissionResDTO.MissionListResDTO getMemberMissionList(Long memberId, MissionReqDTO.MissionListReqDTO dto) {
 
-        // 도전 테이블 데이터 생성
-        MemberMission memberMission = MissionConverter.toMemberMission(member, mission);
-        return MissionConverter.toMissionChallengeResult(memberMissionRepository.save(memberMission));
+        // DB에서 해당 유저 ID로 데이터 조회
+        Member member=memberRepository.findById(memberId)
+                .orElseThrow(()-> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        // 몇 번재 페이지를, 몇 개씩 가져올지
+        PageRequest pageRequest=PageRequest.of(dto.page(),10);
+
+        // DB에서 해당 멤버와 상태가 일치하는 데이터를 페이징해서 가져옴
+        Page<MemberMission> memberMissionPage=memberMissionRepository.findAllByMemberIdAndStatus(
+                member,
+                dto.status(), // 진행중/완료 선택한 데이터
+                pageRequest
+        );
+        // 컨버터를 이용해서 응답 DTO 생성 & return
+        return MissionConverter.toMissionListDTO(memberMissionPage);
+    }
     }
 
-    public Page<MissionResDTO.MissionSummaryDTO> getMemberMissionList(Long memberId, MissionStatus status, Integer page) {
-        Page<MemberMission> memberMissions = memberMissionRepository.findAllByMemberIdAndStatus(memberId, status, PageRequest.of(page, 10));
-        return memberMissions.map(MissionConverter::toMissionSummaryDTO); // 변환 적용
-    }
-
-    public Page<MissionResDTO.MissionSummaryDTO> getMissionListByRegion(Long regionId, Integer page) {
-        Page<Mission> missions = missionRepository.findAllByRegionId(regionId, PageRequest.of(page, 10));
-        return missions.map(MissionConverter::toMissionSummaryDTO); // 변환 적용
-    }
-}
