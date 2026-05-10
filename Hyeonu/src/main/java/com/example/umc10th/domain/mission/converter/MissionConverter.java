@@ -39,4 +39,30 @@ public class MissionConverter {
                 .isLast(memberMissionPage.isLast())
                 .build();
     }
+
+    // Mission(가게 원본 미션) -> DTO
+    public static MissionResDTO.MissionDetailDTO toMissionDetailDTO(Mission mission){
+        return MissionResDTO.MissionDetailDTO.builder()
+                .storeName(mission.getStore().getName())
+                .reward(mission.getRewardPoint())
+                .missionSpec(mission.getContent())
+                .status(mission.getStatus())
+                .build();
+    }
+
+    // 지역별 미션 목록 변환
+    public static MissionResDTO.RegionMissionListDTO toRegionMissionListDTO(Page<Mission> missionPage) {
+        List<MissionResDTO.MissionDetailDTO> missionDetailDTOList=missionPage.getContent().stream()
+                .map(MissionConverter::toMissionDetailDTO)
+                .collect(Collectors.toList());
+
+        return MissionResDTO.RegionMissionListDTO.builder()
+                .missionList(missionDetailDTOList)
+                .listSize(missionDetailDTOList.size())
+                .totalPage(missionPage.getTotalPages())
+                .totalElements(missionPage.getTotalElements())
+                .isFirst(missionPage.isFirst())
+                .isLast(missionPage.isLast())
+                .build();
+    }
 }
