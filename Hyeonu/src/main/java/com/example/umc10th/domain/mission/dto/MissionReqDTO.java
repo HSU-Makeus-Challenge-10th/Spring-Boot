@@ -13,4 +13,11 @@ public class MissionReqDTO {
         MissionStatus status,
         Integer page
     ){}
+
+    // 홈 화면 가능 미션 목록
+    @Builder
+    public record MyMissionReqDTO(
+            Long regionId,
+            Integer page
+    ){}
 }

@@ -34,4 +34,14 @@ public class MissionResDTO {
             @Schema(description = "미션 상태", example = "CHALLENGING")
             MissionStatus status // 미션 상태
     ){}
+
+    @Builder
+    public record RegionMissionListDTO(
+            List<MissionDetailDTO> missionList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ){}
 }
