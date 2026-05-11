@@ -7,15 +7,13 @@ import java.util.List;
 
 public class AskResDTO {
 
-    @Builder
     public record Create(
             Long askId,
             String askTitle,
             String askType,
-            LocalDateTime createdAt         // ERD: ask_time → createdAt
+            LocalDateTime createdAt
     ) {}
 
-    @Builder
     public record GetList(
             Long askId,
             String askTitle,

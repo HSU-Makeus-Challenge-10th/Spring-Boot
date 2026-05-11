@@ -15,7 +15,7 @@ public class MemberReqDTO {
             @NotBlank String birthday,
             @NotBlank String gender,
             String address,
-            String phone_num,
+            String phoneNum,
             List<String> foodPreferences
     ) {}
 

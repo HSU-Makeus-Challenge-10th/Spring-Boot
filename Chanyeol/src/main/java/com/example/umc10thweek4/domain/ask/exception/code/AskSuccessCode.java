@@ -9,10 +9,10 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum AskSuccessCode implements BaseSuccessCode {
 
-    OK(HttpStatus.OK,
-            "ASK200_1",
-            "성공적으로 문의를 조회했습니다."),
-    ;
+    OK(HttpStatus.OK, "ASK200_1", "요청 성공"),
+    CREATE_SUCCESS(HttpStatus.CREATED, "ASK201_1", "문의 등록 성공"),
+    LIST_SUCCESS(HttpStatus.OK, "ASK202_1", "문의 목록 조회 성공"),
+    DETAIL_SUCCESS(HttpStatus.OK, "ASK203_1", "문의 상세 조회 성공");
 
     private final HttpStatus status;
     private final String code;
