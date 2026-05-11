@@ -36,7 +36,7 @@ public class ReviewController {
                 .body(ApiResponse.onComplete(ReviewSuccessCode.REVIEW_CREATED, null));
     }
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse<?>> getReviews(
             @PathVariable Long userId,
             @RequestParam Integer pageSize,

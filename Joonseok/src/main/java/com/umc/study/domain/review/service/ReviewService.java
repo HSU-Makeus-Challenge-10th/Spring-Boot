@@ -65,13 +65,13 @@ public class ReviewService {
             case "id":
                 long idCursor = Long.parseLong(cursors[0]);
                 found = reviewRepository.findReviewDetailByUserId(userId, idCursor, pageRequest);
-                nextCursor = String.valueOf(found.getLast().getReviewId());
+                nextCursor = String.valueOf(found.get(Math.min(pageSize, found.size()) - 1).getReviewId());
                 break;
             case "score":
                 double lastScore = Double.parseDouble(cursors[0]);
                 long lastId = Long.parseLong(cursors[1]);
                 found = reviewRepository.findReviewDetailByUserIdOrderByScore(userId, lastScore, lastId, pageRequest);
-                ReviewDetail last = found.getLast();
+                ReviewDetail last = found.get(Math.min(pageSize, found.size()) - 1);
                 nextCursor = last.getScore() + ":" + last.getReviewId();
                 break;
             default:
