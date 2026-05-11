@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
+import java.util.List;
+
 public class StoreResDTO {
 
     @Builder
@@ -48,5 +50,38 @@ public class StoreResDTO {
             @JsonProperty("ongoing_mission_count")
             @Schema(description = "진행중인 미션 수", example = "7")
             Long ongoingMissionCount
+    ) {}
+
+    @Builder
+    public record StoreListItem(
+            @JsonProperty("store_id")
+            @Schema(description = "가게 ID", example = "1")
+            String storeId,
+            @Schema(description = "가게 이름", example = "반이학생마라탕")
+            String name,
+            @JsonProperty("food_type")
+            @Schema(description = "음식 종류", example = "중식당")
+            String foodType,
+            @JsonProperty("detail_address")
+            @Schema(description = "상세 주소", example = "서울시 성북구 안암동5가 102-60")
+            String detailAddress,
+            @JsonProperty("is_open")
+            @Schema(description = "영업 여부", example = "true")
+            Boolean isOpen,
+            @JsonProperty("img_url")
+            @Schema(description = "대표 이미지 URL", example = "https://example.com/store.jpg")
+            String imgUrl,
+            @JsonProperty("distance_km")
+            @Schema(description = "거리(km)", example = "0.0")
+            Double distanceKm
+    ) {}
+
+    @Builder
+    public record StoreList(
+            List<StoreListItem> stores,
+            @Schema(description = "다음 페이지 커서", example = "10")
+            String nextCursor,
+            @Schema(description = "다음 페이지 존재 여부", example = "false")
+            Boolean hasNext
     ) {}
 }

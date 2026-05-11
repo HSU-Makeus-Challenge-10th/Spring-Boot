@@ -3,7 +3,9 @@ package com.example.umc10th.domain.member.service;
 import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.Term;
 import com.example.umc10th.domain.member.entity.mapping.MemberFood;
 import com.example.umc10th.domain.member.entity.mapping.MemberTerm;
 import com.example.umc10th.domain.member.enums.Gender;
@@ -49,7 +51,7 @@ public class MemberService {
 
     @Transactional
     public MemberResDTO.SignUpInfo signUp(MemberReqDTO.SignUp dto) {
-        if (memberRepository.existsByEmail(dto.email())) {
+        if (memberRepository.existsActiveByEmail(dto.email())) {
             throw new MemberException(MemberErrorCode.MEMBER_ALREADY_EXISTS);
         }
 
@@ -67,26 +69,37 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        if (dto.foodTypeIds() != null) {
-            List<MemberFood> memberFoods = dto.foodTypeIds().stream()
-                    .map(foodId -> foodRepository.findById(foodId)
-                            .map(food -> MemberFood.builder().member(member).food(food).build())
-                            .orElse(null))
-                    .filter(mf -> mf != null)
+        if (dto.foodTypeIds() != null && !dto.foodTypeIds().isEmpty()) {
+            List<Food> foods = foodRepository.findAllById(dto.foodTypeIds());
+            if (foods.size() != dto.foodTypeIds().size()) {
+                throw new MemberException(MemberErrorCode.FOOD_NOT_FOUND);
+            }
+
+            List<MemberFood> memberFoods = foods.stream()
+                    .map(food -> MemberFood.builder().member(member).food(food).build())
                     .toList();
             memberFoodRepository.saveAll(memberFoods);
         }
 
-        if (dto.termsIds() != null) {
-            List<MemberTerm> memberTerms = dto.termsIds().stream()
-                    .map(termId -> termRepository.findById(termId)
-                            .map(term -> MemberTerm.builder().member(member).term(term).agreedAt(LocalDateTime.now()).build())
-                            .orElse(null))
-                    .filter(mt -> mt != null)
+        if (dto.termsIds() != null && !dto.termsIds().isEmpty()) {
+            List<Term> terms = termRepository.findAllById(dto.termsIds());
+            if (terms.size() != dto.termsIds().size()) {
+                throw new MemberException(MemberErrorCode.TERM_NOT_FOUND);
+            }
+
+            List<MemberTerm> memberTerms = terms.stream()
+                    .map(term -> MemberTerm.builder().member(member).term(term).agreedAt(LocalDateTime.now()).build())
                     .toList();
             memberTermRepository.saveAll(memberTerms);
         }
 
         return MemberConverter.toSignUpInfo(member);
+    }
+
+    @Transactional
+    public void deleteAccount(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        member.withdraw();
     }
 }

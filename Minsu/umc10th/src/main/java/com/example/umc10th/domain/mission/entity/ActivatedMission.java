@@ -2,6 +2,8 @@ package com.example.umc10th.domain.mission.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.enums.MissionState;
+import com.example.umc10th.domain.mission.exception.MissionException;
+import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,6 +45,9 @@ public class ActivatedMission extends BaseEntity {
     private String approverCode;
 
     public void complete() {
+        if (this.state == MissionState.COMPLETED) {
+            throw new MissionException(MissionErrorCode.ALREADY_COMPLETED);
+        }
         this.state = MissionState.COMPLETED;
         this.completedAt = LocalDateTime.now();
     }

@@ -4,7 +4,9 @@ import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.entity.ReviewImage;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ReviewConverter {
 
@@ -47,6 +49,10 @@ public class ReviewConverter {
     public static ReviewResDTO.StoreReviewItem toStoreReviewItem(Review review) {
         List<String> imgUrls = review.getImages().stream()
                 .map(ReviewImage::getImgUrl).toList();
+        return toStoreReviewItem(review, imgUrls);
+    }
+
+    public static ReviewResDTO.StoreReviewItem toStoreReviewItem(Review review, List<String> imgUrls) {
         ReviewResDTO.OwnerReply ownerReply = review.getComment() != null
                 ? ReviewResDTO.OwnerReply.builder().body(review.getComment().getBody()).build()
                 : null;
@@ -66,6 +72,25 @@ public class ReviewConverter {
         String nextCursor = list.isEmpty() ? null : String.valueOf(list.get(list.size() - 1).getId());
         return ReviewResDTO.StoreReviewPageResult.builder()
                 .reviews(list.stream().map(ReviewConverter::toStoreReviewItem).toList())
+                .nextCursor(nextCursor)
+                .hasNext(hasNext)
+                .build();
+    }
+
+    public static ReviewResDTO.StoreReviewPageResult toStoreReviewPageResult(
+            List<Review> list,
+            Map<Long, List<String>> imageUrlsByReviewId,
+            int limit
+    ) {
+        boolean hasNext = list.size() == limit;
+        String nextCursor = list.isEmpty() ? null : String.valueOf(list.get(list.size() - 1).getId());
+        return ReviewResDTO.StoreReviewPageResult.builder()
+                .reviews(list.stream()
+                        .map(review -> toStoreReviewItem(
+                                review,
+                                imageUrlsByReviewId.getOrDefault(review.getId(), Collections.emptyList())
+                        ))
+                        .toList())
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
                 .build();

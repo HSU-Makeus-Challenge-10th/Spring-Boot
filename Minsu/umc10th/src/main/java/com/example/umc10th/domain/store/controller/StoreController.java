@@ -19,6 +19,16 @@ public class StoreController {
 
     private final StoreService storeService;
 
+    @GetMapping("")
+    @Operation(summary = "가게 전체 조회 (커서 페이징)")
+    public ApiResponse<StoreResDTO.StoreList> getStores(
+            @RequestParam Long townId,
+            @RequestParam Long foodTypeId,
+            @RequestParam(defaultValue = "0") Long cursor,
+            @RequestParam(defaultValue = "10") int limit) {
+        return ApiResponse.onSuccess(StoreSuccessCode.OK, storeService.getStores(townId, foodTypeId, cursor, limit));
+    }
+
     @GetMapping("/{storeId}")
     @Operation(summary = "가게 단일 조회")
     public ApiResponse<StoreResDTO.StoreInfo> getStore(@PathVariable Long storeId) {

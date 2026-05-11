@@ -28,6 +28,9 @@ public class Store extends BaseEntity {
     @Column(name = "food_type")
     private String foodType;
 
+    @Column(name = "food_type_id")
+    private Long foodTypeId;
+
     @Column(name = "detail_address")
     private String detailAddress;
 

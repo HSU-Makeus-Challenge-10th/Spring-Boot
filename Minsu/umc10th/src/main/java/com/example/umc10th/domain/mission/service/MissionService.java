@@ -19,9 +19,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,25 +33,26 @@ public class MissionService {
     private final MemberRepository memberRepository;
 
     private static final Long TEMP_MEMBER_ID = 1L;
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     public MissionResDTO.MissionPageResult getCompletedMissions(Long cursor, int limit) {
         List<ActivatedMission> list = activatedMissionRepository
-                .findByMemberIdAndStateCursor(TEMP_MEMBER_ID, MissionState.COMPLETED, cursor, PageRequest.of(0, limit));
+                .findByMemberIdAndStateWithDetailsCursor(TEMP_MEMBER_ID, MissionState.COMPLETED, cursor, PageRequest.of(0, limit));
         return MissionConverter.toMissionPageResult(list, limit);
     }
 
     public MissionResDTO.MissionPageResult getOngoingMissions(Long cursor, int limit) {
         List<ActivatedMission> list = activatedMissionRepository
-                .findByMemberIdAndStateCursor(TEMP_MEMBER_ID, MissionState.ONGOING, cursor, PageRequest.of(0, limit));
+                .findByMemberIdAndStateWithDetailsCursor(TEMP_MEMBER_ID, MissionState.ONGOING, cursor, PageRequest.of(0, limit));
         return MissionConverter.toMissionPageResult(list, limit);
     }
 
     public MissionResDTO.AvailableMissionPageResult getAvailableMissions(Long townId, Long cursor, int limit) {
         List<Mission> list;
         if (townId != null) {
-            list = missionRepository.findAvailableByTownCursor(townId, cursor, PageRequest.of(0, limit));
+            list = missionRepository.findAvailableByTownCursorWithStore(townId, cursor, PageRequest.of(0, limit));
         } else {
-            list = missionRepository.findAvailableCursor(cursor, PageRequest.of(0, limit));
+            list = missionRepository.findAvailableCursorWithStore(cursor, PageRequest.of(0, limit));
         }
         return MissionConverter.toAvailableMissionPageResult(list, limit);
     }
@@ -68,7 +69,7 @@ public class MissionService {
             throw new MissionException(MissionErrorCode.MISSION_ALREADY_STARTED);
         }
 
-        String approverCode = String.valueOf((int) (Math.random() * 900000) + 100000);
+        String approverCode = generateApproverCode();
 
         ActivatedMission am = ActivatedMission.builder()
                 .member(member)
@@ -91,7 +92,7 @@ public class MissionService {
             throw new MissionException(MissionErrorCode.INVALID_APPROVER_CODE);
         }
 
-        am.complete();
+        am.complete(); // Dirty Checking: 트랜잭션 종료 시 변경된 state/completedAt이 UPDATE 된다.
         return MissionConverter.toActivatedMissionInfo(am);
     }
 
@@ -101,5 +102,9 @@ public class MissionService {
         return MissionResDTO.ApproverCodeInfo.builder()
                 .approverCode(am.getApproverCode())
                 .build();
+    }
+
+    private String generateApproverCode() {
+        return String.format("%06d", SECURE_RANDOM.nextInt(1_000_000));
     }
 }

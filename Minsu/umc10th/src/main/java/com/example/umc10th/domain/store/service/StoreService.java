@@ -10,8 +10,10 @@ import com.example.umc10th.domain.region.repository.TownRepository;
 import com.example.umc10th.domain.store.converter.StoreConverter;
 import com.example.umc10th.domain.store.dto.StoreResDTO;
 import com.example.umc10th.domain.store.entity.Store;
+import com.example.umc10th.domain.store.entity.StoreImage;
 import com.example.umc10th.domain.store.exception.StoreException;
 import com.example.umc10th.domain.store.exception.code.StoreErrorCode;
+import com.example.umc10th.domain.store.repository.StoreImageRepository;
 import com.example.umc10th.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -29,13 +31,27 @@ public class StoreService {
     private final MissionRepository missionRepository;
     private final ActivatedMissionRepository activatedMissionRepository;
     private final TownRepository townRepository;
+    private final StoreImageRepository storeImageRepository;
 
     public StoreResDTO.StoreInfo getStoreById(Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
         Double avgRating = storeRepository.findAvgRatingByStoreId(storeId);
         Long reviewCount = storeRepository.countReviewsByStoreId(storeId);
-        return StoreConverter.toStoreInfo(store, avgRating, reviewCount);
+        String imgUrl = storeImageRepository.findFirstByStoreIdOrderByIdAsc(storeId)
+                .map(StoreImage::getImgUrl)
+                .orElse(null);
+        return StoreConverter.toStoreInfo(store, avgRating, reviewCount, imgUrl);
+    }
+
+    public StoreResDTO.StoreList getStores(Long townId, Long foodTypeId, Long cursor, int limit) {
+        List<Store> stores = storeRepository.findByTownAndFoodTypeCursor(
+                townId,
+                foodTypeId,
+                cursor,
+                PageRequest.of(0, limit)
+        );
+        return StoreConverter.toStoreList(stores, limit);
     }
 
     public MissionResDTO.StoreMissionPageResult getStoreMissions(Long storeId, Long cursor, int limit) {

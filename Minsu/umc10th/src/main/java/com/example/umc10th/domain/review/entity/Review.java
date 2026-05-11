@@ -41,4 +41,13 @@ public class Review extends BaseEntity {
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private ReviewComment comment;
+
+    public void update(Double rating, String body) {
+        if (rating != null) {
+            this.rating = rating;
+        }
+        if (body != null) {
+            this.body = body;
+        }
+    }
 }
