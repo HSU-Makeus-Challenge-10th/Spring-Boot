@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "member_terms") // ERD 기준 테이블명
+@Table(name = "member_terms")
 public class MemberTerm extends BaseEntity {
 
     @Id
