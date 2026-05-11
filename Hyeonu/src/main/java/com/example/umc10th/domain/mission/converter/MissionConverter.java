@@ -1,10 +1,12 @@
 package com.example.umc10th.domain.mission.converter;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.store.entity.Store;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class MissionConverter {
     public static MissionResDTO.MissionDetailDTO toMissionDetailDTO(MemberMission memberMission){
         return MissionResDTO.MissionDetailDTO.builder()
                 .storeName(memberMission.getMission().getStore().getName())
-                .reward(memberMission.getMission().getRewardPoint())
-                .missionSpec(memberMission.getMission().getContent())
+                .rewardPoint(memberMission.getMission().getRewardPoint())
+                .content(memberMission.getMission().getContent())
                 .status(memberMission.getStatus())
                 .build();
     }
@@ -44,8 +46,8 @@ public class MissionConverter {
     public static MissionResDTO.MissionDetailDTO toMissionDetailDTO(Mission mission){
         return MissionResDTO.MissionDetailDTO.builder()
                 .storeName(mission.getStore().getName())
-                .reward(mission.getRewardPoint())
-                .missionSpec(mission.getContent())
+                .rewardPoint(mission.getRewardPoint())
+                .content(mission.getContent())
                 .status(mission.getStatus())
                 .build();
     }
@@ -63,6 +65,46 @@ public class MissionConverter {
                 .totalElements(missionPage.getTotalElements())
                 .isFirst(missionPage.isFirst())
                 .isLast(missionPage.isLast())
+                .build();
+    }
+
+    //가게 미션 생성
+    public static Mission toMission(
+            Store store,
+            MissionReqDTO.CreateMission dto
+    ){
+        return Mission.builder()
+                .store(store)
+                .status(dto.status())
+                .rewardPoint(dto.rewardPoint())
+                .deadline(dto.deadline())
+                .content(dto.content())
+                .build();
+    }
+
+    // 가게 내 미션 조회
+    public static MissionResDTO.GetMission toGetMission(Mission mission) {
+
+        return MissionResDTO.GetMission.builder()
+                .status(mission.getStatus())
+                .rewardPoint(mission.getRewardPoint())
+                .missionId((mission.getId()))
+                .content(mission.getContent())
+                .build();
+    }
+    // 페이지네이션 틀 생성
+    public static <T> MissionResDTO.Pagination<T>toPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+
+    ){
+        return MissionResDTO.Pagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
                 .build();
     }
 }
