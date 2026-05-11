@@ -8,7 +8,9 @@ import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.MemberSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +42,25 @@ public class MissionController {
         return ApiResponse.onSuccess(MissionSuccessCode.OK,missionService.getRegionMissionList(regionId,dto));
     }
 
+    // 가게 미션 생성
+    @PostMapping("/stores/{storeId}/missions")
+    public ApiResponse<Void> createMission(
+            @PathVariable Long storeId,
+            @RequestBody @Valid MissionReqDTO.CreateMission dto // Valid 검증 어노테이션떄매 사용
+    ){
+        BaseSuccessCode code=MissionSuccessCode.CREATED;
+        return ApiResponse.onSuccess(code,missionService.createMission(storeId,dto));
+    }
 
+    // 가게 내 미션들 조회
+    @GetMapping("/stores/{storeId}/missions")
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>>getMissions(
+            @PathVariable Long storeId,
+            @RequestParam Integer pageSize, // 한 페이지에 몇개 보여줄지
+            @RequestParam String cursor,
+            @RequestParam String query
+    ){
+        BaseSuccessCode code=MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code,missionService.getMissions(storeId,pageSize,cursor,query));
+    }
 }
