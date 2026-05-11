@@ -25,13 +25,9 @@ public class MissionResDTO {
     // 미션 정보
     @Builder
     public record MissionDetailDTO(
-            @Schema(description = "가게 이름", example = "요아정")
             String storeName, // 가게 이름
-            @Schema(description = "미션 보상 포인트", example = "500")
-            Integer reward, // 보상
-            @Schema(description = "미션 내용", example = "요거트 아이스크림 1개 먹기")
-            String missionSpec, // 미션 내용
-            @Schema(description = "미션 상태", example = "CHALLENGING")
+            Integer rewardPoint, // 보상
+            String content, // 미션 내용
             MissionStatus status // 미션 상태
     ){}
 
@@ -43,5 +39,23 @@ public class MissionResDTO {
             Long totalElements,
             Boolean isFirst,
             Boolean isLast
+    ){}
+
+    // 가게 내 매션 조회
+    @Builder
+    public record GetMission(
+            Long missionId,
+            Integer rewardPoint,
+            MissionStatus status,
+            String content
+    ){}
+
+    // 페이지네이션 틀
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
     ){}
 }
