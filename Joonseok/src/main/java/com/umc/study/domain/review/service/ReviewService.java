@@ -57,7 +57,7 @@ public class ReviewService {
     // find all my review by cursor paging
     public CursorRes<ReviewDetail, Long> getAllMyReviews(Long userId, String[] cursors, String query, int pageSize) {
 
-        PageRequest pageRequest = PageRequest.of(0, pageSize);
+        PageRequest pageRequest = PageRequest.of(0, pageSize + 1);
         long idCursor;
         List<ReviewDetail> found;
         switch(query.toLowerCase()) {
