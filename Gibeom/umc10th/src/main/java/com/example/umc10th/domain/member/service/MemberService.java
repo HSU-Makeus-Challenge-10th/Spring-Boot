@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,12 +56,10 @@ public class MemberService {
         } else {
             sortInfo = Sort.by("id").descending();
         }
-        // PageRequest 클래스를 사용해 Pageable 객체를 인스턴스화
-        PageRequest pageRequest
-                = PageRequest.of(pageNum, pageSize, sortInfo);
+        PageRequest pageRequest = PageRequest.of(pageNum, pageSize, sortInfo);
 
-        List <MemberMission> memberMissions = memberMissionRepository
-                .findAllByMember_IdAndStatus(memberId, status);
+        Page<MemberMission> memberMissions = memberMissionRepository
+                .findAllByMember_IdAndStatus(memberId, status, pageRequest);
         List<Mission> missions = memberMissions.stream()
                 .map(MemberMission::getMission)
                 .collect(Collectors.toList());
