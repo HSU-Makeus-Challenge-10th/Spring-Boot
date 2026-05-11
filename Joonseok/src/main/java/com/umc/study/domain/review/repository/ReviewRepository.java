@@ -20,12 +20,13 @@ select new com.umc.study.domain.review.web.dto.ReviewDetail(
     rv.content
 ) from Review rv
 where rv.user.id = :userId
-    and rv.id < :cursor
-order by rv.score desc
+    and (rv.score < :lastScore or (rv.score = :lastScore and rv.id < :lastId))
+order by rv.score desc, rv.id desc
 """)
     List<ReviewDetail> findReviewDetailByUserIdOrderByScore(
             @Param("userId") Long userId,
-            @Param("cursor") Long cursor,
+            @Param("lastScore") Double lastScore,
+            @Param("lastId") Long lastId,
             Pageable pageable);
 
     @Query("""

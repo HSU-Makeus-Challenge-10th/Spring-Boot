@@ -55,38 +55,29 @@ public class ReviewService {
     }
 
     // find all my review by cursor paging
-    public CursorRes<ReviewDetail, Long> getAllMyReviews(Long userId, String[] cursors, String query, int pageSize) {
+    public CursorRes<ReviewDetail, String> getAllMyReviews(Long userId, String[] cursors, String query, int pageSize) {
 
         PageRequest pageRequest = PageRequest.of(0, pageSize + 1);
-        long idCursor;
         List<ReviewDetail> found;
-        switch(query.toLowerCase()) {
-            // 1. set Cursor
-            case "id":
-                idCursor = Long.parseLong(cursors[1]);
+        String nextCursor;
 
-                found = reviewRepository.findReviewDetailByUserId(
-                        userId,
-                        idCursor,
-                        pageRequest
-                );
+        switch (query.toLowerCase()) {
+            case "id":
+                long idCursor = Long.parseLong(cursors[0]);
+                found = reviewRepository.findReviewDetailByUserId(userId, idCursor, pageRequest);
+                nextCursor = String.valueOf(found.getLast().getReviewId());
                 break;
             case "score":
-                idCursor = Long.parseLong(cursors[1]);
-
-                found = reviewRepository.findReviewDetailByUserIdOrderByScore(
-                        userId,
-                        idCursor,
-                        pageRequest
-                );
+                double lastScore = Double.parseDouble(cursors[0]);
+                long lastId = Long.parseLong(cursors[1]);
+                found = reviewRepository.findReviewDetailByUserIdOrderByScore(userId, lastScore, lastId, pageRequest);
+                ReviewDetail last = found.getLast();
+                nextCursor = last.getScore() + ":" + last.getReviewId();
                 break;
             default:
                 throw new IllegalReviewTypeException();
         }
 
-        Long nextCursor = found.getLast().getReviewId();
-
-        // return
         return CursorRes.of(nextCursor, pageSize, found);
     }
 }

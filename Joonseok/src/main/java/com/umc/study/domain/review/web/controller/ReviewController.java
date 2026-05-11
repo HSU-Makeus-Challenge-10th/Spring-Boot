@@ -50,7 +50,7 @@ public class ReviewController {
         if(pageSize <=0)
             throw new IllegalArgumentException("pageSize 값은 0 이하일 수 없습니다.");
 
-        CursorRes<ReviewDetail, Long> response = reviewService.getAllMyReviews(userId, extract(cursor), query, pageSize);
+        CursorRes<ReviewDetail, String> response = reviewService.getAllMyReviews(userId, extract(cursor), query, pageSize);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
