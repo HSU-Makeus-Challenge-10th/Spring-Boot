@@ -2,5 +2,6 @@ package com.study.UMC10.domain.user.enums;
 
 public enum Gender {
     MALE,
-    FEMALE
+    FEMALE,
+    NONE
 }
