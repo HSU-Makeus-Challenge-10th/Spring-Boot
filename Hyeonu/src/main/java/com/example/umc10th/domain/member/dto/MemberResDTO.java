@@ -2,14 +2,20 @@ package com.example.umc10th.domain.member.dto;
 
 import lombok.Builder;
 
+import java.time.LocalDate;
+
 public class MemberResDTO {
 
     @Builder
     public record GetInfo(
             String name,
-            String profileUrl,
-            String email,
+            Enum gender,
+            LocalDate birth,
+            Enum address,
+            String detailAddress,
             String phoneNumber,
-            Integer point
+            String email,
+            Integer point,
+            Enum status
     ){}
 }

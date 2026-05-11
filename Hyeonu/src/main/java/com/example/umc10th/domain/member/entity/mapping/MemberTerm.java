@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.member.entity.mapping;
 
-import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.Term;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="member_food")
-public class MemberFood {
+@Table(name="member_term")
+public class MemberTerm {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -25,6 +25,6 @@ public class MemberFood {
     private Member member;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="food_id")
-    private Food food;
+    @JoinColumn(name="term_id")
+    private Term term;
 }

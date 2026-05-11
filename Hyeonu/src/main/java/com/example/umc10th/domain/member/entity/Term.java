@@ -1,6 +1,6 @@
 package com.example.umc10th.domain.member.entity;
 
-import com.example.umc10th.domain.member.enums.FoodName;
+import com.example.umc10th.domain.member.enums.TermName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="food")
-public class Food {
+@Table(name="term")
+public class Term {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,5 +21,5 @@ public class Food {
 
     @Column(name="name")
     @Enumerated(EnumType.STRING)
-    private FoodName name;
+    private TermName name;
 }
