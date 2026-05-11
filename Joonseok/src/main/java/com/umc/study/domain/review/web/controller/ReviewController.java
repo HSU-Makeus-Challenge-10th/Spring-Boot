@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
@@ -36,6 +36,7 @@ public class ReviewController {
                 .body(ApiResponse.onComplete(ReviewSuccessCode.REVIEW_CREATED, null));
     }
 
+    @GetMapping
     public ResponseEntity<ApiResponse<?>> getReviews(
             @PathVariable Long userId,
             @RequestParam Integer pageSize,
