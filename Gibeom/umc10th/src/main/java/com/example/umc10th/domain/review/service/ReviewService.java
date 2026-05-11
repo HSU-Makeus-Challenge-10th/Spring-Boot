@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-
+    //id 페이지네이션
     public ReviewResDTO.Pagination<ReviewResDTO.getReview> getMemberReviewsOrderById(
             Long memberId,
             Integer pageSize,
@@ -57,8 +57,11 @@ public class ReviewService {
             reviewList = reviewRepository.findReviewsByMember_IdOrderByIdDesc(memberId, pageRequest);
         }
 
-        //다음 커서 계산 (마지막 요소의 id)
-        nextCursor = reviewList.getContent().getLast().getId() + ":" + reviewList.getContent().getLast().getId();
+        List<Review> content = reviewList.getContent();
+        nextCursor = (reviewList.hasNext() && !content.isEmpty())
+                ? content.getLast().getId() + ":" + content.getLast().getId()
+                : null;
+
         // 응답 DTO로 포장하기
         return ReviewConverter.toPagination(
                 reviewList.map(ReviewConverter::toGetReview).toList(),
@@ -85,11 +88,13 @@ public class ReviewService {
                 case "score":
                     // 커서 타입 변환
                     int scoreCursor = Integer.parseInt(cursorSplit[0]);
+                    int idCursor = Integer.parseInt(cursorSplit[1]);
 
                     //리뷰들 조회 & where절에 커서 값 기입
                     reviewList = reviewRepository.findReviewsByScoreCursor(
                             memberId,
                             scoreCursor,
+                            idCursor,
                             pageRequest);
                     break;
                 default:
@@ -99,8 +104,11 @@ public class ReviewService {
             //커서 없이 조회
             reviewList = reviewRepository.findReviewsByMember_IdOrderByScoreDescIdDesc(memberId, pageRequest);
         }
-        //다음 커서 계산
-        nextCursor = reviewList.getContent().getLast().getId() + ":" + reviewList.getContent().getLast().getId();
+        List<Review> content = reviewList.getContent();
+        nextCursor = (reviewList.hasNext() && !content.isEmpty())
+                ? content.getLast().getScore() + ":" + content.getLast().getId()
+                : null;
+
         //응답 DTO로 포장하기
         return ReviewConverter.toPagination(
                 reviewList.map(ReviewConverter::toGetReview).toList(),

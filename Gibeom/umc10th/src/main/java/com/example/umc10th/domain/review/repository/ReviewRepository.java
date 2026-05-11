@@ -29,6 +29,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Slice<Review> findReviewsByScoreCursor(
             @Param("memberId") Long memberId,
             @Param("scoreCursor") int scoreCursor,
+            @Param("idCursor")  int idCursor,
             Pageable pageable
     );
 }
