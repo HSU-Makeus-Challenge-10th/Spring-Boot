@@ -15,6 +15,8 @@ import com.example.umc10th.domain.review.exception.ReviewException;
 import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import com.example.umc10th.domain.store.entity.Store;
+import com.example.umc10th.domain.store.exception.StoreException;
+import com.example.umc10th.domain.store.exception.code.StoreErrorCode;
 import com.example.umc10th.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,11 +37,21 @@ public class ReviewService {
     // 리뷰 작성
     @Transactional
     public ReviewResDTO.CreateReviewResult createReviewResult(Long storeId, ReviewReqDTO.CreateReview dto) {
-        // DB에서 해당 가게 ID로 데이터 조회
-        Review review=reviewRepository.findById(storeId)
-                .orElseThrow(()-> new ReviewException(ReviewErrorCode.REVIEW_NOT_CREATED));
-        // 컨버터를 이용해서 응답 DTO 생성 & return
-        return ReviewConverter.toCreateReviewResult(review);
+        // 리뷰를 달 가게가 있는지 확인
+        Store store=storeRepository.findById(storeId)
+                .orElseThrow(()->new StoreException(StoreErrorCode.STORE_NOT_FOUND));
+
+        // 리뷰를 쓰는 멤버가 있는지 확인
+        Member member=memberRepository.findById(dto.memberId())
+                .orElseThrow(()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // 찾아온 가게와 멤버 정보를 엮어서 리뷰 객체 생성
+        Review review=ReviewConverter.toReview(dto,member,store);
+
+        // db저장
+        Review savedReview=reviewRepository.save(review);
+
+        return ReviewConverter.toCreateReviewResult(savedReview);
     }
 
 }
