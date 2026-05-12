@@ -79,7 +79,11 @@ public class ReviewService {
      * 작성한 리뷰 조회
      */
     public ReviewResDTO.Pagination<ReviewResDTO.GetReviewList> getMyReviews(
-            Long memberId, Integer pageSize, String cursor) {
+            Long memberId, Integer pageSize, String cursor, ReviewReqDTO.SortType sortType) {
+
+        if (sortType == null) {
+            sortType = ReviewReqDTO.SortType.ID;   // 기본: 최신순
+        }
 
         Long cursorId = null;
         if (cursor != null && !cursor.trim().isEmpty()) {
@@ -91,11 +95,17 @@ public class ReviewService {
         }
 
         // Pageable 생성 (한 개 더 조회해서 hasNext 판단)
-        Slice<Review> slice = reviewRepository.findMyReviews(
-                memberId,
-                cursorId,
-                PageRequest.of(0, pageSize + 1)
-        );
+        Slice<Review> slice;
+
+        if (sortType == ReviewReqDTO.SortType.RATING) {
+            // 별점 높은 순
+            slice = reviewRepository.findMyReviewsOrderByRating(
+                    memberId, cursorId, PageRequest.of(0, pageSize + 1));
+        } else {
+            // 최신순
+            slice = reviewRepository.findMyReviews(
+                    memberId, cursorId, PageRequest.of(0, pageSize + 1));
+        }
 
         List<Review> reviews = slice.getContent();
         boolean hasNext = reviews.size() > pageSize;
@@ -104,10 +114,9 @@ public class ReviewService {
         List<Review> resultList = hasNext ? reviews.subList(0, pageSize) : reviews;
 
         // nextCursor 생성
-        String nextCursor = null;
-        if (hasNext && !resultList.isEmpty()) {
-            nextCursor = String.valueOf(resultList.get(resultList.size() - 1).getId());
-        }
+        String nextCursor = hasNext && !resultList.isEmpty()
+                ? String.valueOf(resultList.get(resultList.size() - 1).getId())
+                : null;
 
         List<ReviewResDTO.GetReviewList> data = resultList.stream()
                 .map(ReviewConverter::toGetListRes)

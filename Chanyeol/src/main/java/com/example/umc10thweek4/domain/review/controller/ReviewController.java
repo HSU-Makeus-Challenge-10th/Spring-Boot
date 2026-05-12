@@ -34,9 +34,10 @@ public class ReviewController {
     public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReviewList>> getMyReviews(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String cursor) {   // cursor = "reviewId:createdAt" 형태
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false) ReviewReqDTO.SortType sort) {   // cursor = "reviewId:createdAt" 형태
 
         return ApiResponse.onSuccess(ReviewSuccessCode.OK,
-                reviewService.getMyReviews(userId, pageSize, cursor));
+                reviewService.getMyReviews(userId, pageSize, cursor, sort));
     }
 }
