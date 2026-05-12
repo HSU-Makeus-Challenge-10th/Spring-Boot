@@ -54,7 +54,7 @@ public class MissionController {
     }
 
     //가게 미션들 조회 (오프셋 기반)
-    @GetMapping("v1/store/{storeId}/missions")
+    @GetMapping("v1/stores/{storeId}/missions")
     public ResponseEntity<ApiResponse<Page<MissionResDTO.GetMission>>> getMissions(
             @PathVariable Long storeId,
             @RequestParam Integer pageSize,

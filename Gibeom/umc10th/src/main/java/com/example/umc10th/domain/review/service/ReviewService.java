@@ -87,8 +87,8 @@ public class ReviewService {
             switch (query.toLowerCase()) {
                 case "score":
                     // 커서 타입 변환
-                    int scoreCursor = Integer.parseInt(cursorSplit[0]);
-                    int idCursor = Integer.parseInt(cursorSplit[1]);
+                    long scoreCursor = Long.parseLong(cursorSplit[0]);
+                    long idCursor = Long.parseLong(cursorSplit[1]);
 
                     //리뷰들 조회 & where절에 커서 값 기입
                     reviewList = reviewRepository.findReviewsByScoreCursor(

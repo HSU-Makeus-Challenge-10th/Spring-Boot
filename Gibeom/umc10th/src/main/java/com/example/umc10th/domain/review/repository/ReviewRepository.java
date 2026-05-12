@@ -14,7 +14,7 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByMember_Id(Long memberId, Pageable pageable);
 
-    List<Review> member(Member member);
+    List<Review> findByMember(Member member);
 
     // id 순 페이징
     Slice<Review> findReviewsByMember_IdAndIdLessThanOrderByIdDesc(Long memberId, Long idCursor, Pageable pageable);
@@ -28,8 +28,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "ORDER BY r.score DESC, r.id DESC")
     Slice<Review> findReviewsByScoreCursor(
             @Param("memberId") Long memberId,
-            @Param("scoreCursor") int scoreCursor,
-            @Param("idCursor")  int idCursor,
+            @Param("scoreCursor") long scoreCursor,
+            @Param("idCursor")  long idCursor,
             Pageable pageable
     );
 }
