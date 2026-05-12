@@ -25,7 +25,7 @@ public class MissionController {
     @Operation(summary = "미션 성공 요청")
     public ApiResponse<MissionResDTO.ActivatedMissionInfo> successMission(
             @PathVariable Long activatedMissionId,
-            @RequestBody MissionReqDTO.SuccessRequest dto) {
+            @RequestBody @Valid MissionReqDTO.SuccessRequest dto) {
         return ApiResponse.onSuccess(MissionSuccessCode.SUCCESS_REQUESTED, missionService.successMission(activatedMissionId, dto));
     }
 

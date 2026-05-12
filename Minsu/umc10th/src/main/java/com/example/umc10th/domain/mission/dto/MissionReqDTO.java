@@ -4,7 +4,9 @@ import com.example.umc10th.domain.mission.enums.MissionState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class MissionReqDTO {
 
@@ -27,6 +29,8 @@ public class MissionReqDTO {
     public record SuccessRequest(
             @JsonProperty("approver_code")
             @Schema(description = "미션 승인 구분번호", example = "920394")
+            @NotBlank(message = "구분번호는 필수입니다.")
+            @Pattern(regexp = "\\d{6}", message = "구분번호는 6자리 숫자여야 합니다.")
             String approverCode
     ) {}
 }

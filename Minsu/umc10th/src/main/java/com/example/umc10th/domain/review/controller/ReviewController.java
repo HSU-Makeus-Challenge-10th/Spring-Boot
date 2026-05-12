@@ -9,6 +9,7 @@ import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import com.example.umc10th.global.dto.CommonResDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 수정 (multipart/form-data)")
     public ApiResponse<ReviewResDTO.ReviewInfo> updateReview(
             @PathVariable Long reviewId,
-            @RequestPart(value = "request", required = false) ReviewReqDTO.Update request,
+            @RequestPart(value = "request", required = false) @Valid ReviewReqDTO.Update request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         return ApiResponse.onSuccess(ReviewSuccessCode.OK, reviewService.updateReview(reviewId, request, images));
     }
@@ -53,7 +54,7 @@ public class ReviewController {
     @Operation(summary = "가게 리뷰 작성 (multipart/form-data)")
     public ApiResponse<ReviewResDTO.ReviewInfo> createReview(
             @PathVariable Long storeId,
-            @RequestPart("request") ReviewReqDTO.CreateReview request,
+            @RequestPart("request") @Valid ReviewReqDTO.CreateReview request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         return ApiResponse.onSuccess(ReviewSuccessCode.CREATED, reviewService.createReview(storeId, request, images));
     }
