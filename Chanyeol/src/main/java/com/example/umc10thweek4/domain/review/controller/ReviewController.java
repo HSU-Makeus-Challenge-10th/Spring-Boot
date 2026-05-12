@@ -29,4 +29,14 @@ public class ReviewController {
 
         return ApiResponse.onSuccess(ReviewSuccessCode.OK, response);
     }
+
+    @GetMapping("/v1/users/{userId}/reviews")
+    public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReviewList>> getMyReviews(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false) String cursor) {   // cursor = "reviewId:createdAt" 형태
+
+        return ApiResponse.onSuccess(ReviewSuccessCode.OK,
+                reviewService.getMyReviews(userId, pageSize, cursor));
+    }
 }

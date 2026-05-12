@@ -1,11 +1,14 @@
 package com.example.umc10thweek4.domain.ask.service;
 
+import com.example.umc10thweek4.domain.ask.converter.AskConverter;
 import com.example.umc10thweek4.domain.ask.dto.AskReqDTO;
 import com.example.umc10thweek4.domain.ask.dto.AskResDTO;
 import com.example.umc10thweek4.domain.ask.entity.Ask;
 import com.example.umc10thweek4.domain.ask.entity.AskImage;
 import com.example.umc10thweek4.domain.ask.entity.mapping.AskReply;
 import com.example.umc10thweek4.domain.ask.enums.AskType;
+import com.example.umc10thweek4.domain.ask.exception.AskException;
+import com.example.umc10thweek4.domain.ask.exception.code.AskErrorCode;
 import com.example.umc10thweek4.domain.ask.repository.AskRepository;
 import com.example.umc10thweek4.domain.member.entity.Member;
 import com.example.umc10thweek4.domain.member.repository.MemberRepository;
@@ -31,7 +34,7 @@ public class AskService {
     public AskResDTO.Create createAsk(Long memberId, AskReqDTO.Create request) {
 
         Member member = memberRepository.findByIdAndDeletedAtIsNull(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new AskException(AskErrorCode.MEMBER_NOT_FOUND));
 
         Ask ask = Ask.builder()
                 .member(member)
@@ -55,12 +58,7 @@ public class AskService {
             }
         }
 
-        return new AskResDTO.Create(
-                savedAsk.getId(),
-                savedAsk.getAskTitle(),
-                savedAsk.getAskType().name(),
-                savedAsk.getCreatedAt()
-        );
+        return AskConverter.toCreateRes(savedAsk);
     }
 
     /**
@@ -70,13 +68,7 @@ public class AskService {
         List<Ask> asks = askRepository.findByMemberIdAndDeletedAtIsNullOrderByCreatedAtDesc(memberId);
 
         return asks.stream()
-                .map(ask -> new AskResDTO.GetList(
-                        ask.getId(),
-                        ask.getAskTitle(),
-                        ask.getAskType().name(),
-                        ask.getStatus(),
-                        ask.getCreatedAt()
-                ))
+                .map(AskConverter::toGetListRes)
                 .toList();
     }
 
@@ -85,21 +77,11 @@ public class AskService {
      */
     public AskResDTO.GetDetail getAskDetail(Long askId) {
         Ask ask = askRepository.findDetailById(askId)
-                .orElseThrow(() -> new RuntimeException("Ask not found"));
+                .orElseThrow(() -> new AskException(AskErrorCode.ASK_NOT_FOUND));
 
         // 답변 있는 경우
         AskResDTO.GetDetail.AskReply reply = null; // TODO: AskReplyRepository에서 조회
 
-        return AskResDTO.GetDetail.builder()
-                .askId(ask.getId())
-                .askTitle(ask.getAskTitle())
-                .askDetail(ask.getAskDetail())
-                .askType(ask.getAskType().name())
-                .status(ask.getStatus())
-                .createdAt(ask.getCreatedAt())
-                .updatedAt(ask.getUpdatedAt())
-                .imageUrls(List.of())           // TODO: 이미지 URL 리스트
-                .reply(reply)
-                .build();
+        return AskConverter.toGetDetailRes(ask, List.of(), reply);
     }
 }
