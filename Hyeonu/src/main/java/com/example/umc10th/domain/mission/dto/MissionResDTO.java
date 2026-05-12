@@ -41,7 +41,7 @@ public class MissionResDTO {
             Boolean isLast
     ){}
 
-    // 가게 내 매션 조회
+    // 가게 내 미션 조회
     @Builder
     public record GetMission(
             Long missionId,
