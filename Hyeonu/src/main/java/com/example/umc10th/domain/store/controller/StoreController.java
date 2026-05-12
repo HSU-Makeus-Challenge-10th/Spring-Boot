@@ -13,10 +13,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/stores")
 public class StoreController {
 
-    private final StoreService storeService;
 
-    @GetMapping("/{storeId}")
-    public ApiResponse<StoreResDTO.StoreInfo> getStoreInfo(@PathVariable Long storeId) {
-        return ApiResponse.onSuccess(MemberSuccessCode.OK, storeService.getStoreInfo(storeId));
-    }
 }

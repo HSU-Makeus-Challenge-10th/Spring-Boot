@@ -1,45 +1,110 @@
 package com.example.umc10th.domain.mission.converter;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.store.entity.Store;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MissionConverter {
-    public static MemberMission toMemberMission(Member member, Mission mission) {
-        return MemberMission.builder()
-                .member(member)
-                .mission(mission)
-                .status(MissionStatus.CHALLENGING)
+
+    // 개별 미션 엔티티 -> 상세 DTO
+    public static MissionResDTO.MissionDetailDTO toMissionDetailDTO(MemberMission memberMission){
+        return MissionResDTO.MissionDetailDTO.builder()
+                .storeName(memberMission.getMission().getStore().getName())
+                .rewardPoint(memberMission.getMission().getRewardPoint())
+                .content(memberMission.getMission().getContent())
+                .status(memberMission.getStatus())
                 .build();
     }
 
-    public static MissionResDTO.MissionChallengeResult toMissionChallengeResult(MemberMission memberMission) {
-        return MissionResDTO.MissionChallengeResult.builder()
-                .memberMissionId(memberMission.getId())
-                .createdAt(memberMission.getCreatedAt())
+    // Page<MemberMission -> 전체 목록 DTO
+    public static MissionResDTO.MissionListResDTO toMissionListDTO(Page<MemberMission> memberMissionPage) {
+        // 상세 리스트로 변환
+        List<MissionResDTO.MissionDetailDTO> missionDetailDTOList= memberMissionPage.getContent().stream()
+                .map(MissionConverter::toMissionDetailDTO)
+                .collect(Collectors.toList());
+
+        // 페이징 정보와 함께 응답 객체 생성
+        return MissionResDTO.MissionListResDTO.builder()
+                .missionList(missionDetailDTOList)
+                .listSize(missionDetailDTOList.size())
+                .totalPage(memberMissionPage.getTotalPages())
+                .totalElements(memberMissionPage.getTotalElements())
+                .isFirst(memberMissionPage.isFirst())
+                .isLast(memberMissionPage.isLast())
                 .build();
     }
 
-    // 내가 진행 중인 미션 변환 (MemberMission -> DTO)
-    public static MissionResDTO.MissionSummaryDTO toMissionSummaryDTO(MemberMission mm) {
-        return MissionResDTO.MissionSummaryDTO.builder()
-                .missionId(mm.getMission().getId())
-                .storeName(mm.getMission().getStore().getName())
-                .rewardPoint(mm.getMission().getRewardPoint())
-                .content(mm.getMission().getContent())
-                .status(mm.getStatus().name())
-                .build();
-    }
-    // 지역별 도전 가능 미션 변환 (Mission -> DTO)
-    public static MissionResDTO.MissionSummaryDTO toMissionSummaryDTO(Mission mission) {
-        return MissionResDTO.MissionSummaryDTO.builder()
-                .missionId(mission.getId())
+    // Mission(가게 원본 미션) -> DTO
+    public static MissionResDTO.MissionDetailDTO toMissionDetailDTO(Mission mission){
+        return MissionResDTO.MissionDetailDTO.builder()
                 .storeName(mission.getStore().getName())
                 .rewardPoint(mission.getRewardPoint())
                 .content(mission.getContent())
-                .status("CHALLENGE_AVAILABLE") // 도전 가능 상태를 나타내는 임의의 문자열
+                .status(mission.getStatus())
+                .build();
+    }
+
+    // 지역별 미션 목록 변환
+    public static MissionResDTO.RegionMissionListDTO toRegionMissionListDTO(Page<Mission> missionPage) {
+        List<MissionResDTO.MissionDetailDTO> missionDetailDTOList=missionPage.getContent().stream()
+                .map(MissionConverter::toMissionDetailDTO)
+                .collect(Collectors.toList());
+
+        return MissionResDTO.RegionMissionListDTO.builder()
+                .missionList(missionDetailDTOList)
+                .listSize(missionDetailDTOList.size())
+                .totalPage(missionPage.getTotalPages())
+                .totalElements(missionPage.getTotalElements())
+                .isFirst(missionPage.isFirst())
+                .isLast(missionPage.isLast())
+                .build();
+    }
+
+    //가게 미션 생성
+    public static Mission toMission(
+            Store store,
+            MissionReqDTO.CreateMission dto
+    ){
+        return Mission.builder()
+                .store(store)
+                .status(dto.status())
+                .rewardPoint(dto.rewardPoint())
+                .deadline(dto.deadline())
+                .content(dto.content())
+                .build();
+    }
+
+    // 가게 내 미션 조회
+    public static MissionResDTO.GetMission toGetMission(Mission mission) {
+
+        return MissionResDTO.GetMission.builder()
+                .status(mission.getStatus())
+                .rewardPoint(mission.getRewardPoint())
+                .missionId((mission.getId()))
+                .content(mission.getContent())
+                .build();
+    }
+    // 페이지네이션 틀 생성
+    public static <T> MissionResDTO.Pagination<T>toPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+
+    ){
+        return MissionResDTO.Pagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
                 .build();
     }
 }

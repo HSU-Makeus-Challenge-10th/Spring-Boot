@@ -1,35 +1,58 @@
 package com.example.umc10th.domain.review.converter;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.store.entity.Store;
 
+import java.util.List;
+
 public class ReviewConverter {
-    public static Review toReview(ReviewReqDTO.CreateReview request, Member member, Store store) {
+
+    // 사용자가 보낸 DTO를 DB에 저장할 엔티티로 (조회가 아닌 생성(작성)이라 추가됨)
+    public static Review toReview(ReviewReqDTO.CreateReview request,Member member,Store store){
         return Review.builder()
                 .rating(request.rating())
                 .content(request.content())
-                .member(member)
-                .store(store)
+                .member(member) // 연관관계 매핑
+                .store(store) // 연관관계 매핑
                 .build();
     }
 
+    // 저장된 결과를 DTO로 포장
     public static ReviewResDTO.CreateReviewResult toCreateReviewResult(Review review) {
         return ReviewResDTO.CreateReviewResult.builder()
-                .reviewId(review.getId())
+                .id(review.getId())
                 .createdAt(review.getCreatedAt())
                 .build();
     }
 
-    public static ReviewResDTO.ReviewDetail toReviewSummaryDTO(Review review) {
-        return ReviewResDTO.ReviewDetail.builder()
+    // 페이지네이션 틀 생성
+    public static <T> ReviewResDTO.Pagination<T>toPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ){
+        return ReviewResDTO.Pagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
+                .build();
+    }
+
+
+    public static ReviewResDTO.MyReviewDetailDTO toGetReview(Review review) {
+        return ReviewResDTO.MyReviewDetailDTO.builder()
                 .reviewId(review.getId())
-                .writerName(review.getMember().getName()) // 엔티티 그래프에서 이름만 추출
+                .storeName(review.getStore().getName())
+                .memberName(review.getMember().getName())
                 .rating(review.getRating())
                 .content(review.getContent())
-                .createdAt(review.getCreatedAt().toLocalDate()) // 날짜 형식 정제
+                .createdAt(review.getCreatedAt().toLocalDate())
                 .build();
     }
 }
