@@ -40,16 +40,6 @@ public class MemberResDTO {
     ) {}
 
     @Builder
-    public record MissionListRes(
-            List<MissionItem> missionList,
-            Integer listSize,
-            Boolean hasNext,
-            Long nextCursor,
-            Boolean isFirst,
-            Boolean isLast
-    ) {}
-
-    @Builder
     public record MissionItem(
             Long memberMissionId,
             Long missionId,
@@ -75,4 +65,5 @@ public class MemberResDTO {
             String phoneNumber,
             Integer point
     ){}
+
 }
