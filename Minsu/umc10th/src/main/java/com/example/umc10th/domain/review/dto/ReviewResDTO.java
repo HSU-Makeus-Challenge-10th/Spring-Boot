@@ -59,6 +59,23 @@ public class ReviewResDTO {
     ) {}
 
     @Builder
+    public record MyReviewCursorItem(
+            @JsonProperty("review_id")
+            @Schema(description = "리뷰 ID", example = "10")
+            String reviewId,
+            @JsonProperty("store_name")
+            @Schema(description = "가게 이름", example = "반이학생마라탕")
+            String storeName,
+            @Schema(description = "별점", example = "4.5")
+            Double rating,
+            @Schema(description = "리뷰 내용", example = "너무 맛있어요! 다음에 또 올게요.")
+            String body,
+            @JsonProperty("created_at")
+            @Schema(description = "작성 시각", example = "2022-05-14T10:00:00")
+            LocalDateTime createdAt
+    ) {}
+
+    @Builder
     public record OwnerReply(
             @Schema(description = "사장님 답글", example = "감사합니다. 다음에 또 방문해 주세요!")
             String body

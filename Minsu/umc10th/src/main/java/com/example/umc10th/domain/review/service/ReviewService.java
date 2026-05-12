@@ -17,8 +17,11 @@ import com.example.umc10th.domain.store.entity.Store;
 import com.example.umc10th.domain.store.exception.StoreException;
 import com.example.umc10th.domain.store.exception.code.StoreErrorCode;
 import com.example.umc10th.domain.store.repository.StoreRepository;
+import com.example.umc10th.global.converter.PaginationConverter;
+import com.example.umc10th.global.dto.CommonResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,10 +49,55 @@ public class ReviewService {
     private static final Long TEMP_MEMBER_ID = 1L;
     private static final String UPLOAD_DIR = "uploads/";
 
-    public ReviewResDTO.MyReviewPageResult getMyReviews(Long userId, Long cursor, int limit) {
-        Long targetId = userId != null ? userId : TEMP_MEMBER_ID;
-        List<Review> list = reviewRepository.findByMemberIdCursor(targetId, cursor, PageRequest.of(0, limit));
-        return ReviewConverter.toMyReviewPageResult(list, limit);
+    public CommonResDTO.CursorPagination<ReviewResDTO.MyReviewCursorItem> getMyReviews(
+            Long userId,
+            String cursor,
+            int limit,
+            String query
+    ) {
+        memberRepository.findById(userId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(0, limit);
+        String normalizedQuery = query == null ? "id" : query.toLowerCase();
+        boolean firstPage = cursor == null || cursor.equals("-1") || cursor.equals("0");
+
+        Slice<Review> slice;
+        if (firstPage) {
+            slice = switch (normalizedQuery) {
+                case "id" -> reviewRepository.findByMember_IdOrderByIdDesc(userId, pageRequest);
+                case "rating" -> reviewRepository.findByMember_IdOrderByRatingDescIdDesc(userId, pageRequest);
+                default -> throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+            };
+        } else {
+            slice = switch (normalizedQuery) {
+                case "id" -> reviewRepository.findByMember_IdAndIdLessThanOrderByIdDesc(
+                        userId,
+                        parseLongCursor(cursor),
+                        pageRequest
+                );
+                case "rating" -> {
+                    String[] cursorParts = cursor.split(":");
+                    if (cursorParts.length != 2) {
+                        throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+                    }
+                    yield reviewRepository.findByRatingCursor(
+                            userId,
+                            parseDoubleCursor(cursorParts[0]),
+                            parseLongCursor(cursorParts[1]),
+                            pageRequest
+                    );
+                }
+                default -> throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+            };
+        }
+
+        List<ReviewResDTO.MyReviewCursorItem> data = slice.getContent().stream()
+                .map(ReviewConverter::toMyReviewCursorItem)
+                .toList();
+        String nextCursor = getNextCursor(slice.getContent(), normalizedQuery);
+
+        return PaginationConverter.toCursorPagination(slice, data, nextCursor);
     }
 
     @Transactional
@@ -153,5 +201,33 @@ public class ReviewService {
             review.getImages().add(reviewImage);
         }
         reviewImageRepository.saveAll(reviewImages);
+    }
+
+    private String getNextCursor(List<Review> reviews, String query) {
+        if (reviews.isEmpty()) {
+            return null;
+        }
+
+        Review last = reviews.get(reviews.size() - 1);
+        if (query.equals("rating")) {
+            return last.getRating() + ":" + last.getId();
+        }
+        return String.valueOf(last.getId());
+    }
+
+    private Long parseLongCursor(String cursor) {
+        try {
+            return Long.parseLong(cursor);
+        } catch (NumberFormatException e) {
+            throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+        }
+    }
+
+    private Double parseDoubleCursor(String cursor) {
+        try {
+            return Double.parseDouble(cursor);
+        } catch (NumberFormatException e) {
+            throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+        }
     }
 }

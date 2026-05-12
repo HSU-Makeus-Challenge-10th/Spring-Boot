@@ -6,6 +6,7 @@ import com.example.umc10th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.dto.CommonResDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,12 @@ public class ReviewController {
 
     @GetMapping("/users/{userId}/reviews")
     @Operation(summary = "작성한 리뷰 전체 조회 (커서 페이징)")
-    public ApiResponse<ReviewResDTO.MyReviewPageResult> getMyReviews(
+    public ApiResponse<CommonResDTO.CursorPagination<ReviewResDTO.MyReviewCursorItem>> getMyReviews(
             @PathVariable Long userId,
-            @RequestParam(defaultValue = "0") Long cursor,
-            @RequestParam(defaultValue = "10") int limit) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviewService.getMyReviews(userId, cursor, limit));
+            @RequestParam(defaultValue = "-1") String cursor,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "id") String query) {
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviewService.getMyReviews(userId, cursor, limit, query));
     }
 
     @DeleteMapping("/reviews/{reviewId}")

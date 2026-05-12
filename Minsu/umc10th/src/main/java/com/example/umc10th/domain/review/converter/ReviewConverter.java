@@ -46,6 +46,16 @@ public class ReviewConverter {
                 .build();
     }
 
+    public static ReviewResDTO.MyReviewCursorItem toMyReviewCursorItem(Review review) {
+        return ReviewResDTO.MyReviewCursorItem.builder()
+                .reviewId(String.valueOf(review.getId()))
+                .storeName(review.getStore().getName())
+                .rating(review.getRating())
+                .body(review.getBody())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
     public static ReviewResDTO.StoreReviewItem toStoreReviewItem(Review review) {
         List<String> imgUrls = review.getImages().stream()
                 .map(ReviewImage::getImgUrl).toList();
