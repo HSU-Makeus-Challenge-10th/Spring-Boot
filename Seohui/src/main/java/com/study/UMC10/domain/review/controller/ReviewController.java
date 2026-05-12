@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class ReviewController {
     @PostMapping("/v1/stores/{storeId}/reviews")
     public ApiResponse<ReviewResponseDto.CreateReviewResultDto> createReview(
             @PathVariable("storeId") Long storeId,
-            @RequestBody ReviewRequestDto.CreateReviewDto requestDto
+            @RequestBody @Valid ReviewRequestDto.CreateReviewDto requestDto
     ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_CREATED;
 
