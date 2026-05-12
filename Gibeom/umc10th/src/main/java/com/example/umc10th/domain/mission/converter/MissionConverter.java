@@ -59,4 +59,15 @@ public class MissionConverter {
                 .pageSize(pageSize)
                 .build();
     }
+
+    public static MissionResDTO.CreateMissionResult toCreateMissionResult(
+            Mission mission
+    ){
+        return MissionResDTO.CreateMissionResult.builder()
+                .conditional(mission.getConditional())
+                .point(mission.getPoint())
+                .missionId(mission.getId())
+                .deadline(mission.getDeadline())
+                .build();
+    }
 }

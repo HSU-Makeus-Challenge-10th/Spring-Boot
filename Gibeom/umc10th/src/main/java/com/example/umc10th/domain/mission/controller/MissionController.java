@@ -11,6 +11,7 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,10 @@ public class MissionController {
         BaseSuccessCode code = ReviewSuccessCode.WRITE_SUCCESS;
         return ApiResponse.onSuccess(code, missionService.writeReview(memberId, missionId, dto));
     }
+
     //가게 미션 생성
     @PostMapping("v1/stores/{storeId}/missions")
-    public ApiResponse<Void>  createMission(
+    public ApiResponse<MissionResDTO.CreateMissionResult>  createMission(
             @PathVariable Long storeId,
             @RequestBody @Valid MissionReqDTO.CreateMission dto
     ){
@@ -43,9 +45,9 @@ public class MissionController {
         return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));
     }
 
-    //가게 미션들 조회
+    //가게 미션들 조회 (오프셋 기반)
     @GetMapping("v1/store/{storeId}/missions")
-    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMissions(
+    public ApiResponse<Page<MissionResDTO.GetMission>> getMissions(
             @PathVariable Long storeId,
             @RequestParam Integer pageSize,
             @RequestParam Integer pageNumber,

@@ -69,7 +69,7 @@ public class MissionService {
 
     //가게 미션 생성
     @Transactional
-    public Void createMission(
+    public MissionResDTO.CreateMissionResult createMission(
             Long storeId,
             MissionReqDTO.CreateMission dto
     ){
@@ -81,11 +81,11 @@ public class MissionService {
 
         //미션 DB에 미션 저장
         missionRepository.save(mission);
-        return null;
+        return MissionConverter.toCreateMissionResult(mission);
     }
 
     //가게 미션 조회
-    public MissionResDTO.Pagination<MissionResDTO.GetMission> getMissions(
+    public Page<MissionResDTO.GetMission> getMissions(
             Long storeId,
             Integer pageSize,
             Integer pageNumber,
@@ -105,11 +105,7 @@ public class MissionService {
         //가게 내 미션들 조회
         Page<Mission> missionList = missionRepository.findAllByStore_Id(storeId, pageRequest);
 
-        return MissionConverter.toPagination(
-                missionList.map(MissionConverter::toGetMission).toList(),
-                missionList.getNumber(),
-                missionList.getSize()
-        );
+        return missionList.map(MissionConverter::toGetMission);
     }
 
     //유저가 진행중인 미션 조회하기
