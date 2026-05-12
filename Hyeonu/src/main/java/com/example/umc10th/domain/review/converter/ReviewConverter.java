@@ -1,10 +1,13 @@
 package com.example.umc10th.domain.review.converter;
 
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.store.entity.Store;
+
+import java.util.List;
 
 public class ReviewConverter {
 
@@ -23,6 +26,33 @@ public class ReviewConverter {
         return ReviewResDTO.CreateReviewResult.builder()
                 .id(review.getId())
                 .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    // 페이지네이션 틀 생성
+    public static <T> ReviewResDTO.Pagination<T>toPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ){
+        return ReviewResDTO.Pagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
+                .build();
+    }
+
+
+    public static ReviewResDTO.MyReviewDetailDTO toGetReview(Review review) {
+        return ReviewResDTO.MyReviewDetailDTO.builder()
+                .reviewId(review.getId())
+                .storeName(review.getStore().getName())
+                .memberName(review.getMember().getName())
+                .rating(review.getRating())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt().toLocalDate())
                 .build();
     }
 }
