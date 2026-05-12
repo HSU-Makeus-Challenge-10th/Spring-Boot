@@ -36,7 +36,7 @@ public class GeneralExceptionAdvice {
         });
 
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
-        
+
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, errors));
     }
