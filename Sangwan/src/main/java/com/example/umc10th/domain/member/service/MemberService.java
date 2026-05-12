@@ -11,7 +11,7 @@ import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.member.repository.RegionProgressRepository;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
-import com.example.umc10th.domain.mission.enums.UserMissionStatus;
+import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.mission.exception.MissionException;
 import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
@@ -63,9 +63,9 @@ public class MemberService {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
-        UserMissionStatus missionStatus = switch (status.toUpperCase()) {
-            case "INPROGRESS" -> UserMissionStatus.CHALLENGING;
-            case "COMPLETE" -> UserMissionStatus.SUCCESS;
+        MemberMissionStatus missionStatus = switch (status.toUpperCase()) {
+            case "INPROGRESS" -> MemberMissionStatus.CHALLENGING;
+            case "COMPLETE" -> MemberMissionStatus.SUCCESS;
             default -> throw new MissionException(MissionErrorCode.INVALID_MISSION_STATUS);
         };
 
@@ -87,7 +87,7 @@ public class MemberService {
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         Page<MemberMission> memberMissionPage = memberMissionRepository.findPageByMemberIdAndStatus(
-                request.memberId(), UserMissionStatus.CHALLENGING, PageRequest.of(page, size));
+                request.memberId(), MemberMissionStatus.CHALLENGING, PageRequest.of(page, size));
 
         return MemberConverter.toInProgressMissionPageRes(memberMissionPage, page);
     }
