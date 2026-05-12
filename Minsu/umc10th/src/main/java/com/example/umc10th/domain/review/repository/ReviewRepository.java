@@ -12,9 +12,6 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT r FROM Review r WHERE r.member.id = :memberId AND r.id > :cursor ORDER BY r.id ASC")
-    List<Review> findByMemberIdCursor(@Param("memberId") Long memberId, @Param("cursor") Long cursor, Pageable pageable);
-
     @EntityGraph(attributePaths = {"store"})
     Slice<Review> findByMember_IdOrderByIdDesc(Long memberId, Pageable pageable);
 

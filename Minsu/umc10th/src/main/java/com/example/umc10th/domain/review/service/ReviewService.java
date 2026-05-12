@@ -55,6 +55,7 @@ public class ReviewService {
             int limit,
             String query
     ) {
+        validatePageSize(limit);
         memberRepository.findById(userId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
@@ -79,7 +80,7 @@ public class ReviewService {
                 case "rating" -> {
                     String[] cursorParts = cursor.split(":");
                     if (cursorParts.length != 2) {
-                        throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+                        throw new ReviewException(ReviewErrorCode.INVALID_CURSOR);
                     }
                     yield reviewRepository.findByRatingCursor(
                             userId,
@@ -219,7 +220,7 @@ public class ReviewService {
         try {
             return Long.parseLong(cursor);
         } catch (NumberFormatException e) {
-            throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+            throw new ReviewException(ReviewErrorCode.INVALID_CURSOR);
         }
     }
 
@@ -227,7 +228,13 @@ public class ReviewService {
         try {
             return Double.parseDouble(cursor);
         } catch (NumberFormatException e) {
-            throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+            throw new ReviewException(ReviewErrorCode.INVALID_CURSOR);
+        }
+    }
+
+    private void validatePageSize(int limit) {
+        if (limit < 1) {
+            throw new ReviewException(ReviewErrorCode.INVALID_PAGE_SIZE);
         }
     }
 }
