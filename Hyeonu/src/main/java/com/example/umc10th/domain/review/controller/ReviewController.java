@@ -26,8 +26,20 @@ public class ReviewController {
             @PathVariable Long storeId, // {storeId}에 적힌 숫자를 storeId라는 변수에 담음
             @RequestBody ReviewReqDTO.CreateReview dto // 사용자가 작성한 리뷰 정보 가져옴
     ) {
-        BaseSuccessCode code=ReviewSuccessCode.OK;
+        BaseSuccessCode code=ReviewSuccessCode.CREATED;
         return ApiResponse.onSuccess(code, reviewService.createReviewResult(storeId,dto));
     }
 
+
+    // 내가 작성한 리뷰들 조회
+    @GetMapping("/members/{memberId}/reviews")
+    public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.MyReviewDetailDTO>> getReviews(
+            @PathVariable Long memberId,
+            @RequestParam Integer pageSize,
+            @RequestParam String cursor,
+            @RequestParam String query
+    ){
+        BaseSuccessCode code= ReviewSuccessCode.OK;
+        return ApiResponse.onSuccess(code,reviewService.getReviews(memberId,pageSize,cursor,query));
+    }
 }
