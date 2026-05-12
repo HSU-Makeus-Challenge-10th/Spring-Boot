@@ -17,9 +17,26 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    // 리뷰 전체 조회 API
     @GetMapping("/v1/reviews")
     public ApiResponse<List<ReviewResDTO.ReviewInfo>> getReviewList() {
         BaseSuccessCode code = ReviewSuccessCode.OK;
         return ApiResponse.onSuccess(code, reviewService.getReviewList());
+    }
+
+    // 내가 작성한 리뷰 조회 API - 커서 기반 페이지네이션
+    @GetMapping("/v1/users/{memberId}/reviews")
+    public ApiResponse<ReviewResDTO.CursorPagination<ReviewResDTO.MyReview>> getMyReviews(
+            @PathVariable Long memberId,
+            @RequestParam Integer pageSize,
+            @RequestParam String cursor,
+            @RequestParam String query
+    ) {
+        BaseSuccessCode code = ReviewSuccessCode.OK;
+
+        return ApiResponse.onSuccess(
+                code,
+                reviewService.getMyReviews(memberId, pageSize, cursor, query)
+        );
     }
 }
