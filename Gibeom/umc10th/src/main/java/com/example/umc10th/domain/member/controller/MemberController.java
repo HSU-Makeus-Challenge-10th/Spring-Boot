@@ -8,6 +8,8 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,26 +23,32 @@ public class MemberController {
     private final MemberService memberService;
     //마이페이지
     @GetMapping("/me")
-    public ApiResponse<MemberResDTO.GetInfo> getInfo(
+    public ResponseEntity<ApiResponse<MemberResDTO.GetInfo>> getInfo(
             @AuthenticationPrincipal Long memberId
     ){
         BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getInfo(memberId));
+        MemberResDTO.GetInfo result = memberService.getInfo(memberId);
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onSuccess(code, result));
     }
 
     // 홈화면
     @GetMapping("/home")
-    public ApiResponse<MemberResDTO.HomeResultDto> getHome(
+    public ResponseEntity<ApiResponse<MemberResDTO.HomeResultDto>> getHome(
             @AuthenticationPrincipal Long memberId,
             @RequestParam(defaultValue = "0") int page
     ){
         BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getHome(memberId, page));
+        MemberResDTO.HomeResultDto result = memberService.getHome(memberId, page);
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onSuccess(code, result));
     }
 
     // 진행중/완료 미션 목록 조회
     @GetMapping("/missions")
-    public ApiResponse<List<MissionResDTO.MissionDto>> getMissionsByStatus(
+    public ResponseEntity<ApiResponse<List<MissionResDTO.MissionDto>>> getMissionsByStatus(
             @AuthenticationPrincipal Long memberId,
             @RequestParam MissionStatus status,
             @RequestParam Integer pageSize,
@@ -48,7 +56,10 @@ public class MemberController {
             @RequestParam (required = false) String sort
     ){
         BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getMissionsByStatus(memberId, status, pageSize, pageNum, sort));
+        List<MissionResDTO.MissionDto> result = memberService.getMissionsByStatus(memberId, status, pageSize, pageNum, sort);
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onSuccess(code, result));
     }
 
 }

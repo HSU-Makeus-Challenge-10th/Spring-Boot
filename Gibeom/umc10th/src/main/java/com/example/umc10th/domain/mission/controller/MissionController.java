@@ -12,6 +12,8 @@ import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,45 +29,57 @@ public class MissionController {
 
     //리뷰 작성 (완료된 미션에 한해서)
     @PostMapping("v1/missions/{missionId}/reviews")
-    public ApiResponse<ReviewResDTO.WriteReviewResultDto> writeReview(
+    public ResponseEntity<ApiResponse<ReviewResDTO.WriteReviewResultDto>> writeReview(
             @PathVariable Long missionId,
             @AuthenticationPrincipal Long memberId,
             @RequestBody ReviewReqDTO.WriteReviewDto dto) {
         BaseSuccessCode code = ReviewSuccessCode.WRITE_SUCCESS;
-        return ApiResponse.onSuccess(code, missionService.writeReview(memberId, missionId, dto));
+        ReviewResDTO.WriteReviewResultDto result = missionService.writeReview(memberId, missionId, dto);
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onSuccess(code, result));
     }
 
     //가게 미션 생성
     @PostMapping("v1/stores/{storeId}/missions")
-    public ApiResponse<MissionResDTO.CreateMissionResult>  createMission(
+    public ResponseEntity<ApiResponse<MissionResDTO.CreateMissionResult>>  createMission(
             @PathVariable Long storeId,
             @RequestBody @Valid MissionReqDTO.CreateMission dto
     ){
         MissionSuccessCode code = MissionSuccessCode.CREATED;
-        return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));
+        MissionResDTO.CreateMissionResult result = missionService.createMission(storeId, dto);
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onSuccess(code, result));
     }
 
     //가게 미션들 조회 (오프셋 기반)
     @GetMapping("v1/store/{storeId}/missions")
-    public ApiResponse<Page<MissionResDTO.GetMission>> getMissions(
+    public ResponseEntity<ApiResponse<Page<MissionResDTO.GetMission>>> getMissions(
             @PathVariable Long storeId,
             @RequestParam Integer pageSize,
             @RequestParam Integer pageNumber,
             @RequestParam(required = false) String sort
     ){
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMissions(storeId, pageSize, pageNumber, sort));
+        Page<MissionResDTO.GetMission> result = missionService.getMissions(storeId, pageSize, pageNumber, sort);
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onSuccess(code, result));
     }
 
     //내가 진행중인 미션 조회하기
     @GetMapping("v1/members/{memberId}/missions")
-    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMemberMissions(
+    public ResponseEntity<ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>>> getMemberMissions(
             @PathVariable Long memberId,
             @RequestParam Integer pageSize,
             @RequestParam Integer pageNumber,
             @RequestParam(required = false) String sort
     ){
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMemberMissions(memberId, pageSize, pageNumber, sort));
+        MissionResDTO.Pagination<MissionResDTO.GetMission> result = missionService.getMemberMissions(memberId, pageSize, pageNumber, sort);
+        return  ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.onSuccess(code, result));
     }
 }
