@@ -43,10 +43,10 @@ public class MissionService {
     private final MissionRepository missionRepository;
     private final StoreRepository storeRepository;
 
-    public MissionResDTO.MissionListResDTO getMemberMissionList(Long memberId, MissionReqDTO.MissionListReqDTO dto) {
+    public MissionResDTO.MissionListResDTO getMemberMissionList(MissionReqDTO.MissionListReqDTO dto) {
 
         // DB에서 해당 유저 ID로 데이터 조회
-        Member member=memberRepository.findById(memberId)
+        Member member=memberRepository.findById(dto.memberId())
                 .orElseThrow(()-> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         // 몇 번재 페이지를, 몇 개씩 가져올지
