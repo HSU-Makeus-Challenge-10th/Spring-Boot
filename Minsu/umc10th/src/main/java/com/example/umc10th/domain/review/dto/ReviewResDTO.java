@@ -30,7 +30,7 @@ public class ReviewResDTO {
     ) {}
 
     @Builder
-    public record MyReviewItem(
+    public record MyReviewCursorItem(
             @JsonProperty("review_id")
             @Schema(description = "리뷰 ID", example = "10")
             String reviewId,
@@ -41,21 +41,9 @@ public class ReviewResDTO {
             Double rating,
             @Schema(description = "리뷰 내용", example = "너무 맛있어요! 다음에 또 올게요.")
             String body,
-            @JsonProperty("img_urls")
-            @Schema(description = "이미지 URL 목록", example = "[\"https://example.com/img1.jpg\"]")
-            List<String> imgUrls,
             @JsonProperty("created_at")
             @Schema(description = "작성 시각", example = "2022-05-14T10:00:00")
             LocalDateTime createdAt
-    ) {}
-
-    @Builder
-    public record MyReviewPageResult(
-            List<MyReviewItem> reviews,
-            @Schema(description = "다음 페이지 커서", example = "10")
-            String nextCursor,
-            @Schema(description = "다음 페이지 존재 여부", example = "true")
-            Boolean hasNext
     ) {}
 
     @Builder

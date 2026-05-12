@@ -14,8 +14,12 @@ import com.example.umc10th.domain.mission.exception.MissionException;
 import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.mission.repository.ActivatedMissionRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
+import com.example.umc10th.global.converter.PaginationConverter;
+import com.example.umc10th.global.dto.CommonResDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +49,23 @@ public class MissionService {
         List<ActivatedMission> list = activatedMissionRepository
                 .findByMemberIdAndStateWithDetailsCursor(TEMP_MEMBER_ID, MissionState.ONGOING, cursor, PageRequest.of(0, limit));
         return MissionConverter.toMissionPageResult(list, limit);
+    }
+
+    public CommonResDTO.OffsetPagination<MissionResDTO.MissionItem> getOngoingMissions(
+            MissionReqDTO.GetOngoingMissions dto
+    ) {
+        memberRepository.findById(dto.memberId())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        int size = dto.size() == null ? 10 : dto.size();
+        PageRequest pageRequest = PageRequest.of(dto.page(), size, Sort.by("id").descending());
+        Page<ActivatedMission> page = activatedMissionRepository
+                .findAllByMember_IdAndState(dto.memberId(), dto.state(), pageRequest);
+        List<MissionResDTO.MissionItem> data = page.getContent().stream()
+                .map(MissionConverter::toMissionItem)
+                .toList();
+
+        return PaginationConverter.toOffsetPagination(page, data);
     }
 
     public MissionResDTO.AvailableMissionPageResult getAvailableMissions(Long townId, Long cursor, int limit) {
