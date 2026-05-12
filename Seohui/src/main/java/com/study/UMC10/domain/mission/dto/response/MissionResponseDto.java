@@ -44,4 +44,11 @@ public class MissionResponseDto {
             String status
     ) {
     }
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
+    ) {}
 }
