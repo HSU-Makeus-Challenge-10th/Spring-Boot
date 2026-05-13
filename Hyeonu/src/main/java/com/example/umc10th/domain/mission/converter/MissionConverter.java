@@ -75,7 +75,7 @@ public class MissionConverter {
     ){
         return Mission.builder()
                 .store(store)
-                .status(dto.status())
+                .status(MissionStatus.READY)
                 .rewardPoint(dto.rewardPoint())
                 .deadline(dto.deadline())
                 .content(dto.content())
