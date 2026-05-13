@@ -37,8 +37,7 @@ public class MissionReqDTO {
             @NotNull(message = "마감기한은 필수입니다.")
             LocalDate deadline,
             @NotNull(message = "미션 성공 포인트는 필수입니다.")
-            Integer rewardPoint,
-            MissionStatus status
+            Integer rewardPoint
     ) {
     }
 }
