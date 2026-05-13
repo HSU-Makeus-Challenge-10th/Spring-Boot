@@ -18,7 +18,7 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             LocalDateTime now);
 
     // 특정 가게의 활성 미션
-    List<Mission> findByStoreIdAndDeletedAtIsNull(Long storeId);
+    List<Mission> findByStoreId(Long storeId);
 
     // 지역별 활성 미션
     @Query("SELECT m FROM Mission m " +

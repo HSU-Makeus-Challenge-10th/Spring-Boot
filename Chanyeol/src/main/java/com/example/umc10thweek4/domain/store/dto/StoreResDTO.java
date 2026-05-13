@@ -27,9 +27,4 @@ public class StoreResDTO {
             String category,
             String regionName
     ) {}
-
-    public record StoreWithMissions(
-            StoreDetail store,
-            List<MissionResDTO.Home.RecommendedMission> missions
-    ) {}
 }

@@ -1,11 +1,14 @@
 package com.example.umc10thweek4.domain.member.service;
 
+import com.example.umc10thweek4.domain.member.converter.MemberConverter;
 import com.example.umc10thweek4.domain.member.dto.MemberReqDTO;
 import com.example.umc10thweek4.domain.member.dto.MemberResDTO;
 import com.example.umc10thweek4.domain.member.entity.Member;
 import com.example.umc10thweek4.domain.member.entity.mapping.MemberFoodPreference;
 import com.example.umc10thweek4.domain.member.entity.mapping.MemberNoticeSetting;
 import com.example.umc10thweek4.domain.member.enums.Gender;
+import com.example.umc10thweek4.domain.member.exception.MemberException;
+import com.example.umc10thweek4.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10thweek4.domain.member.repository.MemberFoodPreferenceRepository;
 import com.example.umc10thweek4.domain.member.repository.MemberNoticeSettingRepository;
 import com.example.umc10thweek4.domain.member.repository.MemberRepository;
@@ -33,11 +36,11 @@ public class MemberService {
     public MemberResDTO.SignUp signUp(MemberReqDTO.SignUp request) {
 
         if (memberRepository.existsByEmail(request.email())) {
-            throw new RuntimeException("이미 사용 중인 이메일입니다.");
+            throw new MemberException(MemberErrorCode.DUPLICATE_EMAIL);
         }
 
         if (memberRepository.existsByNickname(request.nickname())) {
-            throw new RuntimeException("이미 사용 중인 닉네임입니다.");
+            throw new MemberException(MemberErrorCode.DUPLICATE_NICKNAME);
         }
 
         Member member = memberRepository.save(
@@ -45,7 +48,7 @@ public class MemberService {
                         .name(request.name())
                         .nickname(request.nickname())
                         .email(request.email())
-                        .password(request.password())   // 실무에서는 암호화 필수!
+                        .password(request.password())   // TODO: 비밀번호 암호화
                         .birth(LocalDate.parse(request.birthday(),
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                         .gender(Gender.valueOf(request.gender().toUpperCase()))
@@ -74,10 +77,7 @@ public class MemberService {
             foodPreferenceRepository.saveAll(foodPreferences);
         }
 
-        return new MemberResDTO.SignUp(
-                member.getId(),
-                member.getNickname()
-        );
+        return MemberConverter.toSignUpRes(member);
     }
 
     /**
@@ -86,22 +86,11 @@ public class MemberService {
     public MemberResDTO.GetInfo getMyPage(Long userId) {
 
         Member member = memberRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         MemberNoticeSetting ns = noticeSettingRepository.findByMember(member)
-                .orElseThrow(() -> new RuntimeException("알림 설정 정보가 없습니다."));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOTICE_SETTING_NOT_FOUND));
 
-        return MemberResDTO.GetInfo.builder()
-                .userId(member.getId())
-                .nickname(member.getNickname())
-                .phone(member.getPhoneNumber())
-                .totalPoints(member.getTotalPoints() != null
-                        ? member.getTotalPoints().intValue() : 0)
-                .noticeSettings(new MemberResDTO.GetInfo.NoticeSetting(
-                        ns.getGetNewEvent(),
-                        ns.getGetReviewComment(),
-                        ns.getGetAskComment()
-                ))
-                .build();
+        return MemberConverter.toGetInfoRes(member, ns);
     }
 }

@@ -2,13 +2,24 @@ package com.example.umc10thweek4.domain.mission.service;
 
 import com.example.umc10thweek4.domain.member.entity.Member;
 import com.example.umc10thweek4.domain.member.repository.MemberRepository;
+import com.example.umc10thweek4.domain.mission.converter.MissionConverter;
+import com.example.umc10thweek4.domain.mission.dto.MissionReqDTO;
 import com.example.umc10thweek4.domain.mission.dto.MissionResDTO;
 import com.example.umc10thweek4.domain.mission.entity.Mission;
 import com.example.umc10thweek4.domain.mission.entity.mapping.UserMission;
 import com.example.umc10thweek4.domain.mission.enums.MissionStatus;
+import com.example.umc10thweek4.domain.mission.exception.MissionException;
+import com.example.umc10thweek4.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10thweek4.domain.mission.repository.MissionRepository;
 import com.example.umc10thweek4.domain.mission.repository.UserMissionRepository;
+import com.example.umc10thweek4.domain.store.entity.Store;
+import com.example.umc10thweek4.domain.store.exception.StoreException;
+import com.example.umc10thweek4.domain.store.exception.code.StoreErrorCode;
+import com.example.umc10thweek4.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +31,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MissionService {
 
+    private final StoreRepository storeRepository;
     private final MissionRepository missionRepository;
     private final UserMissionRepository userMissionRepository;
     private final MemberRepository memberRepository;
@@ -47,79 +59,111 @@ public class MissionService {
 
         // 회원 정보 조회
         Member member = memberRepository.findByIdAndDeletedAtIsNull(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.MEMBER_NOT_FOUND));
 
-        return new MissionResDTO.Home(
-                "안암동",                    // TODO: 실제 지역 연동
-                Math.toIntExact(member.getTotalPoints()),
-                0,                           // TODO: 진행중 미션 수
-                member.getCompleteNum(),
-                5000,                        // TODO: 목표 보상 (추후 설계)
-                recommendedList,
-                false                        // unreadNotice (추후 NoticeService 연동)
-        );
+        return MissionConverter.toHome(member, recommendedMissions);
     }
 
     /**
      * 내가 진행중 + 완료한 미션 목록
      */
-    public MissionResDTO.UserMissionList getMyMissions(Long memberId) {
-        List<UserMission> userMissions = userMissionRepository
-                .findMyMissions(memberId);
+    public MissionResDTO.Pagination<MissionResDTO.UserMissionList.UserMission> getMyMissions(
+            Long memberId,
+            Integer pageSize,
+            Integer pageNumber,
+            String sort
+    ) {
 
-        List<MissionResDTO.UserMissionList.UserMission> missionList = userMissions.stream()
-                .map(um -> new MissionResDTO.UserMissionList.UserMission(
-                        um.getId(),
-                        um.getMission().getId(),
-                        um.getMission().getMissionTitle(),
-                        um.getMission().getStore().getStoreName(),
-                        0,                          // recognizeAmount (인증 금액)
-                        um.getStatus(),
-                        Math.toIntExact(um.getMission().getMissionReward())
-                ))
+        Sort sortInfo;
+        if (sort != null && !sort.isBlank()) {
+            sortInfo = Sort.by(sort);
+        } else {
+            sortInfo = Sort.by("id").descending();   // 기본: 최신순
+        }
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortInfo);
+
+        Page<UserMission> userMissionPage = userMissionRepository
+                .findMyMissions(memberId, pageRequest);
+
+        List<MissionResDTO.UserMissionList.UserMission> data = userMissionPage.getContent().stream()
+                .map(MissionConverter::toUserMission)
                 .toList();
 
-        return new MissionResDTO.UserMissionList(missionList);
+        // Pagination DTO 생성
+        return MissionConverter.toPagination(
+                data,
+                userMissionPage.getNumber(),
+                userMissionPage.getSize()
+        );
+    }
+
+    /**
+     * 가게 내 미션 생성
+     */
+    @Transactional
+    public Void createMission(Long storeId, MissionReqDTO.CreateMission dto) {
+        // 가게 찾기
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
+
+        // 미션 생성
+        Mission mission = MissionConverter.toMission(store, dto);
+
+        // 미션 DB 저장
+        missionRepository.save(mission);
+        return null;
+    }
+
+    /**
+     * 가게 내 미션 목록
+     */
+    public List<MissionResDTO.GetMission> getStoreMissions(Long storeId) {
+        // 가게 미션들 조회
+        List<Mission> missionList = missionRepository.findByStoreId(storeId);
+        // 미션들 응답 DTO로 포장
+        return missionList.stream()
+                .map(MissionConverter::toGetStoreMission)
+                .toList();
     }
 
     /**
      * 미션 참여 (UserMission 생성)
      */
     @Transactional
-    public UserMission participateMission(Long memberId, Long missionId) {
+    public MissionResDTO.Participate participateMission(Long memberId, Long missionId) {
         Member member = memberRepository.findByIdAndDeletedAtIsNull(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.MEMBER_NOT_FOUND));
 
         Mission mission = missionRepository.findByIdAndDeletedAtIsNull(missionId)
-                .orElseThrow(() -> new RuntimeException("Mission not found"));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
 
-        // 이미 참여한 미션인지 체크 (추후 커스텀 예외로 변경)
-        boolean alreadyParticipated = userMissionRepository
-                .existsByMemberIdAndMissionIdAndDeletedAtIsNull(memberId, missionId);
-
-        if (alreadyParticipated) {
-            throw new RuntimeException("이미 참여한 미션입니다.");
+        // 이미 참여한 미션인지 체크
+        if (userMissionRepository.existsByMemberIdAndMissionIdAndDeletedAtIsNull(memberId, missionId)) {
+            throw new MissionException(MissionErrorCode.ALREADY_PARTICIPATED);
         }
 
-        UserMission userMission = UserMission.builder()
-                .member(member)
-                .mission(mission)
-                .status(MissionStatus.IN_PROGRESS)
-                .build();
-
-        return userMissionRepository.save(userMission);
+        UserMission userMission = userMissionRepository.save(
+                UserMission.builder()
+                        .member(member)
+                        .mission(mission)
+                        .status(MissionStatus.IN_PROGRESS)
+                        .build()
+        );
+        
+        return MissionConverter.toParticipate(userMission);
     }
 
     /**
      * 미션 완료 처리
      */
     @Transactional
-    public UserMission completeMission(Long memberId, Long userMissionId, Integer recognizeAmount) {
+    public MissionResDTO.Complete completeMission(Long memberId, Long userMissionId, Integer recognizeAmount) {
         UserMission userMission = userMissionRepository.findByIdAndDeletedAtIsNull(userMissionId)
-                .orElseThrow(() -> new RuntimeException("UserMission not found"));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.USER_MISSION_NOT_FOUND));
 
         if (!userMission.getMember().getId().equals(memberId)) {
-            throw new RuntimeException("권한이 없습니다.");
+            throw new MissionException(MissionErrorCode.UNAUTHORIZED_MISSION);
         }
 
         // 미션 완료 처리
@@ -129,6 +173,6 @@ public class MissionService {
         Member member = userMission.getMember();
         member.addPoints(userMission.getMission().getMissionReward());
 
-        return userMission;
+        return MissionConverter.toComplete(userMission);
     }
 }

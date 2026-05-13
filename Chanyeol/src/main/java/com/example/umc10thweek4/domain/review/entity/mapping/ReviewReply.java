@@ -1,5 +1,6 @@
-package com.example.umc10thweek4.domain.review.entity;
+package com.example.umc10thweek4.domain.review.entity.mapping;
 
+import com.example.umc10thweek4.domain.review.entity.Review;
 import com.example.umc10thweek4.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

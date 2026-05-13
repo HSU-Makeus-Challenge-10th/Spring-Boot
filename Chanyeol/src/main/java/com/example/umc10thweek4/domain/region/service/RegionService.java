@@ -1,7 +1,10 @@
 package com.example.umc10thweek4.domain.region.service;
 
+import com.example.umc10thweek4.domain.region.converter.RegionConverter;
 import com.example.umc10thweek4.domain.region.dto.RegionResDTO;
 import com.example.umc10thweek4.domain.region.entity.Region;
+import com.example.umc10thweek4.domain.region.exception.RegionException;
+import com.example.umc10thweek4.domain.region.exception.code.RegionErrorCode;
 import com.example.umc10thweek4.domain.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,17 +22,13 @@ public class RegionService {
     public RegionResDTO.RegionList getAllRegions() {
         List<Region> regions = regionRepository.findAllByDeletedAtIsNullOrderByRegionNameAsc();
 
-        List<RegionResDTO.RegionInfo> regionInfos = regions.stream()
-                .map(r -> new RegionResDTO.RegionInfo(r.getId(), r.getRegionName(), r.getRegionImage()))
-                .toList();
-
-        return new RegionResDTO.RegionList(regionInfos);
+        return RegionConverter.toRegionList(regions);
     }
 
     public RegionResDTO.RegionInfo getRegion(Long regionId) {
         Region region = regionRepository.findById(regionId)
-                .orElseThrow(() -> new RuntimeException("Region not found")); // 추후 ExceptionHandler로 교체
+                .orElseThrow(() -> new RegionException(RegionErrorCode.REGION_NOT_FOUND));
 
-        return new RegionResDTO.RegionInfo(region.getId(), region.getRegionName(), region.getRegionImage());
+        return RegionConverter.toRegionInfo(region);
     }
 }
