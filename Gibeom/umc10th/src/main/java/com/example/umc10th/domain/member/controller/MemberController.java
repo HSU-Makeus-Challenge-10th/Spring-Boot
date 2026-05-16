@@ -39,11 +39,10 @@ public class MemberController {
             @AuthenticationPrincipal Long memberId,
             @RequestParam(defaultValue = "0") int page
     ){
-        BaseSuccessCode code = MemberSuccessCode.OK;
         MemberResDTO.HomeResultDto result = memberService.getHome(memberId, page);
         return ResponseEntity
-                .status(code.getStatus())
-                .body(ApiResponse.onSuccess(code, result));
+                .status(MemberSuccessCode.OK.getStatus())
+                .body(ApiResponse.onSuccess(MemberSuccessCode.OK, result));
     }
 
     // 진행중/완료 미션 목록 조회

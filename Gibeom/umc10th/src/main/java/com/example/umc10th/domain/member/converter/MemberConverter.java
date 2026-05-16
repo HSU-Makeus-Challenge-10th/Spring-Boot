@@ -6,7 +6,11 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.MemberMission;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
