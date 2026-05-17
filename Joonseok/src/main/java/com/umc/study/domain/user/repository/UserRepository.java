@@ -20,4 +20,5 @@ where u.id = :userId
 """)
     long countCompletedMissions(@Param("userId") Long userId);
 
+    Optional<User> findByEmail(String username);
 }
