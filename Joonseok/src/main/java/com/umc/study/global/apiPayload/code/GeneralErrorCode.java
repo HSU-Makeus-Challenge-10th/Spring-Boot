@@ -11,6 +11,11 @@ public enum GeneralErrorCode implements BaseResponseCode {
     BAD_REQUEST(HttpStatus.BAD_REQUEST,
             "COMMON400_1",
             "잘못된 요청입니다."),
+    INVALID_HTTP_MESSAGE_BODY(
+            HttpStatus.BAD_REQUEST,
+            "COMMON_400_2",
+            "HTTP 요청 바디의 형식이 잘못되었습니다."
+    ),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED,
             "COMMON401_1",
             "인증되지 않았습니다."),
