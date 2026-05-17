@@ -1,5 +1,8 @@
 package com.umc.study.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.umc.study.global.security.CustomEntryPoint;
+import com.umc.study.global.security.exception.CustomAccessDenied;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +16,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+
     private final String[] allowUris = {
             "/swagger-ui/**",
             "/swagger-resources/**",
@@ -21,7 +29,7 @@ public class SecurityConfig {
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAccessDenied customAccessDenied, CustomEntryPoint customEntryPoint) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -35,7 +43,10 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
-                        .permitAll());
+                        .permitAll())
+                .exceptionHandling(e -> e
+                        .accessDeniedHandler(customAccessDenied)
+                        .authenticationEntryPoint(customEntryPoint));
 
         return http.build();
     }
