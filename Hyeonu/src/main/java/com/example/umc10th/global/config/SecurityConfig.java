@@ -21,7 +21,7 @@ public class SecurityConfig {
             "/swagger-ui/**", // API 문서 UI
             "/swagger-resources/**", // Swagger 리소스
             "/v3/api-docs/**", // Openapi 스펙 문서
-            "/auth/**" // 인증 관련 엔드 포인트(로그인, 회원가입 등)
+            "/api/auth/**" // 인증 관련 엔드 포인트(로그인, 회원가입 등)
     };
 
     @Bean
