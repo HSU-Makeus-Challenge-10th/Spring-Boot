@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.dto;
 
+import com.example.umc10th.domain.member.service.MemberService;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -17,5 +18,11 @@ public class MemberResDTO {
             String email,
             Integer point,
             Enum status
+    ){}
+
+    // 회원가입
+    @Builder
+    public record SignUpResDTO(
+            Long id
     ){}
 }
