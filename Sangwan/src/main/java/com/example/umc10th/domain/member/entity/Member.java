@@ -12,7 +12,7 @@ import com.example.umc10th.domain.notification.entity.MemberNotification;
 import com.example.umc10th.domain.notification.entity.NotificationSetting;
 import com.example.umc10th.domain.point.entity.PointHistory;
 import com.example.umc10th.domain.point.entity.PointWithdrawal;
-import com.example.umc10th.domain.qna.entity.Inquire;
+import com.example.umc10th.domain.inquire.entity.Inquire;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.qna.exception.code;
+package com.example.umc10th.domain.inquire.exception.code;
 
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum QnaSuccessCode implements BaseSuccessCode {
+public enum InquireSuccessCode implements BaseSuccessCode {
 
-    QNA_CREATED(HttpStatus.CREATED, "QNA_201", "문의 등록이 완료되었습니다.");
+    INQUIRE_CREATED(HttpStatus.CREATED, "INQUIRE_201", "문의 등록이 완료되었습니다.");
 
     private final HttpStatus status;
     private final String code;
