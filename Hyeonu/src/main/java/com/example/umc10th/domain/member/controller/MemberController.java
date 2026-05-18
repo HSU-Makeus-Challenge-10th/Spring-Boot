@@ -4,8 +4,7 @@ import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
-import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
-import com.example.umc10th.global.apiPayload.code.MemberSuccessCode;
+import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,4 +30,13 @@ public class MemberController {
                 .body(ApiResponse.onSuccess(MemberSuccessCode.OK,memberService.getInfo(dto)));
     }
 
+    // 회원가입
+    @PostMapping("/auth/sign-up")
+    public ResponseEntity<ApiResponse<MemberResDTO.SignUpResDTO>> signUp(
+            @RequestBody MemberReqDTO.SignUpReqDTO dto
+    ){
+        return ResponseEntity
+                .status(MemberSuccessCode.SIGN_UP.getStatus())
+                .body(ApiResponse.onSuccess(MemberSuccessCode.SIGN_UP,memberService.signUp(dto)));
+    }
 }
