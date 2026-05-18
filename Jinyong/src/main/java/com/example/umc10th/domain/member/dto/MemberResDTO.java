@@ -12,4 +12,10 @@ public class MemberResDTO {
             String nickname,
             String gender
     ) {}
+
+    @Builder
+    public record SignUp(
+            Long memberId,
+            String email
+    ) {}
 }
