@@ -6,9 +6,7 @@ import com.example.umc10thweek4.global.apiPayload.code.GeneralSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class ApiResponse<T> {
