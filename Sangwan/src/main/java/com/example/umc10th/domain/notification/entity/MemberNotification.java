@@ -8,7 +8,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_notification")
+@Table(name = "member_notification")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
@@ -24,7 +24,7 @@ public class MemberNotification extends BaseEntity {
     private NotificationEvent event;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(nullable = false)

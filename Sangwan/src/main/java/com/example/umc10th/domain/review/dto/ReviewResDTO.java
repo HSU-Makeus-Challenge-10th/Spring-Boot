@@ -12,4 +12,13 @@ public class ReviewResDTO {
             Long missionId,
             LocalDateTime createdAt
     ) {}
+
+    @Builder
+    public record ReviewItem(
+            Long reviewId,
+            String storeName,
+            Double rating,
+            String content,
+            LocalDateTime createdAt
+    ) {}
 }

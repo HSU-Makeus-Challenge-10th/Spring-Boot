@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "member")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder

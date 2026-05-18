@@ -4,9 +4,9 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
-import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.exception.MissionException;
 import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,26 +51,13 @@ public class MissionService {
             throw new ReviewException(ReviewErrorCode.REVIEW_ALREADY_EXISTS);
         }
 
-        Review review = Review.builder()
-                .memberMission(memberMission)
-                .member(member)
-                .rating(request.rating().doubleValue())
-                .content(request.content())
-                .build();
+        List<String> imageFilenames = reviewImages != null
+                ? reviewImages.stream().map(MultipartFile::getOriginalFilename).collect(Collectors.toList())
+                : null;
 
-        if (reviewImages != null && !reviewImages.isEmpty()) {
-            int limit = Math.min(reviewImages.size(), 3);
-            for (int i = 0; i < limit; i++) {
-                review.addReviewImage(reviewImages.get(i).getOriginalFilename(), i + 1);
-            }
-        }
-
+        Review review = MissionConverter.toReview(member, memberMission, request, imageFilenames);
         reviewRepository.save(review);
 
-        return MissionResDTO.CreateReviewRes.builder()
-                .reviewId(review.getId())
-                .missionId(missionId)
-                .createdAt(review.getCreatedAt())
-                .build();
+        return MissionConverter.toCreateReviewRes(review, missionId);
     }
 }

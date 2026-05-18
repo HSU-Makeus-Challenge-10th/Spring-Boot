@@ -2,7 +2,7 @@ package com.example.umc10th.domain.mission.entity.mapping;
 
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.Mission;
-import com.example.umc10th.domain.mission.enums.UserMissionStatus;
+import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user_mission")
+@Table(name = "member_mission")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
@@ -25,7 +25,7 @@ public class MemberMission extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +34,7 @@ public class MemberMission extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserMissionStatus status;
+    private MemberMissionStatus status;
 
     @Column(length = 20)
     private String code;

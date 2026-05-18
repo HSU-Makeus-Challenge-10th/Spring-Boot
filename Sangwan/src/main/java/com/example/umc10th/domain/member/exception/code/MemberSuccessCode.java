@@ -13,7 +13,8 @@ public enum MemberSuccessCode implements BaseSuccessCode {
     HOME(HttpStatus.OK, "HOME_200", "홈 화면 조회가 완료되었습니다."),
     MISSION_LIST(HttpStatus.OK, "MISSION_200", "미션 목록 조회가 완료되었습니다."),
     MISSION_SUCCESS_REQUEST(HttpStatus.OK, "MISSION_200", "미션 성공 검토 요청이 완료되었습니다."),
-    MYINFO(HttpStatus.OK, "MEMBER_201", "성공적으로 멤버를 조회했습니다.");
+    MYINFO(HttpStatus.OK, "MEMBER_201", "성공적으로 멤버를 조회했습니다."),
+    INPROGRESS_MISSIONS(HttpStatus.OK, "MISSION_200_2", "진행중인 미션 목록 조회가 완료되었습니다.");
 
     private final HttpStatus status;
     private final String code;

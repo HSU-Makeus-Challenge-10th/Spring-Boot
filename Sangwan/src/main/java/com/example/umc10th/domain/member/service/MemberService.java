@@ -11,20 +11,20 @@ import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.member.repository.RegionProgressRepository;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
-import com.example.umc10th.domain.mission.enums.UserMissionStatus;
+import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.mission.exception.MissionException;
 import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
+import com.example.umc10th.global.dto.CursorPageRes;
+import com.example.umc10th.global.dto.OffsetPageRes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,44 +50,22 @@ public class MemberService {
                 .orElse(null);
 
         String regionName = regionProgress != null ? regionProgress.getRegion().getName() : "지역 없음";
-        int currentCount = regionProgress != null && regionProgress.getSuccessCount() != null
-                ? regionProgress.getSuccessCount() : 0;
 
         List<Mission> availableMissions = regionProgress != null
                 ? missionRepository.findAvailableMissionsForMember(
                         regionProgress.getRegion().getId(), memberId)
                 : List.of();
 
-        List<MemberResDTO.HomeMissionItem> missionItems = availableMissions.stream()
-                .map(mission -> MemberResDTO.HomeMissionItem.builder()
-                        .missionId(mission.getId())
-                        .storeName(mission.getStore().getName())
-                        .category(mission.getStore().getFoodCategory().getName())
-                        .content(mission.getContent())
-                        .reward(mission.getRewardPoint())
-                        .dDay(calculateDDay(mission))
-                        .build())
-                .collect(Collectors.toList());
-
-        return MemberResDTO.HomeRes.builder()
-                .memberPoint(member.getTotalPoint())
-                .regionName(regionName)
-                .missionProgress(MemberResDTO.MissionProgress.builder()
-                        .currentCount(currentCount)
-                        .targetCount(10)
-                        .rewardPoint(1000)
-                        .build())
-                .missions(missionItems)
-                .build();
+        return MemberConverter.toHomeRes(member, regionName, regionProgress, availableMissions);
     }
 
-    public MemberResDTO.MissionListRes getMissions(Long memberId, String status, Long cursor, int size) {
+    public CursorPageRes<MemberResDTO.MissionItem> getMissions(Long memberId, String status, Long cursor, int size) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
-        UserMissionStatus missionStatus = switch (status.toUpperCase()) {
-            case "INPROGRESS" -> UserMissionStatus.CHALLENGING;
-            case "COMPLETE" -> UserMissionStatus.SUCCESS;
+        MemberMissionStatus missionStatus = switch (status.toUpperCase()) {
+            case "INPROGRESS" -> MemberMissionStatus.CHALLENGING;
+            case "COMPLETE" -> MemberMissionStatus.SUCCESS;
             default -> throw new MissionException(MissionErrorCode.INVALID_MISSION_STATUS);
         };
 
@@ -98,29 +76,20 @@ public class MemberService {
 
         boolean hasNext = fetched.size() > size;
         List<MemberMission> missions = hasNext ? fetched.subList(0, size) : fetched;
-
         Long nextCursor = hasNext ? missions.get(missions.size() - 1).getId() : null;
 
-        List<MemberResDTO.MissionItem> missionItems = missions.stream()
-                .map(mm -> MemberResDTO.MissionItem.builder()
-                        .memberMissionId(mm.getId())
-                        .missionId(mm.getMission().getId())
-                        .storeName(mm.getMission().getStore().getName())
-                        .content(mm.getMission().getContent())
-                        .reward(mm.getMission().getRewardPoint() + "P")
-                        .status(mm.getStatus().name())
-                        .rewardType("FIXED")
-                        .build())
-                .collect(Collectors.toList());
+        return MemberConverter.toMissionListRes(missions, hasNext, nextCursor, cursor == null, !hasNext);
+    }
 
-        return MemberResDTO.MissionListRes.builder()
-                .missionList(missionItems)
-                .listSize(missionItems.size())
-                .hasNext(hasNext)
-                .nextCursor(nextCursor)
-                .isFirst(cursor == null)
-                .isLast(!hasNext)
-                .build();
+    public OffsetPageRes<MemberResDTO.MissionItem> getInProgressMissions(
+            MemberReqDTO.GetInProgressMissionsReq request, int page, int size) {
+        memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        Page<MemberMission> memberMissionPage = memberMissionRepository.findPageByMemberIdAndStatus(
+                request.memberId(), MemberMissionStatus.CHALLENGING, PageRequest.of(page, size));
+
+        return MemberConverter.toInProgressMissionPageRes(memberMissionPage, page);
     }
 
     public MemberResDTO.MissionSuccessRes requestMissionSuccess(Long missionId) {
@@ -134,10 +103,4 @@ public class MemberService {
         return MemberConverter.toGetInfo(member);
     }
 
-    private int calculateDDay(Mission mission) {
-        if (mission.getEndAt() != null) {
-            return (int) ChronoUnit.DAYS.between(LocalDateTime.now(), mission.getEndAt());
-        }
-        return mission.getDeadline() != null ? mission.getDeadline() : 0;
-    }
 }

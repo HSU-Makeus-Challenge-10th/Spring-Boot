@@ -5,13 +5,16 @@ import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
-import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.dto.CursorPageRes;
+import com.example.umc10th.global.dto.OffsetPageRes;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/members")
 public class MemberController {
 
@@ -35,7 +38,7 @@ public class MemberController {
 
     // 미션 목록 조회 (진행중 / 진행완료)
     @GetMapping("/me/missions")
-    public ApiResponse<MemberResDTO.MissionListRes> getMissions(
+    public ApiResponse<CursorPageRes<MemberResDTO.MissionItem>> getMissions(
             @RequestParam Long memberId,  // TODO: 인증 구현 후 SecurityContext로 대체
             @RequestParam String status,
             @RequestParam(required = false) Long cursor,
@@ -52,6 +55,17 @@ public class MemberController {
     ) {
         return ApiResponse.onSuccess(MemberSuccessCode.MISSION_SUCCESS_REQUEST,
                 memberService.requestMissionSuccess(missionId));
+    }
+
+    // 진행중인 미션 조회 (오프셋 기반 페이지네이션)
+    @PostMapping("/me/missions/inprogress")
+    public ApiResponse<OffsetPageRes<MemberResDTO.MissionItem>> getInProgressMissions(
+            @Valid @RequestBody MemberReqDTO.GetInProgressMissionsReq request,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.INPROGRESS_MISSIONS,
+                memberService.getInProgressMissions(request, page, size));
     }
 
     // 내 정보 가져오기

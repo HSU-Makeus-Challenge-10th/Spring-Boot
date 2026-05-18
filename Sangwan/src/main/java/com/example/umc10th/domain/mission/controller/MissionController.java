@@ -7,6 +7,7 @@ import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/missions")
 public class MissionController {
 
