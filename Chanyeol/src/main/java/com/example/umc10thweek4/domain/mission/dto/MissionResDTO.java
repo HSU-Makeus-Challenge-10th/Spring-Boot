@@ -1,6 +1,7 @@
 package com.example.umc10thweek4.domain.mission.dto;
 
 import com.example.umc10thweek4.domain.mission.enums.MissionStatus;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,5 +47,27 @@ public class MissionResDTO {
             String text,
             Integer missionReward,
             LocalDateTime completeTime
+    ) {}
+
+    public record GetMission(
+            Long missionId,
+            String missionTitle,
+            String missionDetail,
+            Long missionReward,
+            Integer targetAmount,
+            LocalDateTime missionDeadline
+    ) {}
+
+    public record Participate(
+            Long userMissionId,
+            Long missionId,
+            MissionStatus status
+    ) {}
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
     ) {}
 }

@@ -6,20 +6,33 @@ import java.util.List;
 
 public class MemberReqDTO {
 
-    // 화원가입
     public record SignUp(
-            @NotBlank String name,
-            @NotBlank String nickname,
-            @Email String email,
-            @NotBlank String password,
-            @NotBlank String birthday,
-            @NotBlank String gender,
+            @NotBlank(message = "이름을 입력해주세요")
+            String name,
+
+            @NotBlank(message = "닉네임을 입력해주세요")
+            String nickname,
+
+            @NotBlank(message = "이메일을 입력해주세요")
+            @Email(message = "올바른 이메일 형식이 아닙니다")
+            String email,
+
+            @NotBlank(message = "비밀번호를 입력해주세요")
+            String password,
+
+            @NotBlank(message = "생년월일을 입력해주세요")
+            String birthday,
+
+            @NotBlank(message = "성별을 입력해주세요")
+            String gender,
+
             String address,
+
             String phoneNum,
+
             List<String> foodPreferences
     ) {}
 
-    // 마이페이지
     public record GetInfo(
             Long id
     ) {}

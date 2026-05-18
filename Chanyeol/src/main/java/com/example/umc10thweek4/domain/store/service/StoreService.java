@@ -1,8 +1,11 @@
 package com.example.umc10thweek4.domain.store.service;
 
 import com.example.umc10thweek4.domain.mission.dto.MissionResDTO;
+import com.example.umc10thweek4.domain.store.converter.StoreConverter;
 import com.example.umc10thweek4.domain.store.dto.StoreResDTO;
 import com.example.umc10thweek4.domain.store.entity.Store;
+import com.example.umc10thweek4.domain.store.exception.StoreException;
+import com.example.umc10thweek4.domain.store.exception.code.StoreErrorCode;
 import com.example.umc10thweek4.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,20 +34,13 @@ public class StoreService {
                 ))
                 .toList();
 
-        return new StoreResDTO.StoreList(storeInfos);
+        return StoreConverter.toStoreList(stores);
     }
 
     public StoreResDTO.StoreDetail getStoreDetail(Long storeId) {
         Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new RuntimeException("Store not found"));
+                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
-        return new StoreResDTO.StoreDetail(
-                store.getId(),
-                store.getStoreName(),
-                store.getAddress(),
-                store.getStoreImage(),
-                store.getCategory(),
-                store.getRegion().getRegionName()
-        );
+        return StoreConverter.toStoreDetail(store);
     }
 }
