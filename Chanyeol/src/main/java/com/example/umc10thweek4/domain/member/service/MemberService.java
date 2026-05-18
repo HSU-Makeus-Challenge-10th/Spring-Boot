@@ -13,11 +13,13 @@ import com.example.umc10thweek4.domain.member.repository.MemberFoodPreferenceRep
 import com.example.umc10thweek4.domain.member.repository.MemberNoticeSettingRepository;
 import com.example.umc10thweek4.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -28,6 +30,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberNoticeSettingRepository noticeSettingRepository;
     private final MemberFoodPreferenceRepository foodPreferenceRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 회원가입
@@ -43,15 +46,17 @@ public class MemberService {
             throw new MemberException(MemberErrorCode.DUPLICATE_NICKNAME);
         }
 
+        LocalDate birthday = parseBirthday(request.birthday());
+        Gender gender = parseGender(request.gender());
+
         Member member = memberRepository.save(
                 Member.builder()
                         .name(request.name())
                         .nickname(request.nickname())
                         .email(request.email())
-                        .password(request.password())   // TODO: 비밀번호 암호화
-                        .birth(LocalDate.parse(request.birthday(),
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                        .gender(Gender.valueOf(request.gender().toUpperCase()))
+                        .password(passwordEncoder.encode(request.password()))
+                        .birth(birthday)
+                        .gender(gender)
                         .phoneNumber(request.phoneNum())
                         .build()
         );
@@ -78,6 +83,22 @@ public class MemberService {
         }
 
         return MemberConverter.toSignUpRes(member);
+    }
+
+    private LocalDate parseBirthday(String birthday) {
+        try {
+            return LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            throw new MemberException(MemberErrorCode.INVALID_BIRTHDAY);
+        }
+    }
+
+    private Gender parseGender(String gender) {
+        try {
+            return Gender.valueOf(gender.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new MemberException(MemberErrorCode.INVALID_GENDER);
+        }
     }
 
     /**

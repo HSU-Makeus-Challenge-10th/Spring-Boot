@@ -5,6 +5,7 @@ import com.example.umc10thweek4.domain.ask.dto.AskResDTO;
 import com.example.umc10thweek4.domain.ask.exception.code.AskSuccessCode;
 import com.example.umc10thweek4.domain.ask.service.AskService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
+import com.example.umc10thweek4.global.security.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class AskController {
      */
     @PostMapping("/v1/asks")
     public ApiResponse<AskResDTO.Create> createAsk(@RequestBody @Valid AskReqDTO.Create request) {
-        Long currentMemberId = 1L;   // TODO: SecurityContext에서 가져오기
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
 
         AskResDTO.Create response = askService.createAsk(currentMemberId, request);
         return ApiResponse.onSuccess(AskSuccessCode.OK, response);

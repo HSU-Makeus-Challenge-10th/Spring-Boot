@@ -5,6 +5,7 @@ import com.example.umc10thweek4.domain.review.dto.ReviewResDTO;
 import com.example.umc10thweek4.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10thweek4.domain.review.service.ReviewService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
+import com.example.umc10thweek4.global.security.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ReviewController {
             @PathVariable Long storeId,
             @RequestBody @Valid ReviewReqDTO.Create request) {
 
-        Long currentMemberId = 1L;   // 임시 값
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
 
         Long userMissionId = 1L;     // 임시 값
 
