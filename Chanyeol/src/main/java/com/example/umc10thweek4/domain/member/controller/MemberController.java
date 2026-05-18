@@ -5,6 +5,7 @@ import com.example.umc10thweek4.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10thweek4.domain.member.service.MemberService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/v1/users/{userId}")
-    public ApiResponse<MemberResDTO.GetInfo> getMyPage(@PathVariable Long userId) {
-        return ApiResponse.onSuccess(MemberSuccessCode.MY_PAGE_SUCCESS, memberService.getMyPage(userId));
+    public ResponseEntity<ApiResponse<MemberResDTO.GetInfo>> getMyPage(@PathVariable Long userId) {
+        return ApiResponse.onSuccessResponse(MemberSuccessCode.MY_PAGE_SUCCESS, memberService.getMyPage(userId));
     }
 }

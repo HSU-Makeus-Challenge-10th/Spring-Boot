@@ -2,10 +2,10 @@ package com.example.umc10thweek4.global.apiPayload;
 
 import com.example.umc10thweek4.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10thweek4.global.apiPayload.code.BaseSuccessCode;
-import com.example.umc10thweek4.global.apiPayload.code.GeneralSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
@@ -29,5 +29,15 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> onFailure(BaseErrorCode errorCode, T result) {
         return new ApiResponse<>(false, errorCode.getCode(), errorCode.getMessage(), result);
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> onSuccessResponse(BaseSuccessCode successCode, T result) {
+        return ResponseEntity.status(successCode.getStatus())
+                .body(onSuccess(successCode, result));
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> onFailureResponse(BaseErrorCode errorCode, T result) {
+        return ResponseEntity.status(errorCode.getStatus())
+                .body(onFailure(errorCode, result));
     }
 }

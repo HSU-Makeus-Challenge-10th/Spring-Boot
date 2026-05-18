@@ -7,6 +7,7 @@ import com.example.umc10thweek4.domain.member.service.MemberService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class AuthController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ApiResponse<MemberResDTO.SignUp> signUp(@RequestBody @Valid MemberReqDTO.SignUp request) {
-        return ApiResponse.onSuccess(MemberSuccessCode.SIGN_UP_SUCCESS, memberService.signUp(request));
+    public ResponseEntity<ApiResponse<MemberResDTO.SignUp>> signUp(@RequestBody @Valid MemberReqDTO.SignUp request) {
+        return ApiResponse.onSuccessResponse(MemberSuccessCode.SIGN_UP_SUCCESS, memberService.signUp(request));
     }
 }
