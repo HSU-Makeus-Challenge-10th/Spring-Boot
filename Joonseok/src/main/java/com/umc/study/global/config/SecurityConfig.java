@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/swagger-ui/index-html", true)
+                        .defaultSuccessUrl("/api/swagger-ui/index.html", true)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
