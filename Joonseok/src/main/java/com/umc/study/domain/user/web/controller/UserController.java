@@ -21,7 +21,7 @@ public class UserController {
 
      private final UserService userService;
 
-    @PostMapping("/sign-in")
+    @PostMapping("/auth/sign-in")
     public ResponseEntity<ApiResponse<?>> signIn(
             @Valid @RequestBody Object request
     ) {
