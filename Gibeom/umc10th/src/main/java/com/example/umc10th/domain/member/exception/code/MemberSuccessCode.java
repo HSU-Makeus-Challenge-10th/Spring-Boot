@@ -11,7 +11,7 @@ public enum MemberSuccessCode implements BaseSuccessCode {
        "MEMBER200_1",
                "성공적으로 유저를 조회했습니다."),
 
-    SIGNUP_SUCCESS(HttpStatus.CREATED,
+    CREATED(HttpStatus.CREATED,
             "MEMBER_201_1",
             "회원가입이 성공적으로 완료되었습니다.")
             ;
