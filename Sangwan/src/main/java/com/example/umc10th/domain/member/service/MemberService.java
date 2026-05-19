@@ -21,9 +21,12 @@ import com.example.umc10th.global.dto.OffsetPageRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -35,10 +38,20 @@ public class MemberService {
     private final RegionProgressRepository regionProgressRepository;
     private final MissionRepository missionRepository;
     private final MemberMissionRepository memberMissionRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public MemberResDTO.SignupRes signup(MemberReqDTO.SignupReq request) {
-        // TODO: 회원가입 로직
-        return null;
+        if (memberRepository.existsByEmail(request.email())) {
+            throw new MemberException(MemberErrorCode.MEMBER_ALREADY_EXISTS);
+        }
+
+        LocalDate birth = parseBirthday(request.birthday());
+        String encodedPassword = passwordEncoder.encode(request.password());
+        Member member = MemberConverter.toMember(request, encodedPassword, birth);
+        Member savedMember = memberRepository.save(member);
+
+        return MemberConverter.toSignupRes(savedMember);
     }
 
     public MemberResDTO.HomeRes getHome(Long memberId) {
@@ -101,6 +114,14 @@ public class MemberService {
         Member member = memberRepository.findById(myInfoReq.id())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toGetInfo(member);
+    }
+
+    private LocalDate parseBirthday(String birthday) {
+        try {
+            return LocalDate.parse(birthday);
+        } catch (DateTimeParseException e) {
+            throw new MemberException(MemberErrorCode.INVALID_BIRTHDAY_FORMAT);
+        }
     }
 
 }
