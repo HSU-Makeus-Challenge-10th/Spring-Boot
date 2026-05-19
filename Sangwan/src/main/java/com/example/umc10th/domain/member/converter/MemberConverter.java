@@ -3,11 +3,15 @@ package com.example.umc10th.domain.member.converter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.MemberAgreement;
+import com.example.umc10th.domain.member.entity.mapping.MemberFoodCategory;
 import com.example.umc10th.domain.member.entity.mapping.RegionProgress;
 import com.example.umc10th.domain.member.enums.MemberStatus;
 import com.example.umc10th.domain.member.enums.Role;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
+import com.example.umc10th.domain.store.entity.FoodCategory;
+import com.example.umc10th.domain.term.entity.Term;
 import com.example.umc10th.global.dto.CursorPageRes;
 import com.example.umc10th.global.dto.OffsetPageRes;
 import org.springframework.data.domain.Page;
@@ -33,6 +37,21 @@ public class MemberConverter {
                 .birth(birth)
                 .baseAddress(request.address())
                 .isVerified(false)
+                .build();
+    }
+
+    public static MemberAgreement toMemberAgreement(Member member, Term term, Boolean isAgreed) {
+        return MemberAgreement.builder()
+                .member(member)
+                .term(term)
+                .isAgreed(isAgreed)
+                .build();
+    }
+
+    public static MemberFoodCategory toMemberFoodCategory(Member member, FoodCategory foodCategory) {
+        return MemberFoodCategory.builder()
+                .member(member)
+                .foodCategory(foodCategory)
                 .build();
     }
 
