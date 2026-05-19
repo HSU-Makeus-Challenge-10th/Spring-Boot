@@ -1,7 +1,5 @@
 package com.study.UMC10.global.security;
 
-import com.study.UMC10.domain.user.code.UserErrorCode;
-import com.study.UMC10.domain.user.code.UserException;
 import com.study.UMC10.domain.user.entity.User;
 import com.study.UMC10.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UserException(UserErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일의 사용자를 찾을 수 없습니다: " + username));
 
         return new CustomUserDetails(user);
     }

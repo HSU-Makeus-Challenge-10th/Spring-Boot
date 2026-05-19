@@ -47,13 +47,18 @@ public class UserService {
     @Transactional
     public UserResponseDto.SignUpResultDto signUp(UserRequestDto.SignUpDto requestDto) {
 
+        // 이메일 중복 체크
+        if (userRepository.existsByEmail(requestDto.email())) {
+            throw new UserException(UserErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+
         String encodedPassword = passwordEncoder.encode(requestDto.password());
 
         com.study.UMC10.domain.user.enums.Gender userGender;
         try {
             userGender = com.study.UMC10.domain.user.enums.Gender.valueOf(requestDto.gender().toUpperCase());
         } catch (Exception e) {
-            userGender = com.study.UMC10.domain.user.enums.Gender.NONE;
+            throw new UserException(UserErrorCode.INVALID_GENDER);
         }
 
         java.time.LocalDate userBirth = null;
