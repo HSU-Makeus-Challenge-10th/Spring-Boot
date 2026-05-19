@@ -6,8 +6,10 @@ import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.dto.CommonResDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ public class MissionController {
     @Operation(summary = "미션 성공 요청")
     public ApiResponse<MissionResDTO.ActivatedMissionInfo> successMission(
             @PathVariable Long activatedMissionId,
-            @RequestBody MissionReqDTO.SuccessRequest dto) {
+            @RequestBody @Valid MissionReqDTO.SuccessRequest dto) {
         return ApiResponse.onSuccess(MissionSuccessCode.SUCCESS_REQUESTED, missionService.successMission(activatedMissionId, dto));
     }
 
@@ -41,6 +43,13 @@ public class MissionController {
             @RequestParam(defaultValue = "0") Long cursor,
             @RequestParam(defaultValue = "10") int limit) {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, missionService.getOngoingMissions(cursor, limit));
+    }
+
+    @PostMapping("/ongoing")
+    @Operation(summary = "진행중 미션 조회 (오프셋 페이징)")
+    public ApiResponse<CommonResDTO.OffsetPagination<MissionResDTO.MissionItem>> getOngoingMissionsByPage(
+            @RequestBody @Valid MissionReqDTO.GetOngoingMissions dto) {
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missionService.getOngoingMissions(dto));
     }
 
     @GetMapping("/available")
