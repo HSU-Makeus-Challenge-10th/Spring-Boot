@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public MemberResDTO.GetInfo getInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -64,5 +66,18 @@ public class MemberService {
                 .map(MemberMission::getMission)
                 .collect(Collectors.toList());
         return MissionConverter.toMissionDtoList(missions);
+    }
+
+    public void signUp(MemberReqDTO.SignUp req) {
+        //닉네임 혹은 이메일이 이미 존재할 때
+        if(memberRepository.existsByEmail(req.email())){
+            throw new MemberException(MemberErrorCode.EMAIL_DUPLICATED);
+        } else if (memberRepository.existsByNickname(req.nickname())){
+            throw new MemberException(MemberErrorCode.NICKNAME_DUPLICATED);
+        }
+
+        String encodedPassword = passwordEncoder.encode(req.password());
+        Member member = MemberConverter.toMember(req, encodedPassword);
+        memberRepository.save(member);
     }
 }
