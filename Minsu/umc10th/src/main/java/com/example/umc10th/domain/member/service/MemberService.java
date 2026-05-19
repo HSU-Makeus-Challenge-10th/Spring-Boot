@@ -18,6 +18,7 @@ import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.member.repository.MemberTermRepository;
 import com.example.umc10th.domain.member.repository.TermRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class MemberService {
     private final TermRepository termRepository;
     private final MemberFoodRepository memberFoodRepository;
     private final MemberTermRepository memberTermRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
         Member member = memberRepository.findById(dto.id())
@@ -58,6 +60,7 @@ public class MemberService {
         Member member = Member.builder()
                 .name(dto.name())
                 .email(dto.email())
+                .password(passwordEncoder.encode(dto.password()))
                 .phoneNumber(dto.phoneNumber())
                 .detailAddress(dto.detailAddress())
                 .gender(dto.gender() != null ? Gender.valueOf(dto.gender().toUpperCase()) : null)
