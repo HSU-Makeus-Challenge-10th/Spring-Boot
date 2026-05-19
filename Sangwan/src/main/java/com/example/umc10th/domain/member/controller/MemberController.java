@@ -8,6 +8,8 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.dto.CursorPageRes;
 import com.example.umc10th.global.dto.OffsetPageRes;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +44,8 @@ public class MemberController {
             @RequestParam Long memberId,  // TODO: 인증 구현 후 SecurityContext로 대체
             @RequestParam String status,
             @RequestParam(required = false) Long cursor,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10")
+            @Positive(message = "페이지 크기는 1 이상이어야 합니다.") int size
     ) {
         return ApiResponse.onSuccess(MemberSuccessCode.MISSION_LIST,
                 memberService.getMissions(memberId, status, cursor, size));
@@ -61,8 +64,10 @@ public class MemberController {
     @PostMapping("/me/missions/inprogress")
     public ApiResponse<OffsetPageRes<MemberResDTO.MissionItem>> getInProgressMissions(
             @Valid @RequestBody MemberReqDTO.GetInProgressMissionsReq request,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "0")
+            @PositiveOrZero(message = "페이지 번호는 0 이상이어야 합니다.") int page,
+            @RequestParam(defaultValue = "10")
+            @Positive(message = "페이지 크기는 1 이상이어야 합니다.") int size
     ) {
         return ApiResponse.onSuccess(MemberSuccessCode.INPROGRESS_MISSIONS,
                 memberService.getInProgressMissions(request, page, size));
