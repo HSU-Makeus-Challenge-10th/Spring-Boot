@@ -6,8 +6,10 @@ import com.example.umc10th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.dto.CommonResDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +26,12 @@ public class ReviewController {
 
     @GetMapping("/users/{userId}/reviews")
     @Operation(summary = "작성한 리뷰 전체 조회 (커서 페이징)")
-    public ApiResponse<ReviewResDTO.MyReviewPageResult> getMyReviews(
+    public ApiResponse<CommonResDTO.CursorPagination<ReviewResDTO.MyReviewCursorItem>> getMyReviews(
             @PathVariable Long userId,
-            @RequestParam(defaultValue = "0") Long cursor,
-            @RequestParam(defaultValue = "10") int limit) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviewService.getMyReviews(userId, cursor, limit));
+            @RequestParam(defaultValue = "-1") String cursor,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "id") String query) {
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviewService.getMyReviews(userId, cursor, limit, query));
     }
 
     @DeleteMapping("/reviews/{reviewId}")
@@ -42,7 +45,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 수정 (multipart/form-data)")
     public ApiResponse<ReviewResDTO.ReviewInfo> updateReview(
             @PathVariable Long reviewId,
-            @RequestPart(value = "request", required = false) ReviewReqDTO.Update request,
+            @RequestPart(value = "request", required = false) @Valid ReviewReqDTO.Update request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         return ApiResponse.onSuccess(ReviewSuccessCode.OK, reviewService.updateReview(reviewId, request, images));
     }
@@ -51,7 +54,7 @@ public class ReviewController {
     @Operation(summary = "가게 리뷰 작성 (multipart/form-data)")
     public ApiResponse<ReviewResDTO.ReviewInfo> createReview(
             @PathVariable Long storeId,
-            @RequestPart("request") ReviewReqDTO.CreateReview request,
+            @RequestPart("request") @Valid ReviewReqDTO.CreateReview request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
         return ApiResponse.onSuccess(ReviewSuccessCode.CREATED, reviewService.createReview(storeId, request, images));
     }
