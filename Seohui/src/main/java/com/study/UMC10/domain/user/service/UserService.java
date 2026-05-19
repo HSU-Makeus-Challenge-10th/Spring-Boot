@@ -4,7 +4,6 @@ import com.study.UMC10.domain.mission.entity.Mission;
 import com.study.UMC10.domain.mission.repository.MissionRepository;
 import com.study.UMC10.domain.user.code.UserErrorCode;
 import com.study.UMC10.domain.user.code.UserException;
-import com.study.UMC10.domain.user.converter.UserConverter;
 import com.study.UMC10.domain.user.dto.request.UserRequestDto;
 import com.study.UMC10.domain.user.dto.response.UserResponseDto;
 import com.study.UMC10.domain.user.entity.User;
@@ -12,6 +11,7 @@ import com.study.UMC10.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +24,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final MissionRepository missionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 마이페이지
     @Transactional(readOnly = true)
     public UserResponseDto.GetInfo getInfo(UserRequestDto.GetInfo dto) {
         Long userId = dto.id();
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(UserErrorCode.MEMBER_NOT_FOUND));
 
@@ -43,8 +43,43 @@ public class UserService {
                 .build();
     }
 
+    // 회원가입
+    @Transactional
     public UserResponseDto.SignUpResultDto signUp(UserRequestDto.SignUpDto requestDto) {
-        return null;
+
+        String encodedPassword = passwordEncoder.encode(requestDto.password());
+
+        com.study.UMC10.domain.user.enums.Gender userGender;
+        try {
+            userGender = com.study.UMC10.domain.user.enums.Gender.valueOf(requestDto.gender().toUpperCase());
+        } catch (Exception e) {
+            userGender = com.study.UMC10.domain.user.enums.Gender.NONE;
+        }
+
+        java.time.LocalDate userBirth = null;
+        if (requestDto.birth() != null && !requestDto.birth().isBlank()) {
+            userBirth = java.time.LocalDate.parse(requestDto.birth());
+        }
+
+        User newUser = User.builder()
+                .email(requestDto.email())
+                .password(encodedPassword)
+                .name(requestDto.name())
+                .nickname(requestDto.nickname())
+                .address(requestDto.address())
+                .gender(userGender)
+                .birth(userBirth)
+                .totalPoint(0)
+                .finMission(0)
+                .status(com.study.UMC10.domain.user.enums.UserStatus.ACTIVE)
+                .build();
+
+        User savedUser = userRepository.save(newUser);
+
+        return UserResponseDto.SignUpResultDto.builder()
+                .userId(savedUser.getId())
+                .name(savedUser.getName())
+                .build();
     }
 
     // 홈 화면 (지역별 미션 조회 + 페이징)
@@ -56,7 +91,6 @@ public class UserService {
                 .orElseThrow(() -> new UserException(UserErrorCode.MEMBER_NOT_FOUND));
 
         PageRequest pageRequest = PageRequest.of(page, 10);
-
         Page<Mission> missionPage = missionRepository.findMissionsByRegion(region, pageRequest);
 
         List<UserResponseDto.HomeMissionDto> missionDtoList = missionPage.stream()
