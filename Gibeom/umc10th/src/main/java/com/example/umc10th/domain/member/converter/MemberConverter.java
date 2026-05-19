@@ -48,4 +48,16 @@ public class MemberConverter {
                 .status(memberMission.getStatus().name())
                 .build();
     }
+
+    public static Member toMember(MemberReqDTO.SignUp req, String emcodedPasssword){
+        return Member.builder()
+                .name(req.name())
+                .password(emcodedPasssword)
+                .phoneNumber(req.phoneNumber())
+                .email(req.email())
+                .gender(req.gender())
+                .userPoint(0)
+                .nickname(req.nickname())
+                .build();
+    }
 }
