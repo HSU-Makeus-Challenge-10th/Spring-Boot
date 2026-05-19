@@ -22,10 +22,10 @@ public class SecurityConfig {
     }
 
     private final String[] allowUris = {
-            "/swagger-ui/**",
-            "/swagger-resources/**",
-            "/v3/api-docs/**",
-            "/auth/**"                      // sign-up, login request allow
+            "/api/swagger-ui/**",
+            "/api/swagger-resources/**",
+            "/api/v3/api-docs/**",
+            "/api/auth/**"                      // sign-up, login request allow
     };
 
     @Bean
