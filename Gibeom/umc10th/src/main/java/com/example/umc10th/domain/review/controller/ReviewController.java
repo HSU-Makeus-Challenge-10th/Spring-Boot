@@ -30,7 +30,7 @@ public class ReviewController {
             @RequestParam String query
     ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        ReviewResDTO.Pagination<ReviewResDTO.getReview> result = reviewService.getMemberReviewsOrderByScore(memberId, pageSize, cursor, query);
+        ReviewResDTO.Pagination<ReviewResDTO.getReview> result = reviewService.getMemberReviews(memberId, pageSize, cursor, query);
         return ResponseEntity
                 .status(code.getStatus())
                 .body(ApiResponse.onSuccess(code, result));

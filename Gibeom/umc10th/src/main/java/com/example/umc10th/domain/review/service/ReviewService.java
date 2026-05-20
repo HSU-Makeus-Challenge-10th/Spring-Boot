@@ -7,10 +7,8 @@ import com.example.umc10th.domain.review.exception.ReviewException;
 import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,40 +18,24 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     //id 페이지네이션
-    public ReviewResDTO.Pagination<ReviewResDTO.getReview> getMemberReviewsOrderById(
+    private ReviewResDTO.Pagination<ReviewResDTO.getReview> getMemberReviewsOrderById(
             Long memberId,
             Integer pageSize,
-            String cursor,
-            String query
+            String cursor
     ) {
-
-        //페이지 정보 PageRequest만들기
         PageRequest pageRequest = PageRequest.of(0, pageSize);
 
-        long idCursor;
         Slice<Review> reviewList;
         String nextCursor;
 
-        //커서가 있는 경우
         if (!cursor.equals("-1")) {
-
-            // 커서 분리
-            String[] cursorSplit = cursor.split(":");
-            switch (query.toLowerCase()) {
-                case "id":
-                    idCursor = Long.parseLong(cursorSplit[1]);
-                    // 멤버의 리뷰들 조회 & where 절에 커서값 기입
-                    reviewList = reviewRepository.findReviewsByMember_IdAndIdLessThanOrderByIdDesc(
-                            memberId,
-                            idCursor,
-                            pageRequest
-                    );
-                    break;
-                default:
-                    throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
-            }
+            long idCursor = Long.parseLong(cursor.split(":")[1]);
+            reviewList = reviewRepository.findReviewsByMember_IdAndIdLessThanOrderByIdDesc(
+                    memberId,
+                    idCursor,
+                    pageRequest
+            );
         } else {
-            //커서 없이 조회
             reviewList = reviewRepository.findReviewsByMember_IdOrderByIdDesc(memberId, pageRequest);
         }
 
@@ -70,38 +52,40 @@ public class ReviewService {
                 reviewList.getSize()
         );
     }
-    //별점 순 페이징
-    public ReviewResDTO.Pagination<ReviewResDTO.getReview> getMemberReviewsOrderByScore(
+    // query 값에 따라 정렬 전략 선택 — 컨트롤러는 이 메서드만 호출한다
+    public ReviewResDTO.Pagination<ReviewResDTO.getReview> getMemberReviews(
             Long memberId,
             Integer pageSize,
             String cursor,
             String query
     ) {
+        return switch (query.toLowerCase()) {
+            case "id" -> getMemberReviewsOrderById(memberId, pageSize, cursor);
+            case "score" -> getMemberReviewsOrderByScore(memberId, pageSize, cursor);
+            default -> throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+        };
+    }
+
+    //별점 순 페이징
+    private ReviewResDTO.Pagination<ReviewResDTO.getReview> getMemberReviewsOrderByScore(
+            Long memberId,
+            Integer pageSize,
+            String cursor
+    ) {
         PageRequest pageRequest = PageRequest.of(0, pageSize);
         Slice<Review> reviewList;
         String nextCursor;
-        //커서가 있는 경우
-        if (!cursor.equals("-1")) {
-            // 커서 분리
-            String[] cursorSplit = cursor.split(":");
-            switch (query.toLowerCase()) {
-                case "score":
-                    // 커서 타입 변환
-                    long scoreCursor = Long.parseLong(cursorSplit[0]);
-                    long idCursor = Long.parseLong(cursorSplit[1]);
 
-                    //리뷰들 조회 & where절에 커서 값 기입
-                    reviewList = reviewRepository.findReviewsByScoreCursor(
-                            memberId,
-                            scoreCursor,
-                            idCursor,
-                            pageRequest);
-                    break;
-                default:
-                    throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
-            }
+        if (!cursor.equals("-1")) {
+            String[] cursorSplit = cursor.split(":");
+            long scoreCursor = Long.parseLong(cursorSplit[0]);
+            long idCursor = Long.parseLong(cursorSplit[1]);
+            reviewList = reviewRepository.findReviewsByScoreCursor(
+                    memberId,
+                    scoreCursor,
+                    idCursor,
+                    pageRequest);
         } else {
-            //커서 없이 조회
             reviewList = reviewRepository.findReviewsByMember_IdOrderByScoreDescIdDesc(memberId, pageRequest);
         }
         List<Review> content = reviewList.getContent();

@@ -49,10 +49,10 @@ public class MemberConverter {
                 .build();
     }
 
-    public static Member toMember(MemberReqDTO.SignUp req, String emcodedPasssword){
+    public static Member toMember(MemberReqDTO.SignUp req, String encodedPasssword){
         return Member.builder()
                 .name(req.name())
-                .password(emcodedPasssword)
+                .password(encodedPasssword)
                 .phoneNumber(req.phoneNumber())
                 .email(req.email())
                 .gender(req.gender())

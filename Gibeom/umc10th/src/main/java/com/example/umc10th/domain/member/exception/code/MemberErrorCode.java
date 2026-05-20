@@ -12,7 +12,7 @@ public enum MemberErrorCode implements BaseErrorCode {
             "COMMON404_1",
             "해당 사용자를 찾을 수 없습니다."
     ),
-    EMAIL_DUPLICATED(HttpStatus.NOT_FOUND,
+    EMAIL_DUPLICATED(HttpStatus.CONFLICT,
             "COMMON404_2",
             "해당 사용자를 찾을 수 없습니다."
     ),
