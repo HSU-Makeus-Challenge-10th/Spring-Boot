@@ -20,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     // 마이페이지
-    @PostMapping("/v1/users/me")
+    @PostMapping("/v1/members/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             // 받은 JSON 데이터를 자바 객체(dto)로 변환해서 씀
             @RequestBody MemberReqDTO.GetInfo dto

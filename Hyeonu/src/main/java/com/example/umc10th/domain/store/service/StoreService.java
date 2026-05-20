@@ -14,11 +14,5 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StoreService {
-    private final StoreRepository storeRepository;
 
-    public StoreResDTO.StoreInfo getStoreInfo(Long storeId) {
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
-        return StoreConverter.toStoreInfo(store);
-    }
 }
