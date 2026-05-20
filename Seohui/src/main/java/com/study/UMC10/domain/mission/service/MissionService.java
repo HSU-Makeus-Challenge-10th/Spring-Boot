@@ -1,5 +1,6 @@
 package com.study.UMC10.domain.mission.service;
 
+import com.study.UMC10.domain.mission.converter.MissionConverter;
 import com.study.UMC10.domain.mission.dto.response.MissionResponseDto;
 import com.study.UMC10.domain.mission.entity.UserMission;
 import com.study.UMC10.domain.mission.enums.MissionStatus;
@@ -20,16 +21,14 @@ public class MissionService {
     private final UserMissionRepository userMissionRepository;
 
     @Transactional(readOnly = true)
-    public MissionResponseDto.MissionListDto getMissions(String status, Integer page) {
-
-        // 임시 유저
-        Long dummyUserId = 1L;
+    public MissionResponseDto.Pagination<MissionResponseDto.MissionDetailDto> getMissions(
+            Long userId, String status, Integer pageSize, Integer pageNumber) {
 
         MissionStatus missionStatus = MissionStatus.valueOf(status.toUpperCase());
 
-        // 페이징
-        PageRequest pageRequest = PageRequest.of(page, 10);
-        Page<UserMission> userMissionPage = userMissionRepository.findMyMissions(dummyUserId, missionStatus, pageRequest);
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        Page<UserMission> userMissionPage = userMissionRepository.findMyMissions(userId, missionStatus, pageRequest);
 
         List<MissionResponseDto.MissionDetailDto> missionDetailDtoList = userMissionPage.stream()
                 .map(userMission -> MissionResponseDto.MissionDetailDto.builder()
@@ -41,12 +40,17 @@ public class MissionService {
                         .build())
                 .collect(Collectors.toList());
 
-        return MissionResponseDto.MissionListDto.builder()
-                .missions(missionDetailDtoList)
-                .build();
+        return MissionConverter.toPagination(
+                missionDetailDtoList,
+                userMissionPage.getNumber(),
+                userMissionPage.getSize()
+        );
     }
 
-    // 아직 구현Xx
+    /*
+     * NOTE:
+     * 아직 구현 안함
+     */
     public MissionResponseDto.MissionCompleteResultDto completeMission(Long missionId) {
         return null;
     }
