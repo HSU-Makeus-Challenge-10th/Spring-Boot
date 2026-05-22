@@ -21,4 +21,11 @@ public class MemberReqDTO {
         Gender gender
     ){}
 
+    public record Login(
+        @Email @NotBlank
+        String email,
+        @NotBlank
+        String password
+    ){}
+
 }

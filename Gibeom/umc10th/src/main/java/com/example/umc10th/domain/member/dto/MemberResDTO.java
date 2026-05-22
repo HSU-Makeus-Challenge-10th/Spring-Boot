@@ -15,6 +15,11 @@ public class MemberResDTO {
             Integer userPoint
     ){}
 
+    @Builder
+    public record LoginResult(
+            String accessToken
+    ){}
+
     //홈 화면
     @Builder
     public record HomeResultDto(
