@@ -13,6 +13,8 @@ import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
+import com.example.umc10th.global.entity.AuthMember;
+import com.example.umc10th.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,11 +31,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public MemberResDTO.GetInfo getInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    public MemberResDTO.GetInfo getInfo(
+            AuthMember member
+    ) {
+        Member User = member.getMember();
+        memberRepository.findByEmail(User.getEmail())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
-        return MemberConverter.toGetInfo(member);
+        return MemberConverter.toGetInfo(User);
     }
 
     //홈화면 (진행중인 미션 10개씩 페이징)
@@ -66,6 +72,16 @@ public class MemberService {
                 .map(MemberMission::getMission)
                 .collect(Collectors.toList());
         return MissionConverter.toMissionDtoList(missions);
+    }
+
+    public MemberResDTO.LoginResult login(MemberReqDTO.Login req) {
+        Member member = memberRepository.findByEmail(req.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+        if (!passwordEncoder.matches(req.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+        String accessToken = jwtUtil.createAccessToken(new AuthMember(member));
+        return MemberConverter.toLoginResult(accessToken);
     }
 
     public void signUp(MemberReqDTO.SignUp req) {
