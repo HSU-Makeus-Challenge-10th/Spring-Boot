@@ -26,13 +26,12 @@ public class MemberController {
     //마이페이지
     @GetMapping("/v1/members/me")
     public ResponseEntity<ApiResponse<MemberResDTO.GetInfo>> getInfo(
-            @AuthenticationPrincipal Long memberId
-    ){
+            @AuthenticationPrincipal AuthMember member
+            ){
         BaseSuccessCode code = MemberSuccessCode.OK;
-        MemberResDTO.GetInfo result = memberService.getInfo(memberId);
         return ResponseEntity
                 .status(code.getStatus())
-                .body(ApiResponse.onSuccess(code, result));
+                .body(ApiResponse.onSuccess(code, memberService.getInfo(member)));
     }
 
     // 홈화면
@@ -74,4 +73,17 @@ public class MemberController {
                 .status(MemberSuccessCode.CREATED.getStatus())
                 .body(ApiResponse.onSuccess(MemberSuccessCode.CREATED, null));
     }
+
+    //로그인
+    @PostMapping("/auth/login")
+    public ResponseEntity<ApiResponse<MemberResDTO.LoginResult>> login(
+            @RequestBody @Valid MemberReqDTO.Login req
+    ){
+        MemberResDTO.LoginResult result = memberService.login(req);
+        return ResponseEntity
+                .status(MemberSuccessCode.OK.getStatus())
+                .body(ApiResponse.onSuccess(MemberSuccessCode.OK, result));
+    }
+
+
 }
