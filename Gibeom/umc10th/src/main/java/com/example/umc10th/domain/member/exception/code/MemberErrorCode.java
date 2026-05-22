@@ -19,7 +19,10 @@ public enum MemberErrorCode implements BaseErrorCode {
     NICKNAME_DUPLICATED(HttpStatus.CONFLICT,
             "COMMON409_2",
             "이미 존재하는 닉네임입니다."
-
+    ),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,
+            "MEMBER401_1",
+            "비밀번호가 올바르지 않습니다."
     )
     ;
     private final HttpStatus status;
