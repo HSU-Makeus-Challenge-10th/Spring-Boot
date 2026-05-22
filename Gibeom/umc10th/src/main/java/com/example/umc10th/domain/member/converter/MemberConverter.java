@@ -49,6 +49,12 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResDTO.LoginResult toLoginResult(String accessToken) {
+        return MemberResDTO.LoginResult.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
     public static Member toMember(MemberReqDTO.SignUp req, String encodedPasssword){
         return Member.builder()
                 .name(req.name())
