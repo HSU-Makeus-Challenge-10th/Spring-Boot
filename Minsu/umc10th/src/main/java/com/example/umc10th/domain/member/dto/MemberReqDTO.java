@@ -1,6 +1,9 @@
 package com.example.umc10th.domain.member.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ public class MemberReqDTO {
 
     public record SignUp(
             @Schema(description = "이름", example = "홍길동")
+            @NotBlank(message = "이름은 필수입니다.")
             String name,
             @Schema(description = "성별 (MALE/FEMALE)", example = "MALE")
             String gender,
@@ -21,7 +25,13 @@ public class MemberReqDTO {
             @Schema(description = "상세주소", example = "서울시 성북구 안암동")
             String detailAddress,
             @Schema(description = "이메일", example = "user@example.com")
+            @NotBlank(message = "이메일은 필수입니다.")
+            @Email(message = "이메일 형식이 올바르지 않습니다.")
             String email,
+            @Schema(description = "비밀번호", example = "password1234")
+            @NotBlank(message = "비밀번호는 필수입니다.")
+            @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
+            String password,
             @Schema(description = "전화번호", example = "010-1234-5678")
             String phoneNumber,
             @Schema(description = "선호 음식 ID 목록", example = "[1, 3]")
