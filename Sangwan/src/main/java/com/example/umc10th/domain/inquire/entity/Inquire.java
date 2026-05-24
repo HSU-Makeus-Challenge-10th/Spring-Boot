@@ -1,8 +1,8 @@
-package com.example.umc10th.domain.qna.entity;
+package com.example.umc10th.domain.inquire.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.qna.enums.InquireStatus;
-import com.example.umc10th.domain.qna.enums.InquireType;
+import com.example.umc10th.domain.inquire.enums.InquireStatus;
+import com.example.umc10th.domain.inquire.enums.InquireType;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

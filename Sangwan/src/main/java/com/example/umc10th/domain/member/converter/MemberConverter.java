@@ -1,20 +1,67 @@
 package com.example.umc10th.domain.member.converter;
 
+import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.MemberAgreement;
+import com.example.umc10th.domain.member.entity.mapping.MemberFoodCategory;
 import com.example.umc10th.domain.member.entity.mapping.RegionProgress;
+import com.example.umc10th.domain.member.enums.MemberStatus;
+import com.example.umc10th.domain.member.enums.Role;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
+import com.example.umc10th.domain.store.entity.FoodCategory;
+import com.example.umc10th.domain.term.entity.Term;
 import com.example.umc10th.global.dto.CursorPageRes;
 import com.example.umc10th.global.dto.OffsetPageRes;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MemberConverter {
+
+    public static Member toMember(MemberReqDTO.SignupReq request, String encodedPassword, LocalDate birth) {
+        return Member.builder()
+                .email(request.email())
+                .password(encodedPassword)
+                .name(request.name())
+                .role(Role.USER)
+                .status(MemberStatus.ACTIVE)
+                .step(0)
+                .totalPoint(0)
+                .gender(request.gender())
+                .birth(birth)
+                .baseAddress(request.address())
+                .isVerified(false)
+                .build();
+    }
+
+    public static MemberAgreement toMemberAgreement(Member member, Term term, Boolean isAgreed) {
+        return MemberAgreement.builder()
+                .member(member)
+                .term(term)
+                .isAgreed(isAgreed)
+                .build();
+    }
+
+    public static MemberFoodCategory toMemberFoodCategory(Member member, FoodCategory foodCategory) {
+        return MemberFoodCategory.builder()
+                .member(member)
+                .foodCategory(foodCategory)
+                .build();
+    }
+
+    public static MemberResDTO.SignupRes toSignupRes(Member member) {
+        return MemberResDTO.SignupRes.builder()
+                .memberId(member.getId())
+                .name(member.getName())
+                .createdAt(member.getCreatedAt())
+                .build();
+    }
 
     public static MemberResDTO.MyInfoRes toGetInfo(Member member) {
         return MemberResDTO.MyInfoRes.builder()

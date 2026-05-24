@@ -29,7 +29,8 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
     Optional<MemberMission> findByMemberIdAndMissionId(Long memberId, Long missionId);
 
     @Query(value = "SELECT mm FROM MemberMission mm JOIN FETCH mm.mission m JOIN FETCH m.store s " +
-            "WHERE mm.member.id = :memberId AND mm.status = :status",
+            "WHERE mm.member.id = :memberId AND mm.status = :status " +
+            "ORDER BY mm.id DESC",
             countQuery = "SELECT COUNT(mm) FROM MemberMission mm WHERE mm.member.id = :memberId AND mm.status = :status")
     Page<MemberMission> findPageByMemberIdAndStatus(@Param("memberId") Long memberId,
                                                     @Param("status") MemberMissionStatus status,

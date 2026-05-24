@@ -33,8 +33,8 @@ public class ReviewService {
         Slice<Review> slice;
 
         if ("rating".equalsIgnoreCase(sort)) {
-            slice = (ratingCursor != null)
-                    ? reviewRepository.findByMemberIdWithRatingCursor(memberId, ratingCursor, pageable)
+            slice = (ratingCursor != null && cursor != null)
+                    ? reviewRepository.findByMemberIdWithRatingCursor(memberId, ratingCursor, cursor, pageable)
                     : reviewRepository.findByMemberIdOrderByRatingDescIdDesc(memberId, pageable);
         } else {
             slice = (cursor != null)
@@ -53,6 +53,7 @@ public class ReviewService {
             Review last = reviews.get(reviews.size() - 1);
             if ("rating".equalsIgnoreCase(sort)) {
                 nextRatingCursor = last.getRating();
+                nextCursor = last.getId();
             } else {
                 nextCursor = last.getId();
             }

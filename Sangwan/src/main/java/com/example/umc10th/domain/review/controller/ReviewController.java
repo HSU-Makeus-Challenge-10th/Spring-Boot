@@ -5,6 +5,7 @@ import com.example.umc10th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.dto.CursorPageRes;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,8 @@ public class ReviewController {
             @RequestParam(required = false) Long cursor,
             @RequestParam(required = false) Double ratingCursor,
             @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10")
+            @Positive(message = "페이지 크기는 1 이상이어야 합니다.") int size
     ) {
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_LIST,
                 reviewService.getMyReviews(memberId, cursor, ratingCursor, sort, size));

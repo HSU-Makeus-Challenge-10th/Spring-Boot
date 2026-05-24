@@ -1,10 +1,10 @@
-package com.example.umc10th.domain.qna.exception;
+package com.example.umc10th.domain.inquire.exception;
 
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.exception.ProjectException;
 
-public class QnaException extends ProjectException {
-    public QnaException(BaseErrorCode errorCode) {
+public class InquireException extends ProjectException {
+    public InquireException(BaseErrorCode errorCode) {
         super(errorCode);
     }
 }

@@ -27,9 +27,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Slice<Review> findByMemberIdOrderByRatingDescIdDesc(@Param("memberId") Long memberId, Pageable pageable);
 
     @Query("SELECT r FROM Review r JOIN FETCH r.memberMission mm JOIN FETCH mm.mission m JOIN FETCH m.store s " +
-            "WHERE r.member.id = :memberId AND r.rating < :ratingCursor " +
-            "ORDER BY r.rating DESC")
+            "WHERE r.member.id = :memberId " +
+            "AND (r.rating < :ratingCursor OR (r.rating = :ratingCursor AND r.id < :cursor)) " +
+            "ORDER BY r.rating DESC, r.id DESC")
     Slice<Review> findByMemberIdWithRatingCursor(@Param("memberId") Long memberId,
                                                   @Param("ratingCursor") Double ratingCursor,
+                                                  @Param("cursor") Long cursor,
                                                   Pageable pageable);
 }

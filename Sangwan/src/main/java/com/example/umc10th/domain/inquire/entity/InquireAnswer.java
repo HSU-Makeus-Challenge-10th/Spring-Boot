@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.qna.entity;
+package com.example.umc10th.domain.inquire.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.global.entity.BaseEntity;

@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.qna.exception.code;
+package com.example.umc10th.domain.inquire.exception.code;
 
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum QnaErrorCode implements BaseErrorCode {
+public enum InquireErrorCode implements BaseErrorCode {
 
-    QNA_NOT_FOUND(HttpStatus.NOT_FOUND, "QNA_404", "해당 문의를 찾을 수 없습니다.");
+    INQUIRE_NOT_FOUND(HttpStatus.NOT_FOUND, "INQUIRE_404", "해당 문의를 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;
