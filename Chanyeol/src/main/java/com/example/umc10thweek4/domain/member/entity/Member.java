@@ -34,18 +34,20 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Gender gender;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     @Column(name = "total_points")
     private Long totalPoints = 0L;
 
+    @Builder.Default
     @Column(name = "complete_num")
     private Integer completeNum = 0;
 

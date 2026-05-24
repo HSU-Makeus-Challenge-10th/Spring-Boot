@@ -21,8 +21,7 @@ public class GeneralExceptionAdvice {
             ProjectException e
     ) {
         BaseErrorCode errorCode = e.getErrorCode();
-        return ResponseEntity.status(errorCode.getStatus())
-                .body(ApiResponse.onFailure(errorCode, null));
+        return ApiResponse.onFailureResponse(errorCode, null);
     }
 
     // 그 외의 정의되지 않은 모든 예외 처리
@@ -32,12 +31,7 @@ public class GeneralExceptionAdvice {
     ) {
 
         BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
-        return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(
-                                code,
-                                ex.getMessage()
-                        )
-                );
+        return ApiResponse.onFailureResponse(code, ex.getMessage());
     }
 
     // @Valid 어노테이션 검증 실패 예외
@@ -52,7 +46,6 @@ public class GeneralExceptionAdvice {
         });
 
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
-        return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(code, errors));
+        return ApiResponse.onFailureResponse(code, errors);
     }
 }

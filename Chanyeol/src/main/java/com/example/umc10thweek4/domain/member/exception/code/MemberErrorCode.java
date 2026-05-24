@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MemberErrorCode implements BaseErrorCode {
 
+    INVALID_BIRTHDAY(HttpStatus.BAD_REQUEST, "MEMBER400_1", "생년월일은 yyyy-MM-dd 형식이어야 합니다."),
+    INVALID_GENDER(HttpStatus.BAD_REQUEST, "MEMBER400_2", "성별은 MALE, FEMALE, NONE 중 하나여야 합니다."),
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "MEMBER409_1", "이미 사용 중인 이메일입니다."),
     DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "MEMBER409_2", "이미 사용 중인 닉네임입니다."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404_1", "존재하지 않는 회원입니다."),

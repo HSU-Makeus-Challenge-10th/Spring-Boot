@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum StoreSuccessCode implements BaseSuccessCode {
 
     OK(HttpStatus.OK, "STORE200", "가게 조회 성공"),
-    STORE_MISSIONS_SUCCESS(HttpStatus.OK, "STORE201", "가게 미션 목록 조회 성공");
+    STORE_MISSIONS_SUCCESS(HttpStatus.OK, "STORE200_2", "가게 미션 목록 조회 성공");
 
     private final HttpStatus status;
     private final String code;
