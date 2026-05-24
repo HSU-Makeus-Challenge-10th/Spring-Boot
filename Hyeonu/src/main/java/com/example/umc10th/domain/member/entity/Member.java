@@ -47,6 +47,9 @@ public class Member extends BaseEntity {
     @Column(name="email", nullable=false)
     private String email;
 
+    @Column(name="password")
+    private String password;
+
     @Column(name="point", nullable=false)
     @Builder.Default
     private int point=0;
