@@ -6,12 +6,14 @@ import com.study.UMC10.domain.review.dto.response.ReviewResponseDto;
 import com.study.UMC10.domain.review.service.ReviewService;
 import com.study.UMC10.global.apiPayload.ApiResponse;
 import com.study.UMC10.global.apiPayload.code.BaseSuccessCode;
+import com.study.UMC10.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,13 +51,13 @@ public class ReviewController {
     })
     @GetMapping("/v1/reviews/me")
     public ApiResponse<ReviewResponseDto.CursorPagination<ReviewResponseDto.MyReviewDto>> getMyReviews(
-            @RequestParam("userId") Long userId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam(name = "query", defaultValue = "id") String query,
             @RequestParam(name = "cursor", defaultValue = "-1") String cursor,
             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize
     ) {
+        Long userId = customUserDetails.getUser().getId();
         BaseSuccessCode code = com.study.UMC10.global.apiPayload.code.GeneralSuccessCode.OK;
-
         return ApiResponse.onSuccess(code, reviewService.getMyReviews(userId, query, cursor, pageSize));
     }
 }
