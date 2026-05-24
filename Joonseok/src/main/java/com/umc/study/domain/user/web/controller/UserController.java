@@ -4,6 +4,7 @@ import com.umc.study.domain.user.exception.code.UserSuccessCode;
 import com.umc.study.domain.user.service.UserService;
 import com.umc.study.domain.user.web.dto.GetHomeRes;
 import com.umc.study.domain.user.web.dto.GetMyPageRes;
+import com.umc.study.domain.user.web.dto.SignUpReq;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -21,15 +22,17 @@ public class UserController {
 
      private final UserService userService;
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<ApiResponse<?>> signIn(
-            @Valid @RequestBody Object request
+    @PostMapping("/auth/sign-up")
+    public ResponseEntity<ApiResponse<?>> signUp(
+            @Valid @RequestBody SignUpReq request
     ) {
         // call Service method
 
+        userService.saveUser(request);
+
         return ResponseEntity
-                .status(UserSuccessCode.USER_SIGN_IN_CREATED.getStatus())
-                .body(ApiResponse.onComplete(UserSuccessCode.USER_SIGN_IN_CREATED, null));
+                .status(UserSuccessCode.USER_SIGN_UP_CREATED.getStatus())
+                .body(ApiResponse.onComplete(UserSuccessCode.USER_SIGN_UP_CREATED, null));
     }
 
     @PostMapping("/my/pref")

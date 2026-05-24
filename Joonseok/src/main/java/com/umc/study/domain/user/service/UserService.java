@@ -1,20 +1,26 @@
 package com.umc.study.domain.user.service;
 
+import com.umc.study.domain.mission.entity.Location;
 import com.umc.study.domain.mission.entity.Mission;
 import com.umc.study.domain.mission.entity.Restaurant;
 import com.umc.study.domain.mission.exception.PageOverflowException;
 import com.umc.study.domain.mission.repository.MissionRepository;
 import com.umc.study.domain.mission.repository.RestaurantRepository;
 import com.umc.study.domain.user.entity.User;
+import com.umc.study.domain.user.enums.Role;
 import com.umc.study.domain.user.exception.UserNotFoundException;
 import com.umc.study.domain.user.repository.UserRepository;
 import com.umc.study.domain.user.web.dto.GetHomeRes;
 import com.umc.study.domain.user.web.dto.GetMyPageRes;
+import com.umc.study.domain.user.web.dto.SignInReq;
+import com.umc.study.domain.user.web.dto.SignUpReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +31,27 @@ public class UserService {
     private final UserRepository userRepository;
     private final MissionRepository missionRepository;
     private final RestaurantRepository restaurantRepository;
+    private final PasswordEncoder encoder;
+
+    @Transactional
+    public void saveUser(SignUpReq request) {
+        User user = User.builder()
+                .name(request.name())
+                .isMale(request.isMale())
+                .birth(request.birth())
+                .role(Role.GUEST)
+                .email(request.email())
+                .password(encoder.encode(request.password()))
+                .phoneNum(request.phoneNum())
+                .pointDeposit(0)
+                .location(Location.builder()
+                        .streetAddress(request.address())
+                        .detailedAddress(request.detailAddress())
+                        .build())
+                .build();
+
+        userRepository.save(user);
+    }
 
     public GetMyPageRes getMyPage(Long userId) {
 
