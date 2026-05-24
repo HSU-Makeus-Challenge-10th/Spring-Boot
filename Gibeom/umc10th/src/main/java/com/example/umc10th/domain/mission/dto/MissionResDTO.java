@@ -3,6 +3,7 @@ package com.example.umc10th.domain.mission.dto;
 import com.example.umc10th.domain.member.enums.MissionStatus;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MissionResDTO {
@@ -28,5 +29,14 @@ public class MissionResDTO {
         List<T> data,
         Integer pageNumber,
         Integer pageSize
+    ){}
+
+    //생성된 미션 정보 반환 DTO
+    @Builder
+    public record CreateMissionResult(
+            Long missionId,
+            String conditional,
+            Integer point,
+            LocalDate deadline
     ){}
 }

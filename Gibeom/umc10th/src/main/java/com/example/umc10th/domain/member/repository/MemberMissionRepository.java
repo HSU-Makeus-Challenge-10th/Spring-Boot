@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
     List<MemberMission> findAllByMember_IdAndStatus(Long memberId, MissionStatus missionStatus);
+    Page<MemberMission> findAllByMember_IdAndStatus(Long memberId, MissionStatus missionStatus, Pageable pageable);
     Optional<MemberMission> findByMember_IdAndMission_Id(Long memberId, Long missionId);
 
     @Query("SELECT mm FROM MemberMission mm WHERE mm.member.id = :memberId AND mm.status = :status")

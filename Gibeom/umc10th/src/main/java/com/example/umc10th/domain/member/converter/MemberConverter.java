@@ -6,7 +6,11 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.MemberMission;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +46,18 @@ public class MemberConverter {
                 .rewardPoint(memberMission.getMission().getPoint())
                 .deadline(null)
                 .status(memberMission.getStatus().name())
+                .build();
+    }
+
+    public static Member toMember(MemberReqDTO.SignUp req, String emcodedPasssword){
+        return Member.builder()
+                .name(req.name())
+                .password(emcodedPasssword)
+                .phoneNumber(req.phoneNumber())
+                .email(req.email())
+                .gender(req.gender())
+                .userPoint(0)
+                .nickname(req.nickname())
                 .build();
     }
 }
