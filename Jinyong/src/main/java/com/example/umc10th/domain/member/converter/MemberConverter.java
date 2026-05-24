@@ -1,7 +1,11 @@
 package com.example.umc10th.domain.member.converter;
 
+import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.Gender;
 import com.example.umc10th.domain.member.entity.Member;
+
+import java.time.LocalDate;
 
 public class MemberConverter {
 
@@ -16,6 +20,25 @@ public class MemberConverter {
                 .nickname(member.getNickname())
                 .gender(member.getGender().name())
                 .phoneNumber(null)
+                .build();
+    }
+
+    public static Member toMember(MemberReqDTO.SignUp request, String encodedPassword) {
+        return Member.builder()
+                .email(request.email())
+                .password(encodedPassword)
+                .name(request.email())
+                .nickname(request.email())
+                .gender(Gender.NONE)
+                .point(0)
+                .birth(LocalDate.now())
+                .build();
+    }
+
+    public static MemberResDTO.SignUp toSignUp(Member member) {
+        return MemberResDTO.SignUp.builder()
+                .memberId(member.getId())
+                .email(member.getEmail())
                 .build();
     }
 }

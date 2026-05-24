@@ -24,4 +24,13 @@ public class MemberController {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(memberId));
     }
+
+    // 회원가입
+    @PostMapping("/v1/auth/signup")
+    public ApiResponse<MemberResDTO.SignUp> signUp(
+            @RequestBody MemberReqDTO.SignUp request
+    ) {
+        BaseSuccessCode code = MemberSuccessCode.CREATED;
+        return ApiResponse.onSuccess(code, memberService.signUp(request));
+    }
 }
