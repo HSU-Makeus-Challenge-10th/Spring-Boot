@@ -43,7 +43,8 @@ public class JwtUtil {
     }
 
     public Long getMemberId(String token) {
-        return parseClaims(token).get("memberId", Long.class);
+        Number memberId = parseClaims(token).get("memberId", Number.class);
+        return memberId.longValue();
     }
 
     public boolean isValidToken(String token) {
