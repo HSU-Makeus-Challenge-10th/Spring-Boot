@@ -28,14 +28,17 @@ public class JwtTokenProvider {
 
     private final String secretKey;
     private Key key;
+    private final Duration expiration;
 
     // jwt signature를 final, env로 주입하는 생성자
     public JwtTokenProvider(
             UserRepository userRepository,
-            @Value("${jwt.secret}") String secretKey
+            @Value("${jwt.secret}") String secretKey,
+            @Value("${jwt.expiration}")  Long expiration
     ) {
         this.userRepository = userRepository;
         this.secretKey = secretKey;
+        this.expiration = Duration.ofMillis(expiration);
     }
 
     // signature -> Byte 배열 -> hmac sha 이용하여 Key 객체에 할당
@@ -77,7 +80,7 @@ public class JwtTokenProvider {
      *     </tr>
      * </table>
      */
-    public String generateToken(User user, Duration expiration) {
+    public String generateToken(User user) {
 
         // 현재 시각을 기준으로 만료일 설정
         Instant now = Instant.now();
