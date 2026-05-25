@@ -1,7 +1,11 @@
 package com.example.umc10th.global.config;
 
+import com.example.umc10th.global.security.filter.JwtAuthFilter;
 import com.example.umc10th.global.security.handler.CustomAccessDenied;
 import com.example.umc10th.global.security.handler.CustomEntryPoint;
+import com.example.umc10th.global.security.service.CustomUserDetailsService;
+import com.example.umc10th.global.security.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,10 +14,15 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity // Spring Security 활성화
 @Configuration // 스프링 설정 파일임을 선언
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
 
     // 허용 URI 목록
     private final String[] allowUris = {
@@ -35,10 +44,11 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // 그 외 모든 요청은 로그인 필요
                 )
                 // 폼 로그인 설정
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/swagger-ui/index.html", true) // 로그인 성공 시 이동
-                        .permitAll() // 로그인 페이지는 모든 사용자가 접근 가능
-                )
+                .formLogin(AbstractHttpConfigurer::disable)
+                // 세션
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                // JWT 필터
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 로그아웃 설정
                 .logout(logout -> logout
                         .logoutUrl("/logout") // 이 URL로 POST 요청 시 로그아웃
@@ -71,5 +81,10 @@ public class SecurityConfig {
     @Bean
     public CustomEntryPoint customEntryPoint(){
         return new CustomEntryPoint();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter(){
+        return new JwtAuthFilter(jwtUtil,customUserDetailsService);
     }
 }
