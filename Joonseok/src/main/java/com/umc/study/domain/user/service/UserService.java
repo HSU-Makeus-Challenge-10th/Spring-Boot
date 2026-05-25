@@ -9,6 +9,7 @@ import com.umc.study.domain.mission.repository.RestaurantRepository;
 import com.umc.study.domain.user.entity.User;
 import com.umc.study.domain.user.enums.Role;
 import com.umc.study.domain.user.exception.UserNotFoundException;
+import com.umc.study.domain.user.exception.code.InvalidPasswordException;
 import com.umc.study.domain.user.repository.UserRepository;
 import com.umc.study.domain.user.web.dto.*;
 import com.umc.study.global.jwt.JwtTokenProvider;
