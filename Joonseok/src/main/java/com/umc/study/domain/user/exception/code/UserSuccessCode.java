@@ -16,7 +16,8 @@ public enum UserSuccessCode implements BaseResponseCode {
     ),
     USER_LOGIN_OK(
             HttpStatus.OK,
-            "USER_200_1"
+            "USER_200_1",
+            "로그인에 성공했습니다."
     ),
     USER_PREF_FOOD_CREATED(
             HttpStatus.CREATED,
