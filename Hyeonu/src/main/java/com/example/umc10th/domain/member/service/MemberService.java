@@ -20,14 +20,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     // 마이 페이지
-    public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
-        // DTO에서 유저 ID를 추출
-        Long memberId=dto.id();
-        // DB에서 해당 유저 ID로 데이터 조회
-        Member member=memberRepository.findById(memberId)
-                .orElseThrow(()-> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+    public MemberResDTO.GetInfo getInfo(AuthMember member) {
         // 컨버터를 이용해서 응답 DTO 생성 & return
-        return MemberConverter.toGetInfo(member);
+        return MemberConverter.toGetInfo(member.getMember());
     }
 
     // 회원가입
