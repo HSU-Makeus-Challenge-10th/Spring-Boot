@@ -1,6 +1,5 @@
 package com.umc.study.global.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umc.study.global.apiPayload.ApiResponse;
 import com.umc.study.global.apiPayload.code.BaseResponseCode;
 import com.umc.study.global.apiPayload.code.GeneralErrorCode;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CustomEntryPoint implements AuthenticationEntryPoint {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMApper;
 
     @Override
     public void commence(
@@ -34,6 +34,6 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
 
         ApiResponse<Void> errorResponse = ApiResponse.onFailure(errorCode, null);
 
-        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+        response.getWriter().write(jsonMApper.writeValueAsString(errorResponse));
     }
 }

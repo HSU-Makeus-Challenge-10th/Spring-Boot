@@ -1,10 +1,8 @@
 package com.umc.study.global.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umc.study.global.jwt.JwtTokenFilter;
 import com.umc.study.global.security.CustomEntryPoint;
 import com.umc.study.global.security.exception.CustomAccessDenied;
-import com.umc.study.global.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,19 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
-
     private final JwtTokenFilter jwtTokenFilter;
-    private final CustomUserDetailsService customUserDetailsService;
 
     private final String[] allowUris = {
-            "/api/swagger-ui/**",
-            "/api/swagger-resources/**",
-            "/api/v3/api-docs/**",
-            "/api/auth/**"                      // sign-up, login request allow
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
+            "/auth/**"                      // sign-up, login request allow
     };
 
     @Bean

@@ -1,9 +1,7 @@
 package com.umc.study.global.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umc.study.global.apiPayload.ApiResponse;
 import com.umc.study.global.apiPayload.code.GeneralErrorCode;
-import com.umc.study.global.security.service.CustomUserDetailsService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 
@@ -23,8 +22,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final ObjectMapper objectMapper;
-    private final CustomUserDetailsService customUserDetailsService;
+    private final JsonMapper jsonMapper;
 
     @Override
     protected void doFilterInternal(
@@ -37,8 +35,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             String accessToken = extractToken(request);
 
             // token이 없으면 다음 필터 체인 진행
-            if(accessToken == null || accessToken.isBlank())
+            if(accessToken == null || accessToken.isBlank()) {
                 filterChain.doFilter(request,response);
+                return;
+            }
 
         try {
 
@@ -60,7 +60,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
         ApiResponse<?> errorResponse = ApiResponse.onFailure(GeneralErrorCode.UNAUTHORIZED, null);
-        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+        response.getWriter().write(jsonMapper.writeValueAsString(errorResponse));
     }
 
     private String extractToken(HttpServletRequest request) {
