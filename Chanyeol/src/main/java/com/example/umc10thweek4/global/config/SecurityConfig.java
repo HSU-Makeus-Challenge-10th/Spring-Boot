@@ -3,7 +3,9 @@ package com.example.umc10thweek4.global.config;
 import com.example.umc10thweek4.global.security.provider.CustomAuthenticationProvider;
 import com.example.umc10thweek4.global.security.handler.CustomAccessDeniedHandler;
 import com.example.umc10thweek4.global.security.handler.CustomAuthenticationEntryPoint;
+import com.example.umc10thweek4.global.security.handler.OAuthSuccessHandler;
 import com.example.umc10thweek4.global.security.filter.JwtAuthFilter;
+import com.example.umc10thweek4.global.security.service.CustomOAuthService;
 import com.example.umc10thweek4.global.security.service.CustomUserDetailsService;
 import com.example.umc10thweek4.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class SecurityConfig {
     private final CustomAuthenticationProvider customAuthenticationProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomOAuthService customOAuthService;
+    private final OAuthSuccessHandler oAuthSuccessHandler;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
     @Bean
@@ -41,7 +45,9 @@ public class SecurityConfig {
 
             // 인증 없이 접근 가능한 API
             "/auth/signup",
-            "/auth/login"
+            "/auth/login",
+            "/oauth2/authorization/**",
+            "/oauth/callback/**"
     };
 
     @Bean
@@ -59,6 +65,15 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
+                .oauth2Login(oauth -> oauth
+                        .redirectionEndpoint(redirection -> redirection
+                                .baseUri("/oauth/callback/*")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuthService)
+                        )
+                        .successHandler(oAuthSuccessHandler)
+                )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
