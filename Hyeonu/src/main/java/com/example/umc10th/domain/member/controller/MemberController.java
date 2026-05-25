@@ -39,4 +39,14 @@ public class MemberController {
                 .status(MemberSuccessCode.SIGN_UP.getStatus())
                 .body(ApiResponse.onSuccess(MemberSuccessCode.SIGN_UP,memberService.signUp(dto)));
     }
+
+    // 로그인
+    @PostMapping("/auth/login")
+    public ResponseEntity<ApiResponse<MemberResDTO.LoginResDTO>>login(
+            @RequestBody MemberReqDTO.LoginReqDTO dto
+    ){
+        return ResponseEntity
+            .status(MemberSuccessCode.LOGIN.getStatus())
+                .body(ApiResponse.onSuccess(MemberSuccessCode.LOGIN,memberService.login(dto)));
+}
 }

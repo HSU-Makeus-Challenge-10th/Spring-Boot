@@ -36,4 +36,11 @@ public class MemberConverter {
     public static MemberResDTO.SignUpResDTO toSignUpResDTO(Member member) {
         return new MemberResDTO.SignUpResDTO(member.getId());
     }
+
+    // 로그인
+    public static MemberResDTO.LoginResDTO toLoginResDTO(String token){
+        return MemberResDTO.LoginResDTO.builder()
+                .accessToken(token)
+                .build();
+    }
 }
