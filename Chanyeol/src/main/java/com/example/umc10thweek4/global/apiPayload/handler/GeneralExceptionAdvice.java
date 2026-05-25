@@ -5,6 +5,7 @@ import com.example.umc10thweek4.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10thweek4.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc10thweek4.global.apiPayload.exception.ProjectException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +23,15 @@ public class GeneralExceptionAdvice {
     ) {
         BaseErrorCode errorCode = e.getErrorCode();
         return ApiResponse.onFailureResponse(errorCode, null);
+    }
+
+    // 로그인 인증 실패 예외 처리
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAuthenticationException(
+            AuthenticationException e
+    ) {
+        BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
+        return ApiResponse.onFailureResponse(code, null);
     }
 
     // 그 외의 정의되지 않은 모든 예외 처리
