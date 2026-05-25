@@ -28,6 +28,9 @@ public class AuthMember implements UserDetails {
 
     @Override
     public String getUsername() {
+        if (member.getSocialType() != null) {
+            return member.getSocialUid();
+        }
         return member.getEmail();
     }
 }
