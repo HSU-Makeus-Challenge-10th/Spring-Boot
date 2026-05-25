@@ -2,10 +2,7 @@ package com.umc.study.domain.user.web.controller;
 
 import com.umc.study.domain.user.exception.code.UserSuccessCode;
 import com.umc.study.domain.user.service.UserService;
-import com.umc.study.domain.user.web.dto.GetHomeRes;
-import com.umc.study.domain.user.web.dto.GetMyPageRes;
-import com.umc.study.domain.user.web.dto.LoginReq;
-import com.umc.study.domain.user.web.dto.SignUpReq;
+import com.umc.study.domain.user.web.dto.*;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -40,7 +37,11 @@ public class UserController {
     public ResponseEntity<ApiResponse<?>> login(
             @Valid @RequestBody LoginReq request
     ) {
-        userService.loginUser(request);
+        LoginRes response = userService.loginUser(request);
+
+        return ResponseEntity
+                .status(UserSuccessCode.USER_LOGIN_OK.getStatus())
+                .body(ApiResponse.onComplete(UserSuccessCode.USER_LOGIN_OK, response));
     }
 
     @PostMapping("/my/pref")
