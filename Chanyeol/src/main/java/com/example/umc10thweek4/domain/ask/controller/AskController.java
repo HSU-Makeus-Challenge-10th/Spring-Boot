@@ -34,6 +34,13 @@ public class AskController {
     /**
      * 내가 작성한 문의 목록
      */
+    @GetMapping("/v1/users/me/asks")
+    public ResponseEntity<ApiResponse<List<AskResDTO.GetList>>> getMyAsks() {
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+        List<AskResDTO.GetList> response = askService.getMyAsks(currentMemberId);
+        return ApiResponse.onSuccessResponse(AskSuccessCode.LIST_SUCCESS, response);
+    }
+
     @GetMapping("/v1/users/{userId}/asks")
     public ResponseEntity<ApiResponse<List<AskResDTO.GetList>>> getMyAsks(@PathVariable Long userId) {
         List<AskResDTO.GetList> response = askService.getMyAsks(userId);

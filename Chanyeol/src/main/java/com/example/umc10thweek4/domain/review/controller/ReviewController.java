@@ -32,6 +32,18 @@ public class ReviewController {
         return ApiResponse.onSuccessResponse(ReviewSuccessCode.CREATE_SUCCESS, response);
     }
 
+    @GetMapping("/v1/users/me/reviews")
+    public ResponseEntity<ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReviewList>>> getMyReviews(
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false) ReviewReqDTO.SortType sort) {   // cursor = "reviewId:createdAt" 형태
+
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+
+        return ApiResponse.onSuccessResponse(ReviewSuccessCode.LIST_SUCCESS,
+                reviewService.getMyReviews(currentMemberId, pageSize, cursor, sort));
+    }
+
     @GetMapping("/v1/users/{userId}/reviews")
     public ResponseEntity<ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReviewList>>> getMyReviews(
             @PathVariable Long userId,
