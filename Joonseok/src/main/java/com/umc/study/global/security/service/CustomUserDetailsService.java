@@ -3,7 +3,7 @@ package com.umc.study.global.security.service;
 import com.umc.study.domain.user.entity.User;
 import com.umc.study.domain.user.exception.UserNotFoundException;
 import com.umc.study.domain.user.repository.UserRepository;
-import com.umc.study.global.security.entity.AuthUser;
+import com.umc.study.global.security.entity.CustomUserDetails;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(username)
                 .orElseThrow(UserNotFoundException::new);
 
-        return new AuthUser(user);
+        return new CustomUserDetails(user);
     }
 }
