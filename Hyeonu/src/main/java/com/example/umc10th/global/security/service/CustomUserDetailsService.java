@@ -21,10 +21,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(
-            String username
+            String email
     )throws UsernameNotFoundException{
         // 이메일로 DB에서 회원 조회
-        Member member=memberRepository.findByEmail(username)
+        Member member=memberRepository.findByEmail(email)
                 .orElseThrow(()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         // AuthMember로 감싸서 반환
         return new AuthMember(member);
