@@ -5,10 +5,11 @@ import com.example.umc10thweek4.domain.review.dto.ReviewResDTO;
 import com.example.umc10thweek4.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10thweek4.domain.review.service.ReviewService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
-import com.example.umc10thweek4.global.security.util.SecurityUtil;
+import com.example.umc10thweek4.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,10 +21,11 @@ public class ReviewController {
 
     @PostMapping("/v1/stores/{storeId}/reviews")
     public ResponseEntity<ApiResponse<ReviewResDTO.Create>> createReview(
+            @AuthenticationPrincipal AuthMember authMember,
             @PathVariable Long storeId,
             @RequestBody @Valid ReviewReqDTO.Create request) {
 
-        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+        Long currentMemberId = authMember.getMember().getId();
 
         Long userMissionId = 1L;     // 임시 값
 
@@ -34,11 +36,12 @@ public class ReviewController {
 
     @GetMapping("/v1/users/me/reviews")
     public ResponseEntity<ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReviewList>>> getMyReviews(
+            @AuthenticationPrincipal AuthMember authMember,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String cursor,
             @RequestParam(required = false) ReviewReqDTO.SortType sort) {   // cursor = "reviewId:createdAt" 형태
 
-        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+        Long currentMemberId = authMember.getMember().getId();
 
         return ApiResponse.onSuccessResponse(ReviewSuccessCode.LIST_SUCCESS,
                 reviewService.getMyReviews(currentMemberId, pageSize, cursor, sort));

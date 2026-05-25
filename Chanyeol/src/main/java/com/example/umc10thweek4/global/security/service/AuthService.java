@@ -23,10 +23,7 @@ public class AuthService {
         );
 
         AuthMember authMember = (AuthMember) authentication.getPrincipal();
-        String accessToken = jwtUtil.createAccessToken(
-                authMember.getMember().getId(),
-                authMember.getUsername()
-        );
+        String accessToken = jwtUtil.createAccessToken(authMember);
 
         return AuthResDTO.Login.of(accessToken);
     }

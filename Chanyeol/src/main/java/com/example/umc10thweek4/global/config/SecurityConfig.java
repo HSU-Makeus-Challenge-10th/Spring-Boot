@@ -3,7 +3,9 @@ package com.example.umc10thweek4.global.config;
 import com.example.umc10thweek4.global.security.provider.CustomAuthenticationProvider;
 import com.example.umc10thweek4.global.security.handler.CustomAccessDeniedHandler;
 import com.example.umc10thweek4.global.security.handler.CustomAuthenticationEntryPoint;
-import com.example.umc10thweek4.global.security.filter.JwtAuthenticationFilter;
+import com.example.umc10thweek4.global.security.filter.JwtAuthFilter;
+import com.example.umc10thweek4.global.security.service.CustomUserDetailsService;
+import com.example.umc10thweek4.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +26,12 @@ public class SecurityConfig {
     private final CustomAuthenticationProvider customAuthenticationProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
 
     private final String[] publicUris = {
             // Swagger 허용
@@ -56,7 +63,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

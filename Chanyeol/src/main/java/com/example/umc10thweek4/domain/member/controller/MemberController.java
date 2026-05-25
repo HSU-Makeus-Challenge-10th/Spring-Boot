@@ -4,9 +4,10 @@ import com.example.umc10thweek4.domain.member.dto.MemberResDTO;
 import com.example.umc10thweek4.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10thweek4.domain.member.service.MemberService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
-import com.example.umc10thweek4.global.security.util.SecurityUtil;
+import com.example.umc10thweek4.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,8 +18,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/v1/users/me")
-    public ResponseEntity<ApiResponse<MemberResDTO.GetInfo>> getMyPage() {
-        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+    public ResponseEntity<ApiResponse<MemberResDTO.GetInfo>> getMyPage(
+            @AuthenticationPrincipal AuthMember authMember
+    ) {
+        Long currentMemberId = authMember.getMember().getId();
         return ApiResponse.onSuccessResponse(MemberSuccessCode.MY_PAGE_SUCCESS, memberService.getMyPage(currentMemberId));
     }
 
