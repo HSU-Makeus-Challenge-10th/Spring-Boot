@@ -4,6 +4,7 @@ import com.umc.study.domain.user.exception.code.UserSuccessCode;
 import com.umc.study.domain.user.service.UserService;
 import com.umc.study.domain.user.web.dto.GetHomeRes;
 import com.umc.study.domain.user.web.dto.GetMyPageRes;
+import com.umc.study.domain.user.web.dto.LoginReq;
 import com.umc.study.domain.user.web.dto.SignUpReq;
 import com.umc.study.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
@@ -33,6 +34,13 @@ public class UserController {
         return ResponseEntity
                 .status(UserSuccessCode.USER_SIGN_UP_CREATED.getStatus())
                 .body(ApiResponse.onComplete(UserSuccessCode.USER_SIGN_UP_CREATED, null));
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<ApiResponse<?>> login(
+            @Valid @RequestBody LoginReq request
+    ) {
+        userService.loginUser(request);
     }
 
     @PostMapping("/my/pref")
