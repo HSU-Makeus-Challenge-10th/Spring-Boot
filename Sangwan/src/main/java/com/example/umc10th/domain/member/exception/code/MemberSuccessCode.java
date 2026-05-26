@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MemberSuccessCode implements BaseSuccessCode {
 
+    OK(HttpStatus.OK, "MEMBER_200", "성공적으로 요청을 처리했습니다."),
     SIGNUP(HttpStatus.CREATED, "MEMBER_201", "반가워요! 회원 가입이 완료되었습니다."),
     HOME(HttpStatus.OK, "HOME_200", "홈 화면 조회가 완료되었습니다."),
     MISSION_LIST(HttpStatus.OK, "MISSION_200", "미션 목록 조회가 완료되었습니다."),

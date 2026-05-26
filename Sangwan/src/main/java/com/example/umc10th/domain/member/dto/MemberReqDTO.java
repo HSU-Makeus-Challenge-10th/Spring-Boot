@@ -33,13 +33,15 @@ public class MemberReqDTO {
             List<@NotNull @Positive Long> foodCategoryIds
     ) {}
 
+    public record LoginReq(
+            @NotBlank @Email String email,
+            @NotBlank String password
+    ) {}
+
     public record TermAgreementReq(
             @NotNull(message = "약관 ID는 필수입니다.")
             @Positive(message = "약관 ID는 양수여야 합니다.") Long termId,
             @NotNull(message = "약관 동의 여부는 필수입니다.") Boolean isAgreed
     ) {}
 
-    public record GetInProgressMissionsReq(
-            @NotNull(message = "사용자 ID는 필수입니다.") Long memberId
-    ) {}
 }

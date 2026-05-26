@@ -6,6 +6,7 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.MemberAgreement;
 import com.example.umc10th.domain.member.entity.mapping.MemberFoodCategory;
 import com.example.umc10th.domain.member.entity.mapping.RegionProgress;
+import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.MemberStatus;
 import com.example.umc10th.domain.member.enums.Role;
 import com.example.umc10th.domain.mission.entity.Mission;
@@ -14,6 +15,7 @@ import com.example.umc10th.domain.store.entity.FoodCategory;
 import com.example.umc10th.domain.term.entity.Term;
 import com.example.umc10th.global.dto.CursorPageRes;
 import com.example.umc10th.global.dto.OffsetPageRes;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -36,6 +38,23 @@ public class MemberConverter {
                 .gender(request.gender())
                 .birth(birth)
                 .baseAddress(request.address())
+                .isVerified(false)
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .email(dto.getSocialEmail())
+                .password("")
+                .socialType(dto.getSocialType())
+                .socialId(dto.getSocialUid())
+                .name(dto.getName())
+                .role(Role.USER)
+                .status(MemberStatus.ACTIVE)
+                .step(0)
+                .totalPoint(0)
+                .gender(Gender.NONE)
+                .birth(LocalDate.of(1900, 1, 1))
                 .isVerified(false)
                 .build();
     }
@@ -70,6 +89,12 @@ public class MemberConverter {
                 .point(member.getTotalPoint())
                 .phoneNumber(member.getPhoneNumber())
                 .profileUrl(null)
+                .build();
+    }
+
+    public static MemberResDTO.Login toLogin(String accessToken) {
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
                 .build();
     }
 
