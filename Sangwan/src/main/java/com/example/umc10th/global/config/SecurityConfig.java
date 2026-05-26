@@ -4,25 +4,56 @@ import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.security.filter.JwtAuthFilter;
+import com.example.umc10th.global.security.handler.OAuthSuccessHandler;
+import com.example.umc10th.global.security.service.CustomOAuthService;
+import com.example.umc10th.global.security.service.CustomUserDetailsService;
+import com.example.umc10th.global.security.util.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuthService customOAuthService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
+
+    @Bean
+    public OAuthSuccessHandler oAuthSuccessHandler() {
+        return new OAuthSuccessHandler(jwtUtil);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -34,21 +65,31 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/v1/members/signup",
                                 "/api/v1/members/login",
+                                "/oauth/authorize/**",
+                                "/oauth/callback/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginProcessingUrl("/api/v1/members/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .successHandler((request, response, authentication) ->
-                                writeSuccessResponse(response, GeneralSuccessCode.OK))
-                        .failureHandler((request, response, exception) ->
-                                writeErrorResponse(response, GeneralErrorCode.UNAUTHORIZED))
-                        .permitAll()
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                //세션
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                //JWT 필터
+                .addFilterAfter(jwtAuthFilter(), LogoutFilter.class)
+                .oauth2Login(oauth -> oauth
+                        .authorizationEndpoint(auth -> auth
+                                .baseUri("/oauth/authorize")
+                        )
+                        .redirectionEndpoint(redirect -> redirect
+                                .baseUri("/oauth/callback/**")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuthService)
+                        )
+                        .successHandler(oAuthSuccessHandler())
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/v1/members/logout")
