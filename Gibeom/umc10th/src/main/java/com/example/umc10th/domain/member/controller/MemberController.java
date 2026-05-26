@@ -8,7 +8,7 @@ import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
-import com.example.umc10th.global.entity.AuthMember;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
