@@ -23,7 +23,12 @@ public enum MemberErrorCode implements BaseErrorCode {
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,
             "MEMBER401_1",
             "비밀번호가 올바르지 않습니다."
-    )
+    ),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST,
+            "404_3",
+            "제공하지 않는 인증자입니다."
+
+    ),
     ;
     private final HttpStatus status;
     private final String code;

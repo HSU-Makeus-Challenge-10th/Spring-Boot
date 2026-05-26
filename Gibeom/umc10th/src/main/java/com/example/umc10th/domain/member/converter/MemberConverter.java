@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.MemberMission;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -64,6 +65,23 @@ public class MemberConverter {
                 .gender(req.gender())
                 .userPoint(0)
                 .nickname(req.nickname())
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .name(dto.getName())
+                .nickname(dto.getName())
+                .email(dto.getSocialEmail())
+                .socialType(dto.getSocialType())
+                .socialUid(dto.getSocialUid())
+                .userPoint(0)
+                .build();
+    }
+
+    public static MemberResDTO.Login toLogin(String accessToken) {
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
                 .build();
     }
 }

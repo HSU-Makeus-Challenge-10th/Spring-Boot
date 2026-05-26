@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.entity.mapping.MemberFood;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.store.entity.Region;
 import com.example.umc10th.global.entity.BaseEntity;
+import com.example.umc10th.global.security.dto.SocialType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +38,7 @@ public class Member extends BaseEntity{
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
-    @Column(name = "phoneNumber", nullable = false)
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
     @Column(name = "user_point")
@@ -46,8 +47,15 @@ public class Member extends BaseEntity{
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "social_type")
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Column(name = "social_uid")
+    private String socialUid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")

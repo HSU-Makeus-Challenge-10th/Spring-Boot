@@ -20,6 +20,11 @@ public class MemberResDTO {
             String accessToken
     ){}
 
+    @Builder
+    public record Login(
+            String accessToken
+    ){}
+
     //홈 화면
     @Builder
     public record HomeResultDto(
