@@ -1,12 +1,10 @@
 package com.example.umc10th.global.security.filter;
 
-import com.example.umc10th.global.apiPayload.ApiResponse;
-import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
-import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc10th.domain.member.enums.SocialType;
+import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc10th.global.security.handler.SecurityResponseWriter;
 import com.example.umc10th.global.security.service.CustomUserDetailsService;
 import com.example.umc10th.global.security.util.JwtUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +23,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final SecurityResponseWriter securityResponseWriter;
 
     @Override
     protected void doFilterInternal(
@@ -57,14 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            ObjectMapper mapper = new ObjectMapper();
-            BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
-
-            response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(code.getStatus().value());
-
-            ApiResponse<Void> errorResponse = ApiResponse.onFailure(code, null);
-            mapper.writeValue(response.getOutputStream(), errorResponse);
+            securityResponseWriter.writeFailure(response, GeneralErrorCode.UNAUTHORIZED);
         }
     }
 }
