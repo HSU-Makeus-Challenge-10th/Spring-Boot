@@ -8,14 +8,15 @@ import com.study.UMC10.global.security.service.CustomOAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.webauthn.management.JdbcPublicKeyCredentialUserEntityRepository;
+import org.springframework.security.web.webauthn.management.JdbcUserCredentialRepository;
 
 @EnableWebSecurity
 @Configuration
@@ -36,7 +37,10 @@ public class SecurityConfig {
             "/api/auth/**",
             "/oauth2/**",
             "/oauth/callback/**",
-            "/login/**"
+            "/login/**",
+            "/passkey/**",
+            "/auth/**",
+            "/webauthn/**"
     };
 
     @Bean
@@ -74,6 +78,12 @@ public class SecurityConfig {
                         .successHandler(oAuthSuccessHandler)
                 )
 
+                .webAuthn(webAuthn -> webAuthn
+                        .rpId("localhost")
+                        .allowedOrigins("http://localhost:8080")
+                        .disableDefaultRegistrationPage(true)
+                )
+
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling(exception -> exception
@@ -82,5 +92,15 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public JdbcPublicKeyCredentialUserEntityRepository jdbcPublicKeyCredentialRepository(JdbcOperations jdbc) {
+        return new JdbcPublicKeyCredentialUserEntityRepository(jdbc);
+    }
+
+    @Bean
+    public JdbcUserCredentialRepository jdbcUserCredentialRepository(JdbcOperations jdbc) {
+        return new JdbcUserCredentialRepository(jdbc);
     }
 }
