@@ -45,6 +45,9 @@ dependencies {
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:3.0.1'
+
+    // OAuth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
