@@ -80,4 +80,12 @@ public class UserResponseDto {
             String status
     ) {
     }
+
+    @Builder
+    @Schema(description = "로그인 성공 응답")
+    public record LoginResultDto(
+            @Schema(description = "JWT Access Token")
+            String accessToken
+    ) {
+    }
 }

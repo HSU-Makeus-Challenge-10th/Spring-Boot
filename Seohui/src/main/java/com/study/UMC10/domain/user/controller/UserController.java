@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import com.study.UMC10.global.security.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,13 +24,31 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "마이페이지 API", description = "유저의 마이페이지 정보를 조회하는 API입니다.")
+    @Operation(summary = "로그인 API", description = "이메일과 비밀번호로 로그인하여 JWT 토큰을 발급받습니다.")
+    @PostMapping("/auth/login")
+    public ApiResponse<UserResponseDto.LoginResultDto> login(
+            @RequestBody UserRequestDto.LoginDto requestDto
+    ) {
+        BaseSuccessCode code = UserSuccessCode.OK;
+        return ApiResponse.onSuccess(code, userService.login(requestDto));
+    }
+
+    @Operation(summary = "마이페이지 API V1", description = "유저의 마이페이지 정보를 조회하는 API입니다.")
     @PostMapping("/v1/users/me")
     public ApiResponse<UserResponseDto.GetInfo> getInfo(
             @RequestBody UserRequestDto.GetInfo dto
     ) {
         BaseSuccessCode code = UserSuccessCode.OK;
         return ApiResponse.onSuccess(code, userService.getInfo(dto));
+    }
+
+    @Operation(summary = "마이페이지 API V2", description = "JWT 토큰을 이용해 유저의 마이페이지 정보를 조회하는 API입니다.")
+    @GetMapping("/v2/users/me")
+    public ApiResponse<UserResponseDto.GetInfo> getInfoV2(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        BaseSuccessCode code = UserSuccessCode.OK;
+        return ApiResponse.onSuccess(code, userService.getMyInfoV2(customUserDetails.getUser()));
     }
 
     @Operation(summary = "회원가입 API", description = "새로운 유저를 등록하는 API입니다.")

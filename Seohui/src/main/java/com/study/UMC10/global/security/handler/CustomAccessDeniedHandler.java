@@ -1,4 +1,4 @@
-package com.study.UMC10.global.security;
+package com.study.UMC10.global.security.handler;
 // 로그인 후 권한 없을 경우
 
 import com.fasterxml.jackson.databind.ObjectMapper;

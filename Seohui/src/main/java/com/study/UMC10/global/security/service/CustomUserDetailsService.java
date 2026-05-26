@@ -1,7 +1,8 @@
-package com.study.UMC10.global.security;
+package com.study.UMC10.global.security.service;
 
 import com.study.UMC10.domain.user.entity.User;
 import com.study.UMC10.domain.user.repository.UserRepository;
+import com.study.UMC10.global.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
