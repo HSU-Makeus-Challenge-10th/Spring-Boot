@@ -2,16 +2,16 @@ package com.umc.study.domain.user.web.controller;
 
 import com.umc.study.domain.user.exception.code.UserSuccessCode;
 import com.umc.study.domain.user.service.UserService;
-import com.umc.study.domain.user.web.dto.GetHomeRes;
-import com.umc.study.domain.user.web.dto.GetMyPageRes;
-import com.umc.study.domain.user.web.dto.SignUpReq;
+import com.umc.study.domain.user.web.dto.*;
 import com.umc.study.global.apiPayload.ApiResponse;
+import com.umc.study.global.security.entity.CustomUserDetails;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +35,17 @@ public class UserController {
                 .body(ApiResponse.onComplete(UserSuccessCode.USER_SIGN_UP_CREATED, null));
     }
 
+    @PostMapping("/auth/login")
+    public ResponseEntity<ApiResponse<?>> login(
+            @Valid @RequestBody LoginReq request
+    ) {
+        LoginRes response = userService.loginUser(request);
+
+        return ResponseEntity
+                .status(UserSuccessCode.USER_LOGIN_OK.getStatus())
+                .body(ApiResponse.onComplete(UserSuccessCode.USER_LOGIN_OK, response));
+    }
+
     @PostMapping("/my/pref")
     public ResponseEntity<ApiResponse<?>> createMyPrefFood(
             @Valid @RequestBody Object request
@@ -46,13 +57,14 @@ public class UserController {
                 .body(ApiResponse.onComplete(UserSuccessCode.USER_PREF_FOOD_CREATED, null));
     }
 
-    @GetMapping("/home/{userId}")
+    @GetMapping("/home")
     public ResponseEntity<ApiResponse<?>> getMain(
-            // TODO JWT에서 유저를 추출해서 주입
-            @PathVariable Long userId,
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam @Min(message = "page값은 1 이상이어야 합니다.", value = 1) Integer page,
             @RequestParam @Min(message = "size값은 1 이상이어야 합니다.", value = 1) @Max(message = "size값은 10을 넘길 수 없습니다.", value = 10) Integer size
     ) {
+
+        Long userId = user.getUser().getId();
 
         GetHomeRes response = userService.getHomepage(userId, page, size);
 
@@ -64,11 +76,12 @@ public class UserController {
                 ));
     }
 
-    @GetMapping("/my/{userId}")
+    @GetMapping("/my")
     public ResponseEntity<ApiResponse<?>> getMyPage(
-            // JWT Security Holder에서 추출
-            @PathVariable Long userId
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
+        Long userId = userDetails.getUser().getId();
+
         // 서비스 메소드 호출
         GetMyPageRes response = userService.getMyPage(userId);
 

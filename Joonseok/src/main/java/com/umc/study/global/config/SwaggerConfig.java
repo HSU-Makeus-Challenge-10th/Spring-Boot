@@ -49,7 +49,7 @@ public class SwaggerConfig {
         // OpenAPI 객체 조립: 기본 정보 + 서버 URL + 보안 설정
         return new OpenAPI()
                 .info(info)
-                .addServersItem(new Server().url("/"))
+                .addServersItem(new Server().url("/api"))
                 .addSecurityItem(securityRequirement)
                 .components(components);
     }

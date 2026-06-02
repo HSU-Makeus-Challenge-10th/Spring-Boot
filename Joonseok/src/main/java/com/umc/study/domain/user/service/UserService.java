@@ -9,11 +9,11 @@ import com.umc.study.domain.mission.repository.RestaurantRepository;
 import com.umc.study.domain.user.entity.User;
 import com.umc.study.domain.user.enums.Role;
 import com.umc.study.domain.user.exception.UserNotFoundException;
+import com.umc.study.domain.user.exception.code.InvalidPasswordException;
 import com.umc.study.domain.user.repository.UserRepository;
-import com.umc.study.domain.user.web.dto.GetHomeRes;
-import com.umc.study.domain.user.web.dto.GetMyPageRes;
-import com.umc.study.domain.user.web.dto.SignInReq;
-import com.umc.study.domain.user.web.dto.SignUpReq;
+import com.umc.study.domain.user.web.dto.*;
+import com.umc.study.global.jwt.JwtTokenProvider;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +32,7 @@ public class UserService {
     private final MissionRepository missionRepository;
     private final RestaurantRepository restaurantRepository;
     private final PasswordEncoder encoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     public void saveUser(SignUpReq request) {
@@ -120,4 +121,18 @@ public class UserService {
         );
     }
 
+    public LoginRes loginUser(LoginReq request) {
+
+        // 1. find user by login id
+        User found = userRepository.findByEmail(request.getLoginId())
+                .orElseThrow(UserNotFoundException::new);
+
+        // 2. valid request password equals encoded db password
+        if(!encoder.matches(request.getPassword(), found.getPassword()))
+            throw new InvalidPasswordException();
+
+        String accessToken = jwtTokenProvider.generateToken(found);
+
+        return new LoginRes(accessToken);
+    }
 }

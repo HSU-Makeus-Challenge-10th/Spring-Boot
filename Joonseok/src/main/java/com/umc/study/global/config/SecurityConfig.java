@@ -1,31 +1,32 @@
 package com.umc.study.global.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.umc.study.global.jwt.JwtTokenFilter;
 import com.umc.study.global.security.CustomEntryPoint;
 import com.umc.study.global.security.exception.CustomAccessDenied;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
+    private final JwtTokenFilter jwtTokenFilter;
 
     private final String[] allowUris = {
-            "/api/swagger-ui/**",
-            "/api/swagger-resources/**",
-            "/api/v3/api-docs/**",
-            "/api/auth/**"                      // sign-up, login request allow
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
+            "/auth/**"                      // sign-up, login request allow
     };
 
     @Bean
@@ -37,9 +38,20 @@ public class SecurityConfig {
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/api/swagger-ui/index.html", true)
-                        .permitAll())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .sessionManagement(
+                        session ->
+                                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                .webAuthn(webAuthn ->
+                        webAuthn
+                                .rpId("localhost")
+                                .allowedOrigins("http://localhost:8080")
+                                .disableDefaultRegistrationPage(true))
+
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
