@@ -13,6 +13,8 @@ public enum MemberErrorCode implements BaseErrorCode {
     MEMBER_ALREADY_EXISTS(HttpStatus.CONFLICT, "MEMBER_4001", "이미 가입된 회원 정보가 존재합니다."),
     INVALID_BIRTHDAY_FORMAT(HttpStatus.BAD_REQUEST, "MEMBER_4002", "생년월일 형식이 올바르지 않습니다. (YYYY-MM-DD)"),
     REQUIRED_TERM_NOT_AGREED(HttpStatus.BAD_REQUEST, "MEMBER_4003", "필수 약관에 동의해야 합니다."),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST, "MEMBER_4004", "지원하지 않는 소셜 로그인 제공자입니다."),
+    INVALID_LOGIN(HttpStatus.UNAUTHORIZED, "MEMBER_401", "이메일 또는 비밀번호가 올바르지 않습니다."),
     TERM_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER_4041", "해당 약관을 찾을 수 없습니다."),
     FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER_4042", "해당 음식 카테고리를 찾을 수 없습니다.");
 

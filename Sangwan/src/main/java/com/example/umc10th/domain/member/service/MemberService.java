@@ -24,9 +24,15 @@ import com.example.umc10th.domain.term.entity.Term;
 import com.example.umc10th.domain.term.repository.TermRepository;
 import com.example.umc10th.global.dto.CursorPageRes;
 import com.example.umc10th.global.dto.OffsetPageRes;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +61,8 @@ public class MemberService {
     private final MemberAgreementRepository memberAgreementRepository;
     private final MemberFoodCategoryRepository memberFoodCategoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public MemberResDTO.SignupRes signup(MemberReqDTO.SignupReq request) {
@@ -76,6 +84,19 @@ public class MemberService {
         saveMemberFoodCategories(savedMember, foodCategories);
 
         return MemberConverter.toSignupRes(savedMember);
+    }
+
+    public MemberResDTO.Login login(MemberReqDTO.LoginReq request) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.email(), request.password())
+            );
+            AuthMember member = (AuthMember) authentication.getPrincipal();
+
+            return MemberConverter.toLogin(jwtUtil.createAccessToken(member));
+        } catch (AuthenticationException e) {
+            throw new MemberException(MemberErrorCode.INVALID_LOGIN);
+        }
     }
 
     public MemberResDTO.HomeRes getHome(Long memberId) {
@@ -118,13 +139,12 @@ public class MemberService {
         return MemberConverter.toMissionListRes(missions, hasNext, nextCursor, cursor == null, !hasNext);
     }
 
-    public OffsetPageRes<MemberResDTO.MissionItem> getInProgressMissions(
-            MemberReqDTO.GetInProgressMissionsReq request, int page, int size) {
-        memberRepository.findById(request.memberId())
+    public OffsetPageRes<MemberResDTO.MissionItem> getInProgressMissions(Long memberId, int page, int size) {
+        memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         Page<MemberMission> memberMissionPage = memberMissionRepository.findPageByMemberIdAndStatus(
-                request.memberId(), MemberMissionStatus.CHALLENGING, PageRequest.of(page, size));
+                memberId, MemberMissionStatus.CHALLENGING, PageRequest.of(page, size));
 
         return MemberConverter.toInProgressMissionPageRes(memberMissionPage, page);
     }
@@ -134,10 +154,8 @@ public class MemberService {
         return null;
     }
 
-    public MemberResDTO.MyInfoRes requestMyInfo(MemberReqDTO.MyInfoReq myInfoReq) {
-        Member member = memberRepository.findById(myInfoReq.id())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-        return MemberConverter.toGetInfo(member);
+    public MemberResDTO.MyInfoRes requestMyInfo(AuthMember authMember) {
+        return MemberConverter.toGetInfo(authMember.getMember());
     }
 
     private LocalDate parseBirthday(String birthday) {
