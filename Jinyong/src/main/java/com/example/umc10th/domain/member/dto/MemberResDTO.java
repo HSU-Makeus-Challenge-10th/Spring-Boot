@@ -13,9 +13,16 @@ public class MemberResDTO {
             String gender
     ) {}
 
+    // 회원가입
     @Builder
     public record SignUp(
             Long memberId,
             String email
+    ) {}
+
+    // 로그인
+    @Builder
+    public record Login(
+            String accessToken
     ) {}
 }

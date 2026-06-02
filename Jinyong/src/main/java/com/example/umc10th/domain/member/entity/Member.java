@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.member.entity;
 
 import com.example.umc10th.domain.BaseEntity;
+import com.example.umc10th.global.security.entity.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -38,4 +39,9 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDate birth;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    private String socialUid;
 }

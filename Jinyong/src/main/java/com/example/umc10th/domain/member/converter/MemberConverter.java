@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Gender;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 
 import java.time.LocalDate;
 
@@ -13,14 +14,14 @@ public class MemberConverter {
     public static MemberResDTO.GetInfo toGetInfo(Member member) {
 
         // 빌더 패턴을 사용하여 엔티티의 데이터를 DTO에 매핑합니다.
-        return MemberResDTO.GetInfo.builder()
-                .email(member.getEmail())
-                .name(member.getName())
-                .point(member.getPoint())
-                .nickname(member.getNickname())
-                .gender(member.getGender().name())
-                .phoneNumber(null)
-                .build();
+        return new MemberResDTO.GetInfo(
+                member.getName(),
+                member.getEmail(),
+                null,
+                member.getPoint(),
+                member.getNickname(),
+                member.getGender().name()
+        );
     }
 
     public static Member toMember(MemberReqDTO.SignUp request, String encodedPassword) {
@@ -35,10 +36,31 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResDTO.SignUp toSignUp(Member member) {
-        return MemberResDTO.SignUp.builder()
-                .memberId(member.getId())
-                .email(member.getEmail())
+    // 회원가입
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .email(dto.getSocialEmail())
+                .password("")
+                .name(dto.getName())
+                .nickname(dto.getName())
+                .gender(Gender.NONE)
+                .point(0)
+                .birth(LocalDate.now())
+                .socialType(dto.getSocialType())
+                .socialUid(dto.getSocialUid())
                 .build();
+    }
+
+    public static MemberResDTO.SignUp toSignUp(Member member) {
+        return new MemberResDTO.SignUp(
+                member.getId(),
+                member.getEmail()
+        );
+    }
+
+    
+    // 로그인
+    public static MemberResDTO.Login toLogin(String accessToken) {
+        return new MemberResDTO.Login(accessToken);
     }
 }
