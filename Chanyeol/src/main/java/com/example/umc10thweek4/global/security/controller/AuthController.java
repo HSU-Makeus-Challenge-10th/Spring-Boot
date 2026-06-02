@@ -5,6 +5,10 @@ import com.example.umc10thweek4.domain.member.dto.MemberResDTO;
 import com.example.umc10thweek4.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10thweek4.domain.member.service.MemberService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
+import com.example.umc10thweek4.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10thweek4.global.security.dto.AuthReqDTO;
+import com.example.umc10thweek4.global.security.dto.AuthResDTO;
+import com.example.umc10thweek4.global.security.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final MemberService memberService;
+    private final AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<MemberResDTO.SignUp>> signUp(@RequestBody @Valid MemberReqDTO.SignUp request) {
         return ApiResponse.onSuccessResponse(MemberSuccessCode.SIGN_UP_SUCCESS, memberService.signUp(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<AuthResDTO.Login>> login(@RequestBody @Valid AuthReqDTO.Login request) {
+        return ApiResponse.onSuccessResponse(GeneralSuccessCode.OK, authService.login(request));
     }
 }

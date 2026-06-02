@@ -1,6 +1,7 @@
 package com.example.umc10thweek4.domain.member.repository;
 
 import com.example.umc10thweek4.domain.member.entity.Member;
+import com.example.umc10thweek4.domain.member.enums.SocialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m WHERE m.email = :email AND m.deletedAt IS NULL")
     Optional<Member> findActiveByEmail(@Param("email") String email);
+
+    Optional<Member> findBySocialTypeAndSocialUidAndDeletedAtIsNull(SocialType socialType, String socialUid);
 
     boolean existsByEmail(String email);
 

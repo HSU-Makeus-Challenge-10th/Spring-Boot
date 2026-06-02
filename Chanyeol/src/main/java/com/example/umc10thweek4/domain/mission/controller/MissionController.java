@@ -6,9 +6,11 @@ import com.example.umc10thweek4.domain.mission.exception.code.MissionSuccessCode
 import com.example.umc10thweek4.domain.mission.service.MissionService;
 import com.example.umc10thweek4.global.apiPayload.ApiResponse;
 import com.example.umc10thweek4.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10thweek4.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +29,29 @@ public class MissionController {
     ) {
         return ApiResponse.onSuccessResponse(MissionSuccessCode.HOME_SUCCESS,
                 missionService.getHomeMissions(regionId, memberId));
+    }
+
+    @GetMapping("/v1/home/me")
+    public ResponseEntity<ApiResponse<MissionResDTO.Home>> getMyHome(
+            @AuthenticationPrincipal AuthMember authMember,
+            @RequestParam(required = false) Long regionId
+    ) {
+        Long currentMemberId = authMember.getMember().getId();
+        return ApiResponse.onSuccessResponse(MissionSuccessCode.HOME_SUCCESS,
+                missionService.getHomeMissions(regionId, currentMemberId));
+    }
+
+    @GetMapping("/v1/users/me/missions")
+    public ResponseEntity<ApiResponse<MissionResDTO.Pagination<MissionResDTO.UserMissionList.UserMission>>> getMyMissions(
+            @AuthenticationPrincipal AuthMember authMember,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false) String sort) {
+
+        Long currentMemberId = authMember.getMember().getId();
+
+        return ApiResponse.onSuccessResponse(MissionSuccessCode.MY_MISSION_SUCCESS,
+                missionService.getMyMissions(currentMemberId, pageSize, pageNumber, sort));
     }
 
     @GetMapping("/v1/users/{userId}/missions")
