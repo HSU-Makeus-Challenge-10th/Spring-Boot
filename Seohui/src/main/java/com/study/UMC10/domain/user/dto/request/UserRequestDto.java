@@ -51,4 +51,14 @@ public class UserRequestDto {
             Boolean marketing
     ) {
     }
+
+    @Schema(description = "로그인 요청")
+    public record LoginDto(
+            @Schema(description = "이메일", example = "sol12@example.com")
+            String email,
+
+            @Schema(description = "비밀번호", example = "password1234")
+            String password
+    ) {
+    }
 }

@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.study.UMC10.global.security.util.JwtUtil;
+import com.study.UMC10.global.security.CustomUserDetails;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +27,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final MissionRepository missionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    // 마이페이지
+    // 마이페이지 V1
     @Transactional(readOnly = true)
     public UserResponseDto.GetInfo getInfo(UserRequestDto.GetInfo dto) {
         Long userId = dto.id();
@@ -114,6 +117,41 @@ public class UserService {
                 .point(user.getTotalPoint())
                 .missionSuccess(user.getFinMission())
                 .missions(missionDtoList)
+                .build();
+    }
+
+    // 로그인
+    @Transactional(readOnly = true)
+    public UserResponseDto.LoginResultDto login(UserRequestDto.LoginDto requestDto) {
+        // 이메일로 유저 찾음
+        User user = userRepository.findByEmail(requestDto.email())
+                .orElseThrow(() -> new UserException(UserErrorCode.MEMBER_NOT_FOUND));
+
+        // PW 일치 여부 확인
+        if (!passwordEncoder.matches(requestDto.password(), user.getPassword())) {
+            throw new UserException(UserErrorCode.INVALID_PASSWORD);
+        }
+
+        // JWT 토큰 발급
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+        String token = jwtUtil.createAccessToken(userDetails);
+
+        // 토큰 응답
+        return UserResponseDto.LoginResultDto.builder()
+                .accessToken(token)
+                .build();
+    }
+
+    // 마이페이지 V2
+    @Transactional(readOnly = true)
+    public UserResponseDto.GetInfo getMyInfoV2(User user) {
+        return UserResponseDto.GetInfo.builder()
+                .name(user.getName())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .phoneVerified(user.getIsPhone())
+                .phoneNum(user.getPhoneNum())
+                .totalPoint(user.getTotalPoint())
                 .build();
     }
 }

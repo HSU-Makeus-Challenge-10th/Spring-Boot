@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passkey (WebAuthn) 실습</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@github/webauthn-json@2.1.1/dist/browser-global/webauthn-json.browser-global.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Passkey(WebAuthn)</h1>
+
+    <div class="form-group">
+        <div>
+            <label>Username</label>
+            <input type="text" id="username" value="test-user">
+        </div>
+        <div>
+            <label>Display Name</label>
+            <input type="text" id="displayName" value="Test User">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <label>Register Options</label>
+            <input type="text" id="registerOptionsUrl" value="/webauthn/register/options">
+        </div>
+        <div>
+            <label>Register Verify</label>
+            <input type="text" id="registerVerifyUrl" value="/webauthn/register">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <label>Auth Options</label>
+            <input type="text" id="authOptionsUrl" value="/webauthn/authenticate/options">
+        </div>
+        <div>
+            <label>Auth Verify</label>
+            <input type="text" id="authVerifyUrl" value="/login/webauthn">
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button id="registerBtn" class="btn-primary">패스키 등록</button>
+        <button id="loginBtn" class="btn-secondary">패스키 로그인</button>
+    </div>
+
+    <div class="log-container">
+        <h3>로그</h3>
+        <pre id="logOutput">대기 중...</pre>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
