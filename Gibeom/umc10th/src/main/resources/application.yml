@@ -1,6 +1,8 @@
 spring:
   application:
     name: "umc10th" # "umc10th"
+  config:
+    import: optional:file:.env[.properties]
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver # MySQL JDBC
