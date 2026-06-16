@@ -26,7 +26,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**"                      // sign-up, login request allow
+            "/auth/**",                     // sign-up, login request allow
+            "/server/**"                    // load balancing check
     };
 
     @Bean
