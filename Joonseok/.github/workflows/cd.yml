@@ -1,0 +1,59 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  BACKEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/kkumteul-backend
+  FASTAPI_IMAGE: ${{ secrets.DOCKER_USERNAME }}/kkumteul-ai
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy deploy files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          source: "docker-compose.yml,nginx/conf.d/default.conf"
+          target: "/home/${{ secrets.SERVER_USER }}/app"
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          envs: BACKEND_IMAGE
+          script: |
+            cd /home/${{ secrets.SERVER_USER }}/app
+            echo "BACKEND_IMAGE=${BACKEND_IMAGE}:latest" > .env
+            echo "FASTAPI_IMAGE=${FASTAPI_IMAGE}:latest" >> .env
+
+            echo "[1/4] Pull latest images..."
+            docker pull ${BACKEND_IMAGE}:latest
+            docker pull ${FASTAPI_IMAGE}:latest
+
+            echo "[2/4] Restart with docker compose..."
+            docker compose up -d --remove-orphans
+
+            echo "[3/4] Force-recreate nginx for config changes..."
+            docker compose up -d --force-recreate nginx
+
+            echo "[4/4] Cleanup unused images..."
+            docker image prune -f
