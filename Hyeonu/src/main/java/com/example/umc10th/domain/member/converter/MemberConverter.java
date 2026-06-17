@@ -3,6 +3,7 @@ package com.example.umc10th.domain.member.converter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 
 public class MemberConverter {
     public static MemberResDTO.GetInfo toGetInfo(Member member) {
@@ -35,5 +36,21 @@ public class MemberConverter {
 
     public static MemberResDTO.SignUpResDTO toSignUpResDTO(Member member) {
         return new MemberResDTO.SignUpResDTO(member.getId());
+    }
+
+    // 로그인
+    public static MemberResDTO.LoginResDTO toLoginResDTO(String token){
+        return MemberResDTO.LoginResDTO.builder()
+                .accessToken(token)
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .email(dto.getSocialEmail())
+                .name(dto.getName())
+                .socialType(dto.getSocialType())
+                .socialUid(dto.getSocialUid())
+                .build();
     }
 }

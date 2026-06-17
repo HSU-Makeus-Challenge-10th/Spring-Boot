@@ -23,4 +23,10 @@ public class MemberReqDTO {
             String email,
             String password
     ){}
+
+    // 로그인
+    public record LoginReqDTO(
+            String email,
+            String password
+    ){}
 }

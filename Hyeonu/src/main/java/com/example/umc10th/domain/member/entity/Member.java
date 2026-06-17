@@ -4,6 +4,7 @@ import com.example.umc10th.domain.BaseEntity;
 import com.example.umc10th.domain.member.enums.Address;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.MemberStatus;
+import com.example.umc10th.domain.member.enums.SocialType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,7 @@ public class Member extends BaseEntity {
     @Column(name="name", nullable=false)
     private String name;
 
-    @Column(name="gender", nullable=false)
+    @Column(name="gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -58,5 +59,12 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private MemberStatus status=MemberStatus.ACTIVE;
+
+    @Column(name="social_type")
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Column(name="social_uid")
+    private String socialUid;
 
 }

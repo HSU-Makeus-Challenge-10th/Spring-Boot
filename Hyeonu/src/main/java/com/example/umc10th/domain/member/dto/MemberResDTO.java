@@ -25,4 +25,11 @@ public class MemberResDTO {
     public record SignUpResDTO(
             Long id
     ){}
+
+    // 로그인
+
+    @Builder
+    public record LoginResDTO(
+            String accessToken
+    ){}
 }

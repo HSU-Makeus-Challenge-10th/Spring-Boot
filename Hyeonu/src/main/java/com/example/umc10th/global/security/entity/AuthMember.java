@@ -30,7 +30,9 @@ public class AuthMember implements UserDetails {
     }
 
     @Override
-    public String getUsername(){
-        return member.getEmail(); // 이메일을 username으로 사용(식별자로)
+    public String getUsername() {
+        // 소셜 로그인이면 socialUid, 일반 로그인이면 email
+        return member.getSocialUid() != null ? member.getSocialUid() : member.getEmail();
     }
+
 }
