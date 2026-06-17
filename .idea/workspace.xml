@@ -4,82 +4,69 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47b99c41-ba65-4995-9ceb-49d8301de53b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+    <list default="true" id="47b99c41-ba65-4995-9ceb-49d8301de53b" name="Changes" comment="feat : MissionResDTO 내 페이징 응답을 위한 Pagination 레코드 추가">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2026-04-30__1_57__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2026-04-30_오후_1_57_[Changes]1/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spring-Boot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/Umc10thWeek4Application.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/controller/AskController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/converter/AskConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/dto/AskReqDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/dto/AskResDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/entity/Ask.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/entity/AskImage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/entity/mapping/AskReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/enums/AskType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/exception/AskException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/exception/code/AskErrorCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/exception/code/AskSuccessCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/repository/AskRepostiory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/ask/service/AskService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/controller/MemberController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/converter/MemberConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/dto/MemberReqDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/dto/MemberResDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/entity/Member.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/entity/Notice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/entity/NoticeSetting.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/entity/Term.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/entity/mapping/MemberFoodPreference.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/entity/mapping/MemberTerm.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/enums/Gender.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/exception/MemberException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/exception/code/MemberErrorCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/exception/code/MemberSuccessCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/repository/MemberRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/member/service/MemberService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/controller/MissionController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/converter/MissionConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/dto/MissionReqDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/dto/MissionResDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/entity/Mission.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/entity/Region.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/entity/Store.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/entity/mapping/UserMission.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/enums/MissionStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/exception/MissionException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/exception/code/MissionErrorCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/exception/code/MissionSuccessCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/repository/MissionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/mission/service/MissionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/controller/ReviewController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/converter/ReviewConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/dto/ReviewReqDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/dto/ReviewResDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/entity/Review.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/entity/ReviewImage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/entity/mapping/ReviewReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/exception/ReviewException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/exception/code/ReviewErrorCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/exception/code/ReviewSuccessCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/repository/ReviewRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/domain/review/service/ReviewService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/umc10thweek4/global/config/SwaggerConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/umc10thweek4/Umc10thWeek4ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/code/MissionSuccessCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/code/MissionSuccessCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/controller/MissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/controller/MissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/converter/MissionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/converter/MissionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/dto/MissionReqDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/dto/MissionReqDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/dto/MissionResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/dto/MissionResDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/repository/MemberMissionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/repository/MemberMissionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/repository/MissionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/repository/MissionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/service/MissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/mission/service/MissionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/controller/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/controller/ReviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/converter/ReviewConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/converter/ReviewConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/dto/ReviewResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/dto/ReviewResDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/repository/ReviewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/service/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/review/service/ReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/store/exception/code/StoreErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/domain/store/exception/code/StoreErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/global/apiPayload/handler/GeneralExceptionAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/Jinyong/src/main/java/com/example/umc10th/global/apiPayload/handler/GeneralExceptionAdvice.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/Jinyong">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="umc10th" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Enum" />
+        <option value="Exception" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Jinyong-week6" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -91,7 +78,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/HSU-Makeus-Challenge-10th/Spring-Boot.git&quot;,
-    &quot;accountId&quot;: &quot;717cc359-5dee-4173-aa4d-8611891954d7&quot;
+    &quot;accountId&quot;: &quot;fcd0d66d-3517-4e5c-8ca2-d8f1db187712&quot;
   }
 }</component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -106,30 +93,60 @@
     <option name="flattenModules" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Chanyeol-week4",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build Jinyong.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Jinyong 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Umc10thApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Jinyong-week7&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/umc10th_SpringBoot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.language.and.region&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Chanyeol" />
+      <recent name="C:\umc10th_SpringBoot\Jinyong" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Umc10thApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="DB_URL" value="jdbc:mysql://localhost:3306/umc10th?serverTimezone=Asia/Seoul&amp;characterEncoding=UTF-8" />
+        <env name="DB_USER" value="root" />
+        <env name="DB_PW" value="wlsdyd1008!!" />
+      </envs>
+      <module name="umc10th.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.umc10th.Umc10thApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
       </set>
     </attachedChunks>
   </component>
@@ -141,10 +158,73 @@
       <option name="presentableId" value="Default" />
       <updated>1775064304989</updated>
       <workItem from="1775064306218" duration="373000" />
+      <workItem from="1777300548360" duration="748000" />
+      <workItem from="1777301699105" duration="2151000" />
+      <workItem from="1777339802570" duration="677000" />
+      <workItem from="1777345800400" duration="1482000" />
+      <workItem from="1777359716337" duration="9863000" />
+      <workItem from="1777380182999" duration="6509000" />
+      <workItem from="1777521942873" duration="6916000" />
+      <workItem from="1777528939548" duration="4486000" />
+      <workItem from="1777543445349" duration="13881000" />
+      <workItem from="1777612053103" duration="2893000" />
+      <workItem from="1777702237637" duration="22000" />
+      <workItem from="1777717213395" duration="16003000" />
+      <workItem from="1777772546579" duration="5222000" />
+      <workItem from="1777782788589" duration="7655000" />
+      <workItem from="1777806863221" duration="7898000" />
+      <workItem from="1777882833183" duration="192000" />
+      <workItem from="1778077523994" duration="9000" />
+      <workItem from="1778322987395" duration="1195000" />
+      <workItem from="1778330846894" duration="5200000" />
+      <workItem from="1778393453739" duration="12725000" />
+      <workItem from="1778474093073" duration="7962000" />
+      <workItem from="1778484607468" duration="1604000" />
+      <workItem from="1778490683069" duration="9100000" />
+      <workItem from="1778505636753" duration="7670000" />
+      <workItem from="1778559690568" duration="2280000" />
+      <workItem from="1778569663729" duration="4896000" />
     </task>
+    <task id="LOCAL-00001" summary="feat : MissionReqDTO 내 CreateMission 레코드 생성">
+      <option name="closed" value="true" />
+      <created>1778417464374</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1778417464374</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat : MissionResDTO 내 페이징 응답을 위한 Pagination 레코드 추가">
+      <option name="closed" value="true" />
+      <created>1778418177577</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1778418177577</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat : MissionReqDTO 내 CreateMission 레코드 생성" />
+    <MESSAGE value="feat : MissionResDTO 내 페이징 응답을 위한 Pagination 레코드 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat : MissionResDTO 내 페이징 응답을 위한 Pagination 레코드 추가" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -1,0 +1,21 @@
+Index: Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.umc10th.domain.member.code;\r\n\r\nimport com.example.umc10th.global.apiPayload.code.BaseSuccessCode;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.Getter;\r\nimport org.springframework.http.HttpStatus;\r\n\r\n@Getter\r\n@AllArgsConstructor\r\npublic enum MemberSuccessCode implements BaseSuccessCode {\r\n\r\n    OK(HttpStatus.OK, \"MEMBER200_1\", \"성공적으로 유저를 조회했습니다.\");\r\n\r\n    private final HttpStatus status;\r\n    private final String code;\r\n    private final String message;\r\n}
+===================================================================
+diff --git a/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java b/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java
+--- a/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java	(revision fdc37513896120be201c90f5927b89f8037b3aa3)
++++ b/Jinyong/src/main/java/com/example/umc10th/domain/member/code/MemberSuccessCode.java	(date 1777523527503)
+@@ -9,7 +9,11 @@
+ @AllArgsConstructor
+ public enum MemberSuccessCode implements BaseSuccessCode {
+ 
+-    OK(HttpStatus.OK, "MEMBER200_1", "성공적으로 유저를 조회했습니다.");
++    OK(HttpStatus.OK,
++            "MEMBER200_1",
++            "성공적으로 유저를 조회했습니다."),
++    ;
++
+ 
+     private final HttpStatus status;
+     private final String code;
